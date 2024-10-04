@@ -1,0 +1,154 @@
+_schema-version: 3.3.0
+ID: vehicleapp
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: vehicleapp-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: vehicleapp-db
+  - name: vehicleapp-auth
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+    readiness-health-check-http-endpoint: /health
+    readiness-health-check-type: http
+  build-parameters:
+    builder: npm
+- name: vehicleapp-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: vehicleapp-db
+    properties:
+      TARGET_CONTAINER: ~{hdi-container-name}
+  - name: cross-container-service-1
+    group: SERVICE_REPLACEMENTS
+    properties:
+      key: ServiceName_1
+      service: ~{the-service-name}
+  parameters:
+    buildpack: nodejs_buildpack
+- name: vehicleapp-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: vehicleapp-repo-host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - viapp.zip
+      name: viapp
+      target-path: resources/
+- name: viapp
+  type: html5
+  path: app/viapp
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: vehicleapp-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: vehicleapp-destination-service
+    parameters:
+      content-target: true
+  - name: vehicleapp-repo-host
+    parameters:
+      service-key:
+        name: vehicleapp-repo-host-key
+  - name: vehicleapp-auth
+    parameters:
+      service-key:
+        name: vehicleapp-auth-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: vehicleapp_vehicleapp_repo_host
+          ServiceInstanceName: vehicleapp-html5-srv
+          ServiceKeyName: vehicleapp-repo-host-key
+          sap.cloud.service: vehicleapp
+        - Authentication: OAuth2UserTokenExchange
+          Name: vehicleapp_vehicleapp_auth
+          ServiceInstanceName: vehicleapp-auth
+          ServiceKeyName: vehicleapp-auth-key
+          sap.cloud.service: vehicleapp
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+resources:
+- name: vehicleapp-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+  properties:
+    hdi-container-name: ${service-name}
+- name: vehicleapp-auth
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      tenant-mode: dedicated
+      xsappname: vehicleapp-${org}-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-plan: application
+- name: vehicleapp-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: vehicleapp-html5-srv
+    service-plan: app-host
+- name: vehicleapp-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: vehicleapp-srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: vehicleapp-destination-service
+    service-plan: lite
+  requires:
+  - name: srv-api
+- name: cross-container-service-1
+  type: org.cloudfoundry.existing-service
+  parameters:
+    service-name: HDI_VT
+  properties:
+    the-service-name: ${service-name}
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm ci
+    - npx cds build --production

@@ -1,0 +1,7 @@
+<core:FragmentDefinition xmlns="sap.m" xmlns:core="sap.ui.core">
+	<SelectDialog id="id_PlantF4" title="Select Plant" search="onSearchPlantF4" confirm=".onPlantConfirm" cancel=".onClosePlant"
+		items="{oGlobalModel>/PlantF4Nav}" rememberSelections="false" class="sapUiSizeCompact" liveChange="onSearchPlantF4" growingThreshold="26">
+		<StandardListItem title="{oGlobalModel>WERKS}" description="{oGlobalModel>NAME1}" icon="{imageModel>/path}/image/fuel-station.png"
+			iconDensityAware="true" iconInset="false" adaptTitleSize="true"/>
+	</SelectDialog>
+</core:FragmentDefinition>
