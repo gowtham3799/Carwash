@@ -12,7 +12,7 @@
 |**Application Title**<br>App Title|
 |**Namespace**<br>|
 |**UI5 Theme**<br>sap_fiori_3|
-|**UI5 Version**<br>1.96.23|
+|**UI5 Version**<br>1.96.36|
 |**Enable Code Assist Libraries**<br>False|
 |**Enable TypeScript**<br>False|
 |**Add Eslint configuration**<br>False|

@@ -232,7 +232,7 @@
 						<!--Product-->
 						<IconTabFilter text="Product" key="Product">
 							<f:GridList id="idLProductlist" items="{ServicesViewModel>/MaterialList}" class="sapUiTinyMarginTop cl_Materialgridlist cl_wgridlist"
-								mode="None">
+								mode="None" growing="true" growingThreshold="20">
 								<f:headerToolbar>
 									<Toolbar>
 										<content>
@@ -256,12 +256,12 @@
 											<HBox justifyContent="SpaceBetween">
 												<HBox>
 													<Image src="{imageModel>/path}/image/maintenace1.png" height="3rem" width="3rem" visible="true" class="sapUiTinyMarginBegin"/>
-													<Title text="{ServicesViewModel>Material}" wrapping="true" class="sapUiSmallMarginTop sapUiTinyMarginBegin"/>
+													<Title text="{ServicesViewModel>MATERIAL}" wrapping="true" class="sapUiSmallMarginTop sapUiTinyMarginBegin"/>
 												</HBox>
 												<!--<ObjectStatus text="Positive Status" state="Success" />-->
-												<t:InfoLabel text="{ServicesViewModel>Total}" colorScheme="6" class="Cl_InfoLabel sapUiSmallMarginTop sapUiTinyMarginBeginEnd"/>
+												<t:InfoLabel text="{ServicesViewModel>NETPRICE}" colorScheme="6" class="Cl_InfoLabel sapUiSmallMarginTop sapUiTinyMarginBeginEnd"/>
 											</HBox>
-											<Text text="{ServicesViewModel>MaterialName}" wrapping="true" class="sapUiTinyMarginBegin"/>
+											<Text text="{ServicesViewModel>MATDESC}" wrapping="true" class="sapUiTinyMarginBegin"/>
 											<!--<Label text="Subtitle" wrapping="true" class="sapUiTinyMarginBottom"/>-->
 											<!--<Text text="A great description with useful" wrapping="true"/>-->
 											<!--<HBox class="sapUiTinyMarginBegin">-->

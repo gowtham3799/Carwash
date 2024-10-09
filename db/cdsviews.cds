@@ -8,4 +8,31 @@ context cdsviews {
             WERKS as ![PLANT],
             NAME1 as ![DESCRIPTION]
         }
+
+    define view ![Order]as
+    select from master.Order{
+        ID,
+        OrderNum,
+        PlateCode,
+        PlateNum,
+        Source,
+        Kind,
+        Items
+    }
+
+    define view ![OrderItem]as
+    select from master.OrderItem{
+        ID,
+        PARENT_KEY,
+        OrderNum,
+        ItemNum,
+        Material,
+        Plant,
+        MaterialDesc,
+        Quantity,
+        UoM,
+        NetPrice,
+        Currency
+
+    }
 }

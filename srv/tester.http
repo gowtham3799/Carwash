@@ -1,0 +1,56 @@
+GET http://localhost:4004/odata/v4/CarwashService
+
+###Read service metadata
+GET http://localhost:4004/odata/v4/CarwashService/$metadata
+
+###Get Top orders
+GET http://localhost:4004/odata/v4/CarwashService/Order?$top=2
+
+###Create Order
+POST http://localhost:4004/odata/v2/CarwashService/Order
+Content-Type: application/json
+
+{
+      "ID": "02BD2137-0890-1EEA-A6C2-BB55C198E8D3",
+      "OrderNum": "1000000002",
+        "PlateCode" : "A",
+        "PlateNum": "12345",
+        "Source" : "DUBAI",
+        "Kind" : "PRIVATE"
+}
+
+
+###Create Order
+POST http://localhost:4004/odata/v2/CarwashService/Order
+Content-Type: application/json
+
+{
+      "ID": "02BD2137-0890-1EEA-A6C2-BB55C198E8D5",
+      "OrderNum": "1000000002",
+        "PlateCode" : "A",
+        "PlateNum": "12345",
+        "Source" : "DUBAI",
+        "Kind" : "PRIVATE",
+        "Items" : [
+            {
+                "ID" : "02BD2137-0890-1EEA-A6C2-1B55C198E8D5",
+                //"PARENT_KEY" : "02BD2137-0890-1EEA-A6C2-BB55C198E8D5",
+                "OrderNum_ID" : "1000000002",
+                "ItemNum" : "1",
+                "Material" : "12",
+                "Plant" : "A001",
+                "MaterialDesc" :  "Test",
+                "Quantity" : 1.00,
+                "UoM" : "EA",
+                "NetPrice" : 10.00,
+                "Currency" : "AED"
+            }
+        ]
+}
+
+###Get order items
+GET http://localhost:4004/odata/v4/CarwashService/OrderItem
+
+
+###Get Top orders
+GET http://localhost:4004/odata/v4/CarwashService/Order?$expand=Items&$filter=OrderNum eq '1000000002'

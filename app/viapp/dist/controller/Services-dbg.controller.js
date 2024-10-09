@@ -3,12 +3,12 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
 	'sap/ui/core/Fragment',
-], function(Controller, MessageToast, MessageBox, Fragment) {
+], function (Controller, MessageToast, MessageBox, Fragment) {
 	"use strict";
 
 	return Controller.extend("viapp.controller.Services", {
 
-		onInit: function() {
+		onInit: function () {
 			// this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			// this._oRouter.attachRouteMatched(this.handleRouteMatched, this);
 
@@ -19,7 +19,7 @@ sap.ui.define([
 			// this._oRouter.attachRouteMatched(this.handleRouteMatched, this);
 		},
 
-		handleRouteMatched: function(oEvent) {
+		handleRouteMatched: function (oEvent) {
 
 			var oGlobalModel = this.getView().getModel("oGlobalModel");
 
@@ -31,6 +31,7 @@ sap.ui.define([
 				// }
 
 				this._ModelInitialLoad();
+				this.getMaterialF4();
 
 				var CW_ServicesMaterialF4 = this.getView().getModel("ServicesViewModel").getData().CWMaterial;
 				for (var i = 0; i < CW_ServicesMaterialF4.length; i++) {
@@ -59,16 +60,16 @@ sap.ui.define([
 			}
 		},
 
-		onExit: function() {
+		onExit: function () {
 			alert("Exit")
 
 		},
 
-		onPressCloseSearch: function() {
+		onPressCloseSearch: function () {
 			this.SearchVehicle.close();
 		},
 
-		onPressmainHome: function() {
+		onPressmainHome: function () {
 			// var sPreviousHash = History.getInstance().getPreviousHash();
 			var oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation");
 			oCrossAppNavigator.toExternal({
@@ -80,7 +81,7 @@ sap.ui.define([
 			oRenderer.setHeaderVisibility(true, false);
 		},
 
-		onSearchNewMaterialF4: function(oEvent) {
+		onSearchNewMaterialF4: function (oEvent) {
 			var SamTbl = oEvent.getParameter("newValue");
 			var filters = new Array();
 			var oFilter = new sap.ui.model.Filter([
@@ -95,7 +96,7 @@ sap.ui.define([
 
 		},
 
-		onSearchLPGMaterialSearch: function() {
+		onSearchLPGMaterialSearch: function () {
 			var SamTbl = oEvent.getParameter("newValue");
 			var filters = new Array();
 			var oFilter = new sap.ui.model.Filter([
@@ -109,14 +110,14 @@ sap.ui.define([
 			binding.filter(filters);
 		},
 
-		onAfterRendering: function() {
+		onAfterRendering: function () {
 
 			this._ModelInitialLoad();
 			// this.onPressPlant();
 
 		},
 
-		_ModelInitialLoad: function() {
+		_ModelInitialLoad: function () {
 			var oData = {
 
 				"GassItemBG": "{imageModel>/path}/image/DesignCar.png",
@@ -758,7 +759,7 @@ sap.ui.define([
 
 		},
 
-		onPressCart: function() {
+		onPressCart: function () {
 			// var Cart_Material = this.getView().getModel("ServicesViewModel").getProperty("/Cart_Material");
 			// if (Cart_Material) {
 			// if (!this.AddToCart) {
@@ -783,32 +784,32 @@ sap.ui.define([
 			// }
 		},
 
-		onCloseCart: function() {
+		onCloseCart: function () {
 
 			sap.m.MessageBox.confirm(
 				"Are you sure want to close?", {
-					icon: sap.m.MessageBox.Icon.CONFIRM,
-					title: "Confirmation",
-					actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-					onClose: function(oAction) {
-						if (oAction === "YES") {
-							this.AddToCart.close();
-							this.getView().getModel("ServicesViewModel").setProperty("/ProceedSOButtomVisible", true);
-							// this.getView().getModel("ServicesViewModel").setProperty("/IdenifymButtomVisible", false);
-							this.getView().getModel("ServicesViewModel").setProperty("/PaymentButtomVisible", false);
-							this.getView().getModel("ServicesViewModel").setProperty("/IdentifyVisible", false);
-							this.getView().getModel("ServicesViewModel").setProperty("/MOPVisible", false);
-							this.getView().getModel("ServicesViewModel").refresh();
-						} else if (oAction === "NO") {}
-					}.bind(this)
-				});
+				icon: sap.m.MessageBox.Icon.CONFIRM,
+				title: "Confirmation",
+				actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+				onClose: function (oAction) {
+					if (oAction === "YES") {
+						this.AddToCart.close();
+						this.getView().getModel("ServicesViewModel").setProperty("/ProceedSOButtomVisible", true);
+						// this.getView().getModel("ServicesViewModel").setProperty("/IdenifymButtomVisible", false);
+						this.getView().getModel("ServicesViewModel").setProperty("/PaymentButtomVisible", false);
+						this.getView().getModel("ServicesViewModel").setProperty("/IdentifyVisible", false);
+						this.getView().getModel("ServicesViewModel").setProperty("/MOPVisible", false);
+						this.getView().getModel("ServicesViewModel").refresh();
+					} else if (oAction === "NO") { }
+				}.bind(this)
+			});
 		},
 
-		onPressProceedSale: function() {
+		onPressProceedSale: function () {
 			this.getView().getModel("ServicesViewModel").setProperty("/ProceedSOButtomVisible", false);
 			this.getView().getModel("ServicesViewModel").setProperty("/PaymentButtomVisible", true);
 			MessageToast.show("#7000018150 Saleorder created successfully");
-				// this.getView().getModel("ServicesViewModel").setProperty("/IdentifyVisible", true);
+			// this.getView().getModel("ServicesViewModel").setProperty("/IdentifyVisible", true);
 			this.getView().getModel("ServicesViewModel").setProperty("/SO_Number", "7000018150");
 			this.getView().getModel("ServicesViewModel").setProperty("/MOPVisible", true);
 		},
@@ -819,14 +820,14 @@ sap.ui.define([
 		// 	this.getView().getModel("ServicesViewModel").setProperty("/IdentifyVisible", true);
 		// },
 
-		onPressContinueguest: function() {
+		onPressContinueguest: function () {
 			this.getView().getModel("ServicesViewModel").setProperty("/IdentifyVisible", true);
 			this.getView().getModel("ServicesViewModel").setProperty("/MOP", true);
 			this.getView().getModel("ServicesViewModel").setProperty("/PaymentButtomVisible", true);
 
 		},
 
-		onPressCashSelect: function(oEvent) {
+		onPressCashSelect: function (oEvent) {
 			var Seleted = oEvent.getSource().getSelected();
 			if (Seleted) {
 				this.getView().getModel("ServicesViewModel").setProperty("/CashMOPPanelExpand", true);
@@ -836,7 +837,7 @@ sap.ui.define([
 			this.getView().getModel("ServicesViewModel").refersh();
 		},
 
-		onPressCardSelect: function(oEvent) {
+		onPressCardSelect: function (oEvent) {
 			var Seleted = oEvent.getSource().getSelected();
 			if (Seleted) {
 				this.getView().getModel("ServicesViewModel").setProperty("/CardMOPPanelExpand", true);
@@ -846,7 +847,7 @@ sap.ui.define([
 			this.getView().getModel("ServicesViewModel").refersh();
 		},
 
-		onPressLoyaltySelect: function(oEvent) {
+		onPressLoyaltySelect: function (oEvent) {
 			var Seleted = oEvent.getSource().getSelected();
 			if (Seleted) {
 				this.getView().getModel("ServicesViewModel").setProperty("/LoyaltyMOPPanelExpand", true);
@@ -856,7 +857,7 @@ sap.ui.define([
 			this.getView().getModel("ServicesViewModel").refersh();
 		},
 
-		onExpandCash: function(oEvent) {
+		onExpandCash: function (oEvent) {
 			var expan = oEvent.getSource().getExpanded();
 			if (expan) {
 				this.getView().getModel("ServicesViewModel").setProperty("/Cash_CheckBoxSeleted", true);
@@ -865,7 +866,7 @@ sap.ui.define([
 			}
 		},
 
-		onExpandCard: function(oEvent) {
+		onExpandCard: function (oEvent) {
 			var expan = oEvent.getSource().getExpanded();
 			if (expan) {
 				this.getView().getModel("ServicesViewModel").setProperty("/Card_CheckBoxSeleted", true);
@@ -874,7 +875,7 @@ sap.ui.define([
 			}
 		},
 
-		onExpandLoyalty: function(oEvent) {
+		onExpandLoyalty: function (oEvent) {
 			var expan = oEvent.getSource().getExpanded();
 			if (expan) {
 				this.getView().getModel("ServicesViewModel").setProperty("/Loyalty_CheckBoxSeleted", true);
@@ -883,7 +884,7 @@ sap.ui.define([
 			}
 		},
 
-		onPress1: function(oEvent) {
+		onPress1: function (oEvent) {
 			var Profile_PlateNo = this.getView().getModel("oGlobalModel").getProperty("/Profile_PlateNo");
 			var Profile_PlateCode = this.getView().getModel("oGlobalModel").getProperty("/Profile_PlateCode");
 			if (Profile_PlateCode !== "" && Profile_PlateCode !== "") {
@@ -941,7 +942,7 @@ sap.ui.define([
 
 					var MyCartItems = this.getView().getModel("ServicesViewModel").getProperty("/MyCartItems");
 
-					MyCartItems = MyCartItems.filter(function(obj) {
+					MyCartItems = MyCartItems.filter(function (obj) {
 						return obj.Material !== ListObject.Material;
 					});
 
@@ -968,7 +969,7 @@ sap.ui.define([
 			}
 		},
 
-		onDeleteCartItem: function(oEvent) {
+		onDeleteCartItem: function (oEvent) {
 			var path = oEvent.getParameter('listItem').getBindingContext("ServicesViewModel").getPath();
 			var data = oEvent.getSource().getModel("ServicesViewModel");
 			var index = parseInt(path.substring(path.lastIndexOf('/') + 1), 10);
@@ -978,7 +979,7 @@ sap.ui.define([
 				icon: sap.m.MessageBox.Icon.CONFIRM,
 				title: "Confirmation",
 				actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-				onClose: function(oAction) {
+				onClose: function (oAction) {
 					if (oAction === "YES") {
 						var d = data.getProperty("/MyCartItems");
 
@@ -1016,12 +1017,12 @@ sap.ui.define([
 							}
 						}
 
-					} else if (oAction === "NO") {}
+					} else if (oAction === "NO") { }
 				}.bind(this)
 			});
 		},
 
-		onResetCarwash: function() {
+		onResetCarwash: function () {
 
 			// this._ModelInitialLoad();
 
@@ -1039,7 +1040,7 @@ sap.ui.define([
 
 		},
 
-		onResetProduct: function() {
+		onResetProduct: function () {
 			// this._ModelInitialLoad();
 			/*Removing the seleted items*/
 			var MaterialList = this.getView().getModel("ServicesViewModel").getProperty("/MaterialList");
@@ -1054,7 +1055,7 @@ sap.ui.define([
 
 		},
 
-		onPress2: function(oEvent) {
+		onPress2: function (oEvent) {
 			var ListObject = oEvent.getSource().getBindingContext("ServicesViewModel").getObject();
 			var CW_ServicesMaterialF4 = this.getView().getModel("ServicesViewModel").getData().LPGMaterial;
 			if (ListObject.Highlight === "None") {
@@ -1149,7 +1150,7 @@ sap.ui.define([
 				// this.getView().getModel("ServicesViewModel").setProperty("/Cart_TaxAmount", "");
 
 				var MyCartItems = this.getView().getModel("ServicesViewModel").getProperty("/MyCartItems");
-				MyCartItems = MyCartItems.filter(function(obj) {
+				MyCartItems = MyCartItems.filter(function (obj) {
 					return obj.Material !== ListObject.Material;
 				});
 
@@ -1165,7 +1166,7 @@ sap.ui.define([
 			this.getView().getModel("ServicesViewModel").refresh();
 		},
 
-		onPressCancelCW: function() {
+		onPressCancelCW: function () {
 			// this._ModelInitialLoad();
 
 			/*Removing the seleted items*/
@@ -1179,7 +1180,7 @@ sap.ui.define([
 			this.getView().getModel("ServicesViewModel").refresh();
 		},
 
-		onPressCancelGas: function() {
+		onPressCancelGas: function () {
 			// this._ModelInitialLoad();
 
 			/*Removing the seleted items*/
@@ -1193,40 +1194,40 @@ sap.ui.define([
 			this.getView().getModel("ServicesViewModel").refresh();
 		},
 
-		onPressCheckCard: function() {
+		onPressCheckCard: function () {
 			if (!this.RewardCheck) {
 				this.RewardCheck = sap.ui.xmlfragment("viapp.fragment.RewardCheck", this); // Fragments for Process select
 				this.getView().addDependent(this.RewardCheck);
 			}
 			this.RewardCheck.open();
 		},
-		onPressCloseCheckCard: function() {
+		onPressCloseCheckCard: function () {
 
 			this.RewardCheck.close();
 		},
 
-		onCloseCart: function() {
+		onCloseCart: function () {
 
 			sap.m.MessageBox.confirm(
 				"Are you sure want to close?", {
-					icon: sap.m.MessageBox.Icon.CONFIRM,
-					title: "Confirmation",
-					actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-					onClose: function(oAction) {
-						if (oAction === "YES") {
-							this.AddToCart.close();
-							this.getView().getModel("ServicesViewModel").setProperty("/ProceedSOButtomVisible", true);
-							// this.getView().getModel("ServicesViewModel").setProperty("/IdenifymButtomVisible", false);
-							this.getView().getModel("ServicesViewModel").setProperty("/PaymentButtomVisible", false);
-							this.getView().getModel("ServicesViewModel").setProperty("/IdentifyVisible", false);
-							this.getView().getModel("ServicesViewModel").setProperty("/MOPVisible", false);
-							this.getView().getModel("ServicesViewModel").refresh();
-						} else if (oAction === "NO") {}
-					}.bind(this)
-				});
+				icon: sap.m.MessageBox.Icon.CONFIRM,
+				title: "Confirmation",
+				actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+				onClose: function (oAction) {
+					if (oAction === "YES") {
+						this.AddToCart.close();
+						this.getView().getModel("ServicesViewModel").setProperty("/ProceedSOButtomVisible", true);
+						// this.getView().getModel("ServicesViewModel").setProperty("/IdenifymButtomVisible", false);
+						this.getView().getModel("ServicesViewModel").setProperty("/PaymentButtomVisible", false);
+						this.getView().getModel("ServicesViewModel").setProperty("/IdentifyVisible", false);
+						this.getView().getModel("ServicesViewModel").setProperty("/MOPVisible", false);
+						this.getView().getModel("ServicesViewModel").refresh();
+					} else if (oAction === "NO") { }
+				}.bind(this)
+			});
 		},
 
-		onScanSuccess: function(oEvent) {
+		onScanSuccess: function (oEvent) {
 			if (oEvent.getParameter("cancelled")) {
 				MessageToast.show("Scan cancelled", {
 					duration: 1000
@@ -1239,18 +1240,18 @@ sap.ui.define([
 			}
 		},
 
-		onScanError: function(oEvent) {
+		onScanError: function (oEvent) {
 			MessageToast.show("Scan failed: " + oEvent, {
 				duration: 1000
 			});
 		},
 
-		onScanLiveupdate: function(oEvent) {
+		onScanLiveupdate: function (oEvent) {
 			// User can implement the validation about inputting value
 		},
 
 		/*LPG*/
-		onPressLPGCart: function() {
+		onPressLPGCart: function () {
 
 			var Cart_Material = this.getView().getModel("ServicesViewModel").getProperty("/Cart_Material");
 			if (Cart_Material) {
@@ -1271,33 +1272,33 @@ sap.ui.define([
 
 		},
 
-		onCloseLPGCart: function() {
+		onCloseLPGCart: function () {
 
 			sap.m.MessageBox.confirm(
 				"Are you sure want to close?", {
-					icon: sap.m.MessageBox.Icon.CONFIRM,
-					title: "Confirmation",
-					actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-					onClose: function(oAction) {
-						if (oAction === "YES") {
-							this.AddToCartLPG.close();
-							this.getView().getModel("ServicesViewModel").setProperty("/ProceedSOButtomVisible", true);
-							// this.getView().getModel("ServicesViewModel").setProperty("/IdenifymButtomVisible", false);
-							this.getView().getModel("ServicesViewModel").setProperty("/PaymentButtomVisible", false);
-							this.getView().getModel("ServicesViewModel").setProperty("/IdentifyVisible", false);
-							this.getView().getModel("ServicesViewModel").setProperty("/MOPVisible", false);
-							this.getView().getModel("ServicesViewModel").refresh();
-						} else if (oAction === "NO") {}
-					}.bind(this)
-				});
+				icon: sap.m.MessageBox.Icon.CONFIRM,
+				title: "Confirmation",
+				actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+				onClose: function (oAction) {
+					if (oAction === "YES") {
+						this.AddToCartLPG.close();
+						this.getView().getModel("ServicesViewModel").setProperty("/ProceedSOButtomVisible", true);
+						// this.getView().getModel("ServicesViewModel").setProperty("/IdenifymButtomVisible", false);
+						this.getView().getModel("ServicesViewModel").setProperty("/PaymentButtomVisible", false);
+						this.getView().getModel("ServicesViewModel").setProperty("/IdentifyVisible", false);
+						this.getView().getModel("ServicesViewModel").setProperty("/MOPVisible", false);
+						this.getView().getModel("ServicesViewModel").refresh();
+					} else if (oAction === "NO") { }
+				}.bind(this)
+			});
 		},
 
-		onPressNavtoPaymentapp: function() {
+		onPressNavtoPaymentapp: function () {
 
 			MessageToast.show("Navigating to payment app");
 			var SO_Number = this.getView().getModel("ServicesViewModel").getProperty("/SO_Number");
 			var MyCartTotal = this.getView().getModel("ServicesViewModel").getProperty("/MyCartTotal");
-			
+
 			// var jsonData = {
 			// 	trxnType: "SALE",
 			// 	amount: MyCartTotal,
@@ -1314,35 +1315,35 @@ sap.ui.define([
 			// Construct the custom URI with encoded JSON data
 			// var uri = "adnoc://pay.com/card?data=" + encodedJsonString;
 			// window.location.href = uri;
-			
-			
+
+
 			// get current URL 
 			let currentUrl = window.location.href;
-			
+
 			// URL encode it
 			let encodedReturnUrl = encodeURIComponent(currentUrl);
-            // JSON object with data
-            	var jsonData = {
+			// JSON object with data
+			var jsonData = {
 				trxnType: "SALE",
 				amount: MyCartTotal,
 				mode: "card",
 				trxnID: SO_Number
 			};
- 
-            // Convert JSON object to string
-            var jsonString = JSON.stringify(jsonData);
- 
-            // Encode the JSON string to be URL-safe
-            var encodedJsonString = encodeURIComponent(jsonString);
- 
-            // Construct the custom URI with encoded JSON data
-            //var uri = "adnoc://pay.com/card?data=" + encodedJsonString;
+
+			// Convert JSON object to string
+			var jsonString = JSON.stringify(jsonData);
+
+			// Encode the JSON string to be URL-safe
+			var encodedJsonString = encodeURIComponent(jsonString);
+
+			// Construct the custom URI with encoded JSON data
+			//var uri = "adnoc://pay.com/card?data=" + encodedJsonString;
 			// Construct the custom URI with encoded JSON data and returnUrl
 			var uri = "adnoc://pay.com/card?data=" + encodedJsonString + "&returnUrl=" + encodedReturnUrl;
 			window.location.href = uri;
 		},
 
-		onPressNav1: function() {
+		onPressNav1: function () {
 
 			// JSONObject TxnData = new JSONObject();
 			// TxnData.put("TXN_TYPE", "01");
@@ -1358,7 +1359,7 @@ sap.ui.define([
 
 		},
 
-		onPressNav2: function() {
+		onPressNav2: function () {
 			window.location.href = "intent://your_path_pattern?param_key=value#Intent;scheme=your_scheme;package=com.your.package.name;end;";
 
 			// var url = "intent://open?AMOUNT=5#Intent;scheme=com.marsdata.fabpos;package=com.marsdata.fabpos.Mars.Splash_Screen;end;";
@@ -1368,7 +1369,7 @@ sap.ui.define([
 			window.location.href(url);
 		},
 
-		onGopress: function() {
+		onGopress: function () {
 
 			var SearchList = [{
 				"BP": "6000000175",
@@ -1391,13 +1392,13 @@ sap.ui.define([
 			this.getView().getModel("SearchViewModel").refresh();
 		},
 
-		onSelectCustomer: function(oEvent) {
+		onSelectCustomer: function (oEvent) {
 			var oSeletedValue = oEvent.getSource().getBindingContext("SearchViewModel").getObject();
 			var aSearchList = this.getView().getModel("SearchViewModel").getData().SearchList;
 			var oGlobalModel = this.getView().getModel("oGlobalModel");
 
 			if (oSeletedValue.Highlight === "None") {
-				setTimeout(function() {
+				setTimeout(function () {
 					MessageToast.show("Seleted");
 				}, 100);
 
@@ -1426,7 +1427,7 @@ sap.ui.define([
 
 				this.SearchVehicle.close();
 			} else {
-				setTimeout(function() {
+				setTimeout(function () {
 					MessageToast.show("Un-Seleted");
 				}, 100);
 				oEvent.getSource().getBindingContext("SearchViewModel").getObject().Highlight = "None";
@@ -1444,7 +1445,7 @@ sap.ui.define([
 			this.getView().getModel("SearchViewModel").refresh();
 		},
 
-		onPressSearchCustomer: function(oEvent) {
+		onPressSearchCustomer: function (oEvent) {
 
 			var oGlobalModel = this.getView().getModel("oGlobalModel");
 
@@ -1466,7 +1467,7 @@ sap.ui.define([
 
 		},
 
-		onPressCreateCustomer: function() {
+		onPressCreateCustomer: function () {
 
 			this.SearchVehicle.close();
 
@@ -1480,7 +1481,7 @@ sap.ui.define([
 			this.Create.open();
 		},
 
-		onCancelCreateCustomer: function() {
+		onCancelCreateCustomer: function () {
 			this.Create.close();
 		},
 
@@ -1492,7 +1493,7 @@ sap.ui.define([
 		 * @since 20.07.2023
 		 * @author MH
 		 */
-		onPressSaveCustomer: function() {
+		onPressSaveCustomer: function () {
 
 			var sOnlyCust = this.getView().getModel("HomeViewModel").getData().CNC_NewCustomer;
 			var oModel = this.getView().getModel("oViewModel").getData();
@@ -1666,7 +1667,7 @@ sap.ui.define([
 		 * @author MH
 		 * @fires -
 		 */
-		onMobileNoLiveChange: function(oEvent) {
+		onMobileNoLiveChange: function (oEvent) {
 			var oValue = oEvent.getSource().getValue();
 			if (oValue.charAt(0) === '0') {
 				MessageToast.show("Mobile number does not start with zero");
@@ -1692,7 +1693,7 @@ sap.ui.define([
 		 * @author MH
 		 * @fires -
 		 */
-		onFirstNameLiveChange: function(oEvent) {
+		onFirstNameLiveChange: function (oEvent) {
 			var oValue = oEvent.getSource().getValue();
 			oValue = oValue.replace(/[^a-zA-Z0-9_ ]/g, "");
 			oEvent.getSource().setValue(oValue);
@@ -1711,7 +1712,7 @@ sap.ui.define([
 		 * @author MH
 		 * @fires -
 		 */
-		onOpenManufactureF4: function(oEvent) {
+		onOpenManufactureF4: function (oEvent) {
 			this.source = oEvent.getSource();
 
 			if (!this.Manfacturer) {
@@ -1729,7 +1730,7 @@ sap.ui.define([
 		 * @author MH
 		 * @fires onSearchF4
 		 */
-		onSearchManufacture: function(oEvent) {
+		onSearchManufacture: function (oEvent) {
 			var sValue = oEvent.getParameters().value;
 			var aFilter = ["Manufacture"];
 			var oBinding = oEvent.getSource().getBinding("items");
@@ -1744,7 +1745,7 @@ sap.ui.define([
 		 * @author MH
 		 * @fires onSearchF4
 		 */
-		onSearchModel: function(oEvent) {
+		onSearchModel: function (oEvent) {
 			var sValue = oEvent.getParameters().value;
 			var aFilter = ["Model"];
 			var oBinding = oEvent.getSource().getBinding("items");
@@ -1758,7 +1759,7 @@ sap.ui.define([
 		 * @since 30.04.2024
 		 * @author MH
 		 */
-		onSearchF4: function(sValue, aFilters, oBinding) {
+		onSearchF4: function (sValue, aFilters, oBinding) {
 			var aFilterArray = [];
 			for (var i = 0; i < aFilters.length; i++) {
 				aFilterArray.push(new Filter(aFilters[i], FilterOperator.Contains, sValue));
@@ -1775,7 +1776,7 @@ sap.ui.define([
 		 * @author MH
 		 * @fires -
 		 */
-		onManfacturerConfirm: function(oEvent) {
+		onManfacturerConfirm: function (oEvent) {
 
 			var oModel = this.getView().getModel("oViewModel");
 			oModel.setProperty("/CC_Model", "");
@@ -1786,7 +1787,7 @@ sap.ui.define([
 			var ModelF4Set = oModel.getProperty("/ModelF4Set");
 			var aManufactureModel = [];
 
-			aManufactureModel = ModelF4Set.filter(function(e) {
+			aManufactureModel = ModelF4Set.filter(function (e) {
 				return e.Manufacture === oModel.getData().CC_Manfacturer;
 			});
 			//oModel.ModelF4 = aManufactureModel;
@@ -1802,7 +1803,7 @@ sap.ui.define([
 		 * @author MH
 		 * @fires -
 		 */
-		onOpenModelF4: function(oEvent) {
+		onOpenModelF4: function (oEvent) {
 			this.source = oEvent.getSource();
 
 			if (!this.ModelF4) {
@@ -1820,7 +1821,7 @@ sap.ui.define([
 		 * @author MH
 		 * @fires -
 		 */
-		onModelConfirm: function(oEvent) {
+		onModelConfirm: function (oEvent) {
 			var oModel = this.getView().getModel("oViewModel");
 			//	oModel.setProperty("/CC_Model", "");
 			oModel.getData().CC_Model = oEvent.getParameter("selectedItem").getBindingContext("oViewModel").getObject().Model;
@@ -1829,7 +1830,7 @@ sap.ui.define([
 			oEvent.getSource().getBinding("items").filter([]);
 		},
 
-		onResetForm: function() {
+		onResetForm: function () {
 			var oModel = this.getView().getModel("oViewModel");
 			oModel.getData().CC_FirstName = "";
 			// oModel.getData().CC_LastName = "";
@@ -1848,7 +1849,7 @@ sap.ui.define([
 
 		},
 
-		onCNCSwitchOn: function(oEvent) {
+		onCNCSwitchOn: function (oEvent) {
 			var oModel = this.getView().getModel("HomeViewModel");
 			var State = oEvent.getSource().getState();
 			if (State) {
@@ -1863,7 +1864,7 @@ sap.ui.define([
 		},
 
 		/*Add on Materials code start*/
-		onPressAddonMaterial: function() {
+		onPressAddonMaterial: function () {
 
 			if (!this.MaterialF4) {
 				this.MaterialF4 = sap.ui.xmlfragment("viapp.fragment.MaterialF4", this); // Fragments for Process select
@@ -1872,7 +1873,7 @@ sap.ui.define([
 			this.MaterialF4.open();
 		},
 
-		onSelectMaterial: function(oEvent) {
+		onSelectMaterial: function (oEvent) {
 
 			var ListObject = oEvent.getSource().getBindingContext("ServicesViewModel").getObject();
 			var CW_ServicesMaterialF4 = this.getView().getModel("ServicesViewModel").getData().MaterialList;
@@ -1928,7 +1929,7 @@ sap.ui.define([
 
 				var MyCartItems = this.getView().getModel("ServicesViewModel").getProperty("/MyCartItems");
 
-				MyCartItems = MyCartItems.filter(function(obj) {
+				MyCartItems = MyCartItems.filter(function (obj) {
 					return obj.Material !== ListObject.Material;
 				});
 
@@ -1949,9 +1950,28 @@ sap.ui.define([
 
 		},
 
-		onCloseMaterialF4: function() {
+		onCloseMaterialF4: function () {
 			this.MaterialF4.close();
 		},
+		getMaterialF4: function () {
+			this.getView().getModel("CarwashService").read("/Material_V", {
+				success: function (oData, oResp) {
+					// BusyIndicator.hide();
+					
+					for (var i = 0; i < oData.results.length; i++) {
+						var matnr = oData.results[i].MATERIAL;
+						matnr = matnr.replaceAll("0","");
+						oData.results[i].MATERIAL = matnr;
+					}
+					this.getView().getModel("ServicesViewModel").setProperty("/MaterialList", oData.results);
+
+				}.bind(this),
+				error: function (oError) {
+					// BusyIndicator.hide();
+					MessageBox.error(oError.message);
+				}
+			});
+		}
 
 	});
 

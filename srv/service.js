@@ -6,13 +6,15 @@ module.exports = cds.service.impl( async function(){
     //             return res;
     //         })
             this.on("READ",Plant, async(req) =>{
-                const res = await cds.run(`select WERKS, NAME1 from HDI_VT_HDI_DB_1.VT_T001W`)
+                const res = await cds.run(`select WERKS, NAME1 from SDI_DM_HDI_DB_1.ZT001W`)
                 return res;
             })
-            // this.on("READ",Material_V, async(req) =>{
-            //     const res = await cds.run(`select * from HDI_VT_HDI_DB_1.CARWASHSERVICE_MATERIAL_V`)
-            //     return res;
-            // })
+            this.on("READ",Material_V, async(req) =>{
+                //const res = await cds.run(`select Material, MatType, UoM, Plant, MaterialDesc, CondRec, NetPrice, Currency from SDI_DM_HDI_DB_1.CARWASHSERVICE_MATERIAL_V`)
+                //const res = await cds.run(`select * from SDI_DM_HDI_DB_1.ZMARA`)
+                const res = await cds.run(`select MATERIAL, MATTYPE, UOM, PLANT, MATDESC, CONDREC, NETPRICE, CURRENCY from SDI_DM_HDI_DB_1.ZMAT`)
+                return res;
+            })
 } );
 
 

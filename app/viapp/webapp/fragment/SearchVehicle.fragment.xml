@@ -1,22 +1,11 @@
-<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout"
-	xmlns:layout="sap.ui.layout" xmlns:f="sap.f" xmlns:g="sap.f" xmlns:fb="sap.ui.comp.filterbar" xmlns:cssgrid="sap.ui.layout.cssgrid"
-	xmlns:grid="sap.ui.layout.cssgrid" xmlns:form="sap.ui.layout.form" xmlns:card="sap.f.cards">
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m"
+	xmlns:layout="sap.ui.layout" xmlns:f="sap.f"   xmlns:cssgrid="sap.ui.layout.cssgrid"
+	xmlns:grid="sap.ui.layout.cssgrid" xmlns:form="sap.ui.layout.form">
 	<Dialog contentHeight="auto" contentWidth="30%" class="sapUiSizeCompact" afterClose="dialogAfterclose" title="Search Detail"
 		titleAlignment="Center" showHeader="true">
-		<!--<VBox>-->
-		<!--	<Text text="Invoice Number: {IdentifyCustomerModel>/HeaderInvoice}" class="sapUiSmallMarginBegin cl_invoicetxt"></Text>-->
-		<!--	<ObjectStatus text="Total Price: {IdentifyCustomerModel>/HeaderAmt} AED" inverted="true" active="true"-->
-		<!--		class="sapUiSmallMarginBegin sapUiSmallMarginTop" state="Information"/>-->
-		<!--</VBox>-->
 		<content class="sapUiSizeCompact">
-			<!--<f:GridList >-->
-			<!--	<f:customLayout>-->
-			<!--		<grid:GridBoxLayout boxWidth="auto"/>-->
-			<!--	</f:customLayout>-->
 				<f:GridListItem >
-					<!--<VBox height="100%" justifyContent="SpaceBetween">-->
-					<!--	<layoutData>-->
-					<!--		<FlexItemData growFactor="1" shrinkFactor="0"/></layoutData>-->
+				
 						<form:Form editable="true" visible="{oGlobalModel>/Filtersbar}"  class="Cl_SearchCusFormLabel">
 							<form:layout>
 								<form:ResponsiveGridLayout labelSpanXL="4" labelSpanL="4" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0"
@@ -55,44 +44,9 @@
 							<Button text="Go" icon="sap-icon://inspection" type="Emphasized" press="onGopress" class="sapUiTinyMarginEnd"/>
 							<Button text="Clear" icon="sap-icon://reset" type="Transparent" class="sapUiTinyMarginEnd"/>
 						</FlexBox>
-						<!--		<OverflowToolbar design="Transparent" class="sapUiTinyMarginTopBottom">-->
-						<!--	<ToolbarSpacer/>-->
-						<!--	<Button text="Go" icon="sap-icon://inspection" type="Emphasized" press="onGopress"/>-->
-						<!--	<Button text="Clear" icon="sap-icon://reset" type="Transparent"/>-->
-						<!--</OverflowToolbar>-->
-					<!--</VBox>-->
+
 				</f:GridListItem>
-			<!--</f:GridList>-->
-			<fb:FilterBar reset="onReset" search="onGopress" cancel="onCancel" clear="Clearpress" useToolbar="false" showGoOnFB="true"
-				showClearOnFB="true" showRestoreOnFB="false" showClearButton="true" showRestoreButton="true" visible="false" class="Cl_FilterbarText"
-				showFilterConfiguration="false" header="true">
-				<fb:filterItems>
-					<fb:FilterItem name="A" label="Plate No">
-						<fb:control>
-							<Input value="" placeholder="Enter Plate No" type="Text" showValueHelp="false" valueState="Information" enabled="true" visible="true"
-								width="70%" valueHelpOnly="false" required="false" valueStateText="Enter Plate No" maxLength="0" valueHelpRequest="technicalselect"/>
-						</fb:control>
-					</fb:FilterItem>
-					<fb:FilterItem name="B" label="Plate Code">
-						<fb:control>
-							<Input value="" placeholder="Enter Plate Code" type="Text" showValueHelp="false" valueState="Information" enabled="true" visible="true"
-								width="70%" valueHelpOnly="false" required="false" valueStateText="Enter Plate Code" maxLength="0" valueHelpRequest="technicalselect"/>
-						</fb:control>
-					</fb:FilterItem>
-					<fb:FilterItem name="C" label="Name" visible="false">
-						<fb:control>
-							<Input value="" placeholder="Enter Name" type="Text" showValueHelp="false" valueState="Information" enabled="true" visible="true"
-								width="70%" valueHelpOnly="false" required="false" valueStateText="Enter Name" maxLength="0" valueHelpRequest="technicalselect"/>
-						</fb:control>
-					</fb:FilterItem>
-					<fb:FilterItem name="D" label="Mobile No">
-						<fb:control>
-							<Input value="" placeholder="Enter Mobile" type="Text" showValueHelp="false" valueState="Information" enabled="true" visible="true"
-								width="70%" valueHelpOnly="false" required="false" valueStateText="Enter Mobile" maxLength="0" valueHelpRequest="technicalselect"/>
-						</fb:control>
-					</fb:FilterItem>
-				</fb:filterItems>
-			</fb:FilterBar>
+
 			<f:GridList mode="None" items="{SearchViewModel>/SearchList}" class="sapUiSmallMarginTop">
 				<f:headerToolbar>
 					<Toolbar>

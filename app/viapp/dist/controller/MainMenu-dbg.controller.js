@@ -277,11 +277,11 @@ sap.ui.define([
 			// 		"")) {
 
 			/*Enable Vehicle Details Input*/
-			if (!this.SearchVehicle) {
-				this.SearchVehicle = sap.ui.xmlfragment("viapp.fragment.SearchVehicle", this); // Fragments for Process select
-				this.getView().addDependent(this.SearchVehicle);
+			if (!this.SearchVehiclef4) {
+				this.SearchVehiclef4 = sap.ui.xmlfragment("viapp.fragment.SearchVehicle", this); // Fragments for Process select
+				this.getView().addDependent(this.SearchVehiclef4);
 			}
-			this.SearchVehicle.open();
+			this.SearchVehiclef4.open();
 
 			// }
 
@@ -308,7 +308,7 @@ sap.ui.define([
 		},
 
 		onPressCloseSearch: function() {
-			this.SearchVehicle.close();
+			this.SearchVehiclef4.close();
 		},
 		getPlantf4:function(){
 			this.getView().getModel("CarwashService").read("/Plant", {
