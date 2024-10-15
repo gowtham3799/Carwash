@@ -155,7 +155,7 @@
 								<f:formElements>
 									<f:FormElement label="Cash">
 										<f:fields>
-											<Input value="" placeholder="Enter Amount" valueState="Information"></Input>
+											<Input value="{ServicesViewModel>/Cashamount}" placeholder="Enter Amount" valueState="Information"></Input>
 										</f:fields>
 									</f:FormElement>
 								</f:formElements>
@@ -187,12 +187,12 @@
 								<f:formElements>
 									<f:FormElement label="Debit Card">
 										<f:fields>
-											<Input value="" placeholder="Amount" valueState="Information">
+											<Input value="{ServicesViewModel>/Cardamount}" placeholder="Amount" valueState="Information">
 												<layoutData>
 													<l:GridData span="XL1 L2 M2 S4"/>
 												</layoutData>
 											</Input>
-											<Input value="" placeholder="Reference" valueState="Information">
+											<Input value="{ServicesViewModel>/authcode}" placeholder="Reference" valueState="Information">
 												<layoutData>
 													<l:GridData span="XL1 L2 M2 S4"/>
 												</layoutData>
@@ -260,12 +260,12 @@
 								<f:formElements>
 									<f:FormElement label="Loyalty Card">
 										<f:fields>
-											<Input value="" placeholder="Amount" valueState="Information">
+											<Input value="{ServicesViewModel>/Loyaltyamount}" placeholder="Amount" valueState="Information">
 												<layoutData>
 													<l:GridData span="XL1 L2 M2 S4"/>
 												</layoutData>
 											</Input>
-											<Input value="" placeholder="Reference" valueState="Information">
+											<Input value="{ServicesViewModel>/LoyaltyRef}" placeholder="Reference" valueState="Information">
 												<layoutData>
 													<l:GridData span="XL1 L2 M2 S4"/>
 												</layoutData>
@@ -294,7 +294,7 @@
 			<!--<Button text="Identify" type="Emphasized" iconFirst="true" width="auto" visible="{ServicesViewModel>/IdenifymButtomVisible}"-->
 			<!--	iconDensityAware="false" press="onPressIdentify" class="sapUiTinyMarginEnd" icon='sap-icon://employee-lookup'/>-->
 			<Button text="Payment" type="Emphasized" iconFirst="true" width="auto" visible="{ServicesViewModel>/PaymentButtomVisible}"
-				iconDensityAware="false" press="onPressNavtoPaymentapp" class="sapUiTinyMarginEnd" icon='sap-icon://money-bills'/>
+				iconDensityAware="false" press="onPresspayment" class="sapUiTinyMarginEnd" icon='sap-icon://money-bills'/>
 			<!--<Button text="Cancel" type="Default" iconFirst="true" width="auto" visible="true" iconDensityAware="false" press="onPressCancelCustomer"-->
 			<!--	class="sapUiTinyMarginEnd" icon='sap-icon://sys-cancel'/>-->
 		</buttons>

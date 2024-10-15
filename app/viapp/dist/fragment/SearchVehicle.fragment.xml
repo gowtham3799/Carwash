@@ -17,9 +17,9 @@
 										<form:FormElement label="Plate No / Code" visible="{oGlobalModel>/CW_ProcessVisible}">
 											<form:fields>
 												<HBox>
-													<Input value="{CreateCustomerModel>/Chassisno}" placeholder="Plate No" width="95%" class="" valueState="Information"
-														valueStateText="Enter Plate Number"/>
-													<Input value="{CreateCustomerModel>/Chassisno}" placeholder="Plate Code" width="91%" class="" valueState="Information"
+													<Input value="{oGlobalModel>/Chassisno}" placeholder="Plate No" width="95%" class="" valueState="Information"
+														valueStateText="Enter Plate Number" maxLength="6"/>
+													<Input value="{oGlobalModel>/Platecode}" placeholder="Plate Code" width="91%" class="" valueState="Information"
 														valueStateText="Enter Plate Code"/>
 												</HBox>
 											</form:fields>

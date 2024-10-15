@@ -25,32 +25,54 @@ context master {
             CURRENCY : String(5);
     }
 
-    entity Order: cuid {
-        key ID        : UUID;
-            OrderNum  : String(10);
-            PlateCode : String(2);
-            PlateNum  : String(5);
-            Source    : String(20);
-            Kind      : String(20);
-            Items     : Composition of  many OrderItem
-                            on Items.PARENT_KEY = $self;
 
-    }
+}
+
+entity Order : cuid {
+    key ID        : UUID;
+        ORDERNUM  : Integer;
+        PLATECODE : String(2);
+        PLATENUM  : String(5);
+        SOURCE    : String(20);
+        KIND      : String(20);
+        ITEMS     : Composition of many OrderItem
+                        on ITEMS.PARENT_KEY = $self;
+
+}
 
 
-    entity OrderItem : cuid {
-        key ID           : UUID;
-            PARENT_KEY   : Association to Order;
-            OrderNum     : Association to Order;
-            ItemNum      : String(6);
-            Material     : String(40);
-            Plant        : String(4);
-            MaterialDesc : String(40);
-            CondRec      : String(10);
-            NetPrice     : Decimal(11, 2);
-            Currency     : String(5);
-            Quantity     : Decimal(6, 2);
-            UoM          : String(3);
-    }
+entity OrderItem : cuid {
+    key ID           : UUID;
+        PARENT_KEY   : Association to Order;
+        ORDERNUM     : Association to Order;
+        ITEMNUM      : String(6);
+        MATERIAL     : String(40);
+        PLANT        : String(4);
+        MATERIALDESC : String(40);
+        CONDREC      : String(10);
+        NETPRICE     : Decimal(11, 2);
+        CURRENCY     : String(5);
+        QUANTITY     : Decimal(6, 2);
+        UOM          : String(3);
+}
 
+entity Payment : cuid {
+    key ID          : UUID;
+        ORDER_KEY   : Association to Order;
+        ORDERNUM    : Association to Order;
+        AMOUNT      : Decimal(11, 2);
+        CURRENCY    : String(5);
+        ITEMS       : Composition of many PaymentItem
+                          on ITEMS.PARENT_KEY = $self;
+
+}
+
+entity PaymentItem : cuid {
+    key ID          : UUID;
+        PARENT_KEY  : Association to Payment;
+        MOP_COUNTER : String(6);
+        AMOUNT      : Decimal(11, 2);
+        CURRENCY    : String(5);
+        MOP_TYPE    : String(20);
+        AUTH_CODE   : String(20);
 }

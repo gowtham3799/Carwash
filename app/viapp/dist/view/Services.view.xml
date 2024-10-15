@@ -26,19 +26,19 @@
 								<FlexItemData growFactor="1" shrinkFactor="0"/><!-- Don't shrink below minimum size. Fill space if available. --></layoutData>
 							<HBox alignItems="Start" justifyContent="SpaceBetween" visible="{oGlobalModel>/CW_ProcessVisible}">
 								<ObjectStatus title="Plate Detail" text="{oGlobalModel>/Profile_PlateNo} / {oGlobalModel>/Profile_PlateCode}" state="Information"
-									class="Cl_HeaderField sapUiSmallMarginBegin sapUiTinyMarginTop sapUiTinyMarginBottom"/>
+									class="sapUiSmallMarginBegin sapUiTinyMarginTop sapUiTinyMarginBottom"/>
 								<ObjectStatus title="Emirates" text="{oGlobalModel>/Profile_Emirates}" state="Information"
-									class="Cl_HeaderField sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom"/>
+									class="sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom"/>
 								<ObjectStatus title="Model" text="{oGlobalModel>/Profile_Model}" state="Information"
-									class="Cl_HeaderField sapUiSmallMarginEnd sapUiTinyMarginTopBottom"/>
+									class="sapUiSmallMarginEnd sapUiTinyMarginTopBottom"/>
 							</HBox>
 							<HBox alignItems="Start" justifyContent="SpaceBetween" visible="true">
 								<ObjectStatus title="Loyalty" text="500000017" state="Information" active="true" press="onPressCheckCard"
-									class="Cl_HeaderField sapUiSmallMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTopBottom" icon="sap-icon://bar-code"/>
+									class="sapUiSmallMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTopBottom" icon="sap-icon://bar-code"/>
 								<!--<ObjectStatus title="Loyalty Id" text="500000017" state="Information" class="sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom"/>-->
 								<ObjectStatus title="SaleOrder" text="{ServicesViewModel>/SO_Number}" state="Information"
-									class="Cl_HeaderField sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom"/>
-								<ObjectStatus title="Invoice" text="Not Created" state="Information" class="Cl_HeaderField sapUiSmallMarginEnd sapUiTinyMarginTopBottom"/>
+									class="sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom"/>
+								<ObjectStatus title="Invoice" text="Not Created" state="Information" class="sapUiSmallMarginEnd sapUiTinyMarginTopBottom"/>
 							</HBox>
 						</VBox>
 					</f:GridListItem>
@@ -124,9 +124,9 @@
 										<VBox class="Cl_CWListHeight">
 											<HBox alignContent="Start" justifyContent="SpaceBetween">
 												<HBox>
-													<Image src="{imageModel>/path}/image/CWWhiteIcon.PNG" height="5rem" width="5rem"
+													<Image src="{imageModel>/path}/image/CWWhiteIcon.png" height="5rem" width="5rem"
 														visible="{= ${ServicesViewModel>Highlight} ==='None' ? true : false }"></Image>
-													<Image src="{imageModel>/path}/image/CWColorIcon1.PNG" height="5rem" width="5rem"
+													<Image src="{imageModel>/path}/image/CWColorIcon1.png" height="5rem" width="5rem"
 														visible="{= ${ServicesViewModel>Highlight} ==='Information' ? true : false }"></Image>
 													<Title level="H3" text="{ServicesViewModel>MaterialName}" wrapping="true" class="sapUiSmallMarginTop sapUiTinyMarginBeginEnd"/>
 												</HBox>
@@ -248,7 +248,7 @@
 									<grid:GridBasicLayout gridTemplateColumns="repeat(auto-fit, minmax(16rem, 1fr))" gridGap="0.5rem"/>
 								</f:customLayout>
 								<SearchField width="auto"/>
-								<f:GridListItem press="onSelectMaterial" type="{ServicesViewModel>Type}" highlight="{ServicesViewModel>Highlight}"
+								<f:GridListItem press="onSelectMaterial" type="Active" highlight="{ServicesViewModel>Highlight}"
 									class="cl_MaterialgridlistBG cl_Materialgridlist cl_wgridlist sapUiSmallMarginBegin sapUiSmallMarginEnd">
 									<!--New Alignment Carwash-->
 									<VBox height="100%" justifyContent="SpaceBetween">

@@ -3,7 +3,8 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
 	'sap/ui/core/Fragment',
-], function (Controller, MessageToast, MessageBox, Fragment) {
+	"sap/ui/core/BusyIndicator",
+], function (Controller, MessageToast, MessageBox, Fragment, BusyIndicator) {
 	"use strict";
 
 	return Controller.extend("viapp.controller.Services", {
@@ -770,7 +771,7 @@ sap.ui.define([
 			var MyCartItems = this.getView().getModel("ServicesViewModel").getProperty("/MyCartItems");
 			this.getView().getModel("ServicesViewModel").setProperty("/MyCartItemCount", MyCartItems.length);
 
-			var Total = MyCartItems.reduce((acc, obj) => parseFloat(acc) + parseFloat(obj.Total), 0);
+			var Total = MyCartItems.reduce((acc, obj) => parseFloat(acc) + parseFloat(obj.Price), 0);
 			this.getView().getModel("ServicesViewModel").setProperty("/MyCartTotal", Total.toFixed(2));
 
 			this.getView().getModel("ServicesViewModel").setProperty("/ProceedSOButtomVisible", true);
@@ -806,12 +807,62 @@ sap.ui.define([
 		},
 
 		onPressProceedSale: function () {
-			this.getView().getModel("ServicesViewModel").setProperty("/ProceedSOButtomVisible", false);
-			this.getView().getModel("ServicesViewModel").setProperty("/PaymentButtomVisible", true);
-			MessageToast.show("#7000018150 Saleorder created successfully");
-			// this.getView().getModel("ServicesViewModel").setProperty("/IdentifyVisible", true);
-			this.getView().getModel("ServicesViewModel").setProperty("/SO_Number", "7000018150");
-			this.getView().getModel("ServicesViewModel").setProperty("/MOPVisible", true);
+
+
+
+			var cartitemsarr = this.getView().getModel("ServicesViewModel").getProperty("/MyCartItems");
+			var plateno = this.getView().getModel("oGlobalModel").getProperty("/Profile_PlateNo");
+			var platecode = this.getView().getModel("oGlobalModel").getProperty("/Profile_PlateCode");
+			var emirates = this.getView().getModel("oGlobalModel").getProperty("/Profile_Emirates");
+			var plant = this.getView().getModel("oGlobalModel").getProperty("/MainPlant");
+			var itemsarr = [];
+			var item = 10;
+			for (var i = 0; i < cartitemsarr.length; i++) {
+				var itemstring = item.toString();
+				var obj = {
+					"ITEMNUM": itemstring,
+					"MATERIAL": cartitemsarr[i].Material,
+					"PLANT": plant,
+					"MATERIALDESC": cartitemsarr[i].MaterialName,
+					"QUANTITY": "1.00",
+					"UOM": "EA",
+					"NETPRICE": cartitemsarr[i].Price,
+					"CURRENCY": "AED"
+				};
+
+				item = item + 10;
+				itemsarr.push(obj);
+			}
+			var payload = {
+				"PLATECODE": platecode,
+				"PLATENUM": plateno,
+				"SOURCE": emirates,
+				"KIND": "PRIVATE",
+				"ITEMS": itemsarr
+			};
+			BusyIndicator.show();
+			this.getView().getModel("CarwashService").create("/Order", payload, {
+				success: function (oData, oResponse) {
+					// debugger;
+					BusyIndicator.hide();
+					if (oData.ORDERNUM !== "") {
+						var ordernum = oData.ORDERNUM;
+						this.getView().getModel("ServicesViewModel").setProperty("/ProceedSOButtomVisible", false);
+						this.getView().getModel("ServicesViewModel").setProperty("/PaymentButtomVisible", true);
+						MessageToast.show("#" + ordernum + " Saleorder created successfully");
+						// this.getView().getModel("ServicesViewModel").setProperty("/IdentifyVisible", true);
+						this.getView().getModel("ServicesViewModel").setProperty("/SO_Number", ordernum);
+						this.getView().getModel("ServicesViewModel").setProperty("/SO_id", oData.ID);
+						this.getView().getModel("ServicesViewModel").setProperty("/MOPVisible", true);
+					}
+				}.bind(this),
+				error: function (oError) {
+					BusyIndicator.hide();
+					MessageBox.error(oError.message);
+				}.bind(this)
+			});
+
+
 		},
 
 		// onPressIdentify: function() {
@@ -1370,7 +1421,6 @@ sap.ui.define([
 		},
 
 		onGopress: function () {
-
 			var SearchList = [{
 				"BP": "6000000175",
 				"BPType": "",
@@ -1879,7 +1929,7 @@ sap.ui.define([
 			var CW_ServicesMaterialF4 = this.getView().getModel("ServicesViewModel").getData().MaterialList;
 			if (ListObject.Highlight === "None") {
 				oEvent.getSource().getBindingContext("ServicesViewModel").getObject().Highlight = "Information";
-				this.getView().getModel("ServicesViewModel").setProperty("/Price", ListObject.Price);
+
 
 				oEvent.getSource().removeStyleClass("cl_wgridlist");
 				oEvent.getSource().addStyleClass("cl_wgridlistSeleted");
@@ -1888,18 +1938,15 @@ sap.ui.define([
 				// this.getView().getModel("ServicesViewModel").setProperty("/Cart_MaterialDesc", ListObject.MaterialName);
 				// this.getView().getModel("ServicesViewModel").setProperty("/Cart_NetAmount", ListObject.NetPrice);
 				// this.getView().getModel("ServicesViewModel").setProperty("/Cart_TaxAmount", ListObject.TaxPrice);
-				var Total = parseFloat(ListObject.NetPrice) + parseFloat(ListObject.TaxPrice);
-				this.getView().getModel("ServicesViewModel").setProperty("/Cart_TotalAmount", parseFloat(Total).toFixed(2));
+
 
 				var object = {
-					"Material": ListObject.Material,
-					"MaterialName": ListObject.MaterialName,
-					"Price": ListObject.NetPrice,
-					"Tax": ListObject.TaxPrice,
-					"Total": parseFloat(Total).toFixed(2)
+					"Material": ListObject.MATERIAL,
+					"MaterialName": ListObject.MATDESC,
+					"Price": ListObject.NETPRICE
 				}
 				var MyCartItems = this.getView().getModel("ServicesViewModel").getProperty("/MyCartItems");
-				MyCartItems.push(object)
+				MyCartItems.push(object);
 
 				this.getView().getModel("ServicesViewModel").refresh();
 
@@ -1930,7 +1977,7 @@ sap.ui.define([
 				var MyCartItems = this.getView().getModel("ServicesViewModel").getProperty("/MyCartItems");
 
 				MyCartItems = MyCartItems.filter(function (obj) {
-					return obj.Material !== ListObject.Material;
+					return obj.Material !== ListObject.MATERIAL;
 				});
 
 				this.getView().getModel("ServicesViewModel").setProperty("/MyCartItems", MyCartItems);
@@ -1957,19 +2004,185 @@ sap.ui.define([
 			this.getView().getModel("CarwashService").read("/Material_V", {
 				success: function (oData, oResp) {
 					// BusyIndicator.hide();
-					
+					var materialarr = [];
 					for (var i = 0; i < oData.results.length; i++) {
 						var matnr = oData.results[i].MATERIAL;
-						matnr = matnr.replaceAll("0","");
-						oData.results[i].MATERIAL = matnr;
+						matnr = matnr.replaceAll("0", "");
+						var obj = {
+							"MATERIAL": matnr,
+							"MATTYPE": oData.results[i].MATTYPE,
+							"UOM": oData.results[i].UOM,
+							"PLANT": oData.results[i].PLANT,
+							"MATDESC": oData.results[i].MATDESC,
+							"CONDREC": oData.results[i].CONDREC,
+							"NETPRICE": oData.results[i].NETPRICE,
+							"CURRENCY": oData.results[i].CURRENCY,
+							"Highlight": "None"
+						};
+
+						materialarr.push(obj);
 					}
-					this.getView().getModel("ServicesViewModel").setProperty("/MaterialList", oData.results);
+					this.getView().getModel("ServicesViewModel").setProperty("/MaterialList", materialarr);
 
 				}.bind(this),
 				error: function (oError) {
 					// BusyIndicator.hide();
 					MessageBox.error(oError.message);
 				}
+			});
+		},
+		onPresspayment: function () {
+			var sono = this.getView().getModel("ServicesViewModel").getProperty("/SO_Number");
+			var soid = this.getView().getModel("ServicesViewModel").getProperty("/SO_id");
+			var soamount = this.getView().getModel("ServicesViewModel").getProperty("/MyCartTotal");
+			var cashselected = this.getView().getModel("ServicesViewModel").getProperty("/Cash_CheckBoxSeleted");
+			var cardselected = this.getView().getModel("ServicesViewModel").getProperty("/Card_CheckBoxSeleted");
+			var loyaltyselected = this.getView().getModel("ServicesViewModel").getProperty("/Loyalty_CheckBoxSeleted");
+			var cashamount = this.getView().getModel("ServicesViewModel").getProperty("/Cashamount");
+			var cardamount = this.getView().getModel("ServicesViewModel").getProperty("/Cardamount");
+			var loyaltyamount = this.getView().getModel("ServicesViewModel").getProperty("/Loyaltyamount");
+			var cardauthcode = this.getView().getModel("ServicesViewModel").getProperty("/authcode");
+			var loyaltyref = this.getView().getModel("ServicesViewModel").getProperty("/LoyaltyRef");
+			var moparr = [];
+			if (cashselected === true && cardselected === false && loyaltyselected === false) {
+				var count = 1;
+				var obj = {
+					"MOP_COUNTER": "1",
+					"MOP_TYPE": "CASH",
+					"AMOUNT": cashamount,
+					"CURRENCY": "AED"
+				};
+				moparr.push(obj);
+			}
+			else if (cashselected === true && cardselected === true && loyaltyselected === false) {
+				var count = 2;
+				var obj = [{
+					"MOP_COUNTER": "1",
+					"MOP_TYPE": cashamount,
+					"AMOUNT": 1500.00,
+					"CURRENCY": "AED"
+				},
+				{
+					"MOP_COUNTER": "2",
+					"MOP_TYPE": "CARD",
+					"AMOUNT": cardamount,
+					"CURRENCY": "AED",
+					"AUTH_CODE": cardauthcode
+
+				}];
+				moparr = obj;
+
+			} else if (cashselected === true && cardselected === true && loyaltyselected === true) {
+				var count = 3;
+				var obj = [{
+					"MOP_COUNTER": "1",
+					"MOP_TYPE": cashamount,
+					"AMOUNT": 1500.00,
+					"CURRENCY": "AED"
+				}, {
+					"MOP_COUNTER": "2",
+					"MOP_TYPE": "CARD",
+					"AMOUNT": cardamount,
+					"CURRENCY": "AED",
+					"AUTH_CODE": cardauthcode
+
+				}, {
+					"MOP_COUNTER": "3",
+					"MOP_TYPE": "LOYALTY",
+					"AMOUNT": loyaltyamount,
+					"CURRENCY": "AED",
+					"AUTH_CODE": loyaltyref
+
+				}];
+				moparr = obj;
+
+			} else if (cashselected === false && cardselected === true && loyaltyselected === true) {
+				var count = 2;
+				var obj = [{
+					"MOP_COUNTER": "1",
+					"MOP_TYPE": "CARD",
+					"AMOUNT": cardamount,
+					"CURRENCY": "AED",
+					"AUTH_CODE": cardauthcode
+
+				}, {
+					"MOP_COUNTER": "2",
+					"MOP_TYPE": "LOYALTY",
+					"AMOUNT": loyaltyamount,
+					"CURRENCY": "AED",
+					"AUTH_CODE": loyaltyref
+
+				}];
+				moparr = obj;
+			} else if (cashselected === false && cardselected === false && loyaltyselected === true) {
+				var obj = [{
+					"MOP_COUNTER": "1",
+					"MOP_TYPE": "LOYALTY",
+					"AMOUNT": loyaltyamount,
+					"CURRENCY": "AED",
+					"AUTH_CODE": loyaltyref
+
+				}];
+				moparr = obj;
+			} else if (cashselected === true && cardselected === false && loyaltyselected === true) {
+				var 	count = 2;
+				var obj = [{
+					"MOP_COUNTER": "1",
+					"MOP_TYPE": cashamount,
+					"AMOUNT": 1500.00,
+					"CURRENCY": "AED"
+				}, {
+					"MOP_COUNTER": "2",
+					"MOP_TYPE": "LOYALTY",
+					"AMOUNT": loyaltyamount,
+					"CURRENCY": "AED",
+					"AUTH_CODE": loyaltyref
+
+				}];
+				moparr = obj;
+			} else if (cashselected === false && cardselected === true && loyaltyselected === false) {
+				var	count = 1;
+				var obj = [{
+					"MOP_COUNTER": "1",
+					"MOP_TYPE": "CARD",
+					"AMOUNT": cardamount,
+					"CURRENCY": "AED",
+					"AUTH_CODE": cardauthcode
+
+				}];
+				moparr = obj;
+			}
+
+
+			var payload = {
+				"ORDER_KEY_ID": soid,
+				"ORDERNUM_ID": sono,
+				"AMOUNT": soamount,
+				"CURRENCY": "AED",
+				"ITEMS": moparr
+			};
+
+			BusyIndicator.show();
+			this.getView().getModel("CarwashService").create("/Payment", payload, {
+				success: function (oData, oResponse) {
+					
+					BusyIndicator.hide();
+					debugger;
+					// if (oData.ORDERNUM !== "") {
+					// 	var ordernum = oData.ORDERNUM;
+					// 	this.getView().getModel("ServicesViewModel").setProperty("/ProceedSOButtomVisible", false);
+					// 	this.getView().getModel("ServicesViewModel").setProperty("/PaymentButtomVisible", true);
+					// 	MessageToast.show("#" + ordernum + " Saleorder created successfully");
+					// 	// this.getView().getModel("ServicesViewModel").setProperty("/IdentifyVisible", true);
+					// 	this.getView().getModel("ServicesViewModel").setProperty("/SO_Number", ordernum);
+					// 	this.getView().getModel("ServicesViewModel").setProperty("/SO_id", oData.ID);
+					// 	this.getView().getModel("ServicesViewModel").setProperty("/MOPVisible", true);
+					// }
+				}.bind(this),
+				error: function (oError) {
+					BusyIndicator.hide();
+					MessageBox.error(oError.message);
+				}.bind(this)
 			});
 		}
 

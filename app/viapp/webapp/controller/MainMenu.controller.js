@@ -3,7 +3,7 @@ sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
-], function(Controller, UIComponent, MessageToast, MessageBox) {
+], function (Controller, UIComponent, MessageToast, MessageBox) {
 	"use strict";
 
 	return Controller.extend("viapp.controller.MainMenu", {
@@ -13,25 +13,25 @@ sap.ui.define([
 		 * Can be used to modify the View before it is displayed, to bind event handlers and do other one-time initialization.
 		 * @memberOf Carwash.view.MainMenu
 		 */
-		onInit: function() {
+		onInit: function () {
 			this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this._oRouter.attachRouteMatched(this.handleRouteMatched, this);
 			this.onPressBanner();
 
 		},
 
-		handleRouteMatched: function(oEvent) {
+		handleRouteMatched: function (oEvent) {
 			// var username = sap.ushell.Container.getService("UserInfo").getId();
 			// this.getView().byId("iduser").setText(username);
 		},
-		onAfterRendering: function() {
+		onAfterRendering: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this._ModelInitialLoad();
 			this.onPressPlant();
 			this.getPlantf4();
 		},
 
-		_ModelInitialLoad: function() {
+		_ModelInitialLoad: function () {
 			var oData = {
 				"SearchList": []
 
@@ -41,7 +41,7 @@ sap.ui.define([
 
 		},
 
-		onPressmainHome: function() {
+		onPressmainHome: function () {
 			// var sPreviousHash = History.getInstance().getPreviousHash();
 			var oCrossAppNavigator = sap.ushell.Container.getService("CrossApplicationNavigation");
 			oCrossAppNavigator.toExternal({
@@ -53,7 +53,7 @@ sap.ui.define([
 			oRenderer.setHeaderVisibility(true, false);
 		},
 
-		onPressBanner: function(oEvent) {
+		onPressBanner: function (oEvent) {
 			var oRouter = UIComponent.getRouterFor(this);
 			oRouter.navTo("Home", false);
 
@@ -64,7 +64,7 @@ sap.ui.define([
 			}
 
 		},
-		onPressService: function(oEvent) {
+		onPressService: function (oEvent) {
 			var MainPlant = this.getView().getModel("oGlobalModel").getProperty("/MainPlant");
 			if (MainPlant) {
 				var oRouter = UIComponent.getRouterFor(this);
@@ -82,7 +82,7 @@ sap.ui.define([
 
 		},
 
-		onPressReport: function(oEvent) {
+		onPressReport: function (oEvent) {
 			var MainPlant = this.getView().getModel("oGlobalModel").getProperty("/MainPlant");
 			if (MainPlant) {
 				var oRouter = UIComponent.getRouterFor(this);
@@ -99,7 +99,7 @@ sap.ui.define([
 			}
 		},
 
-		onSearchPlantF4: function(oEvent) {
+		onSearchPlantF4: function (oEvent) {
 			var SamTbl = oEvent.getSource()._sSearchFieldValue;
 			var filters = new Array();
 			var oFilter = new sap.ui.model.Filter([
@@ -114,7 +114,7 @@ sap.ui.define([
 
 		},
 
-		onPressPlant: function() {
+		onPressPlant: function () {
 			if (!this.PlantF4) {
 				this.PlantF4 = sap.ui.xmlfragment("viapp.fragment.PlantF4", this); // Fragments for Process select
 				this.getView().addDependent(this.PlantF4);
@@ -122,7 +122,7 @@ sap.ui.define([
 			this.PlantF4.open();
 		},
 
-		onPlantConfirm: function(oEvent) {
+		onPlantConfirm: function (oEvent) {
 			var PlantObject = oEvent.getParameter("selectedItem").getBindingContext("oGlobalModel").getObject();
 			this.getView().getModel("oGlobalModel").setProperty("/MainPlant", PlantObject.WERKS);
 			oEvent.getSource().getBinding("items").filter([]);
@@ -143,7 +143,7 @@ sap.ui.define([
 			// }
 		},
 
-		onClosePlant: function() {
+		onClosePlant: function () {
 
 			var listItem = sap.ui.getCore().byId("id_PlantF4");
 			var oBinding = listItem.getBinding("items");
@@ -168,14 +168,14 @@ sap.ui.define([
 		//
 		//	},
 
-		onSideNavButtonPress: function() {
+		onSideNavButtonPress: function () {
 			var oToolPage = this.byId("id_CarwashtoolPage");
 			var bSideExpanded = oToolPage.getSideExpanded();
 			// this._setToggleButtonTooltip(bSideExpanded);
 			oToolPage.setSideExpanded(!oToolPage.getSideExpanded());
 		},
 
-		_setToggleButtonTooltip: function(bLarge) {
+		_setToggleButtonTooltip: function (bLarge) {
 			var oToggleButton = this.byId('sideNavigationToggleButton');
 			if (bLarge) {
 				oToggleButton.setTooltip('Large Size Navigation');
@@ -185,36 +185,43 @@ sap.ui.define([
 		},
 
 		/*Search Vehicle Code Start*/
-		onGopress: function() {
+		onGopress: function () {
+			var plateno = this.getView().getModel("oGlobalModel").getProperty("/Chassisno");
+			var platecode = this.getView().getModel("oGlobalModel").getProperty("/Platecode");
+			if (plateno && platecode) {
 
-			var SearchList = [{
-				"BP": "6000000175",
-				"BPType": "",
-				"Name": "Mohamed Hafiz",
-				"Mobile": "+919843647118",
-				"Email": "mohamed123@gmail.com",
-				"PlateNo": "20621",
-				"PlateCode": "A",
-				"PlateCat": "Private",
-				"Emirates": "Dubai",
-				"Manufacturer": "Range Rover",
-				"Model": "Land Rover Defender",
-				"CarType": "SEDAN",
-				"VinNo": "5871427853458734",
-				"Highlight": "None",
-				"Type": "Active"
-			}];
-			this.getView().getModel("SearchViewModel").getData().SearchList = SearchList;
-			this.getView().getModel("SearchViewModel").refresh();
+
+				var SearchList = [{
+					"BP": "6000000175",
+					"BPType": "",
+					"Name": "Mohamed Hafiz",
+					"Mobile": "+971 508200365",
+					"Email": "mohamed123@gmail.com",
+					"PlateNo": plateno,
+					"PlateCode": platecode,
+					"PlateCat": "Private",
+					"Emirates": "Dubai",
+					"Manufacturer": "BMW",
+					"Model": "X5",
+					"CarType": "SUV",
+					"VinNo": "5871427853458734",
+					"Highlight": "None",
+					"Type": "Active"
+				}];
+				this.getView().getModel("SearchViewModel").getData().SearchList = SearchList;
+				this.getView().getModel("SearchViewModel").refresh();
+			} else {
+				sap.m.MessageToast.show("Please Enter Plate No and Plate Code.");
+			}
 		},
 
-		onSelectCustomer: function(oEvent) {
+		onSelectCustomer: function (oEvent) {
 			var oSeletedValue = oEvent.getSource().getBindingContext("SearchViewModel").getObject();
 			var aSearchList = this.getView().getModel("SearchViewModel").getData().SearchList;
 			var oGlobalModel = this.getView().getModel("oGlobalModel");
 
 			if (oSeletedValue.Highlight === "None") {
-				setTimeout(function() {
+				setTimeout(function () {
 					MessageToast.show("Seleted");
 				}, 100);
 
@@ -249,7 +256,7 @@ sap.ui.define([
 				this.onPressCloseSearch();
 
 			} else {
-				setTimeout(function() {
+				setTimeout(function () {
 					MessageToast.show("Un-Seleted");
 				}, 100);
 				oEvent.getSource().getBindingContext("SearchViewModel").getObject().Highlight = "None";
@@ -267,7 +274,7 @@ sap.ui.define([
 			this.getView().getModel("SearchViewModel").refresh();
 		},
 
-		onPressSearchCustomer: function(oEvent) {
+		onPressSearchCustomer: function (oEvent) {
 
 			var oGlobalModel = this.getView().getModel("oGlobalModel");
 
@@ -289,7 +296,7 @@ sap.ui.define([
 
 		},
 
-		onPressCreateCustomer: function() {
+		onPressCreateCustomer: function () {
 
 			this.SearchVehicle.close();
 
@@ -303,24 +310,24 @@ sap.ui.define([
 			this.Create.open();
 		},
 
-		onCancelCreateCustomer: function() {
+		onCancelCreateCustomer: function () {
 			this.Create.close();
 		},
 
-		onPressCloseSearch: function() {
+		onPressCloseSearch: function () {
 			this.SearchVehiclef4.close();
 		},
-		getPlantf4:function(){
+		getPlantf4: function () {
 			this.getView().getModel("CarwashService").read("/Plant", {
-                success: function (oData, oResp) {
-                    // BusyIndicator.hide();
-                    this.getView().getModel("oGlobalModel").setProperty("/PlantF4Nav", oData.results);
-                }.bind(this),
-                error: function (oError) {
-                    // BusyIndicator.hide();
-                    MessageBox.error(oError.message);
-                }
-            });
+				success: function (oData, oResp) {
+					// BusyIndicator.hide();
+					this.getView().getModel("oGlobalModel").setProperty("/PlantF4Nav", oData.results);
+				}.bind(this),
+				error: function (oError) {
+					// BusyIndicator.hide();
+					MessageBox.error(oError.message);
+				}
+			});
 		}
 		/*Search Vehicle Code End*/
 

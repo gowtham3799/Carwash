@@ -51,6 +51,8 @@ sap.ui.define([
                         "PlantName": "Market Jetty",
                         "Operation": "LPG"
                     }],
+                    "Chassisno":"",
+                    "Platecode":"",
 
                     /*Search Details*/
                     "Profile_BPNo": "",
