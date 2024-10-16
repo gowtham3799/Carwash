@@ -7,8 +7,10 @@ sap.ui.define([
 	"sap/ui/core/Element",
 	"viapp/Js/qrcode",
 	"viapp/Js/findpat",
-	"Barcode/Js/crypto"
-], function (Controller, MessageToast, MessageBox, Fragment, BusyIndicator, Element, QR, FinderPatternFinder, crypto) {
+	"viapp/Js/crypto",
+	 "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator"
+], function (Controller, MessageToast, MessageBox, Fragment, BusyIndicator, Element, QR, FinderPatternFinder, crypto,Filter, FilterOperator) {
 	"use strict";
 
 	return Controller.extend("viapp.controller.Services", {
@@ -548,7 +550,9 @@ sap.ui.define([
 				"MyCartItems": [],
 				"MyCartItemCount": '0',
 				"MyCartTotal": '0',
-				"MyCartCount": '0'
+				"MyCartCount": '0',
+				"Loyaltyamount":"0",
+				"Cashamount":"0"
 
 			};
 			var ServicesViewModel = new sap.ui.model.json.JSONModel(oData);
@@ -2048,7 +2052,7 @@ sap.ui.define([
 
 				var payload = {
 					"ORDER_KEY_ID": soid,
-					"ORDERNUM_ID": sono,
+					"ORDERNUM_ID": sono.toString(),
 					"AMOUNT": soamount,
 					"CURRENCY": "AED",
 					"ITEMS": moparr
@@ -2059,7 +2063,7 @@ sap.ui.define([
 					success: function (oData, oResponse) {
 						BusyIndicator.hide();
 						if (oData.ID) {
-							sap.m.MessageToast.show(oData.ORDERNUM + " data Saved Successfully");
+							sap.m.MessageToast.show(oData.ORDERNUM_ID + " data Saved Successfully");
 						}
 					}.bind(this),
 					error: function (oError) {
@@ -2071,7 +2075,7 @@ sap.ui.define([
 
 				count = count + 1;
 				moparr.push({
-					"MOP_COUNTER": count,
+					"MOP_COUNTER": count.toString(),
 					"MOP_TYPE": "CARD",
 					"AMOUNT": Balance.toString(),
 					"CURRENCY": "AED",
@@ -2080,7 +2084,7 @@ sap.ui.define([
 				});
 				var payload = {
 					"ORDER_KEY_ID": soid,
-					"ORDERNUM_ID": sono,
+					"ORDERNUM_ID": sono.toString(),
 					"AMOUNT": soamount,
 					"CURRENCY": "AED",
 					"ITEMS": moparr
@@ -2092,7 +2096,7 @@ sap.ui.define([
 						BusyIndicator.hide();
 						if (oData.ID) {
 							sap.m.MessageBox.confirm(
-								oData.ORDERNUM + " data Saved Successfully" +"\n"+"Balance Amount "+ Balance+ " AED detected" +"\n"+ "Are you sure want to pay by card?", {
+								oData.ORDERNUM_ID + " data Saved Successfully" +"\n"+"Balance Amount "+ Balance+ " AED detected" +"\n"+ "Are you sure want to pay by card?", {
 									icon: sap.m.MessageBox.Icon.CONFIRM,
 									title: "Confirmation",
 									actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
@@ -2100,7 +2104,7 @@ sap.ui.define([
 										if (oAction === "YES") {
 											this.onPressNavtoPaymentapp();
 										} else if (oAction === "NO") {}
-									}
+									}.bind(this)
 								});
 						}
 					}.bind(this),
@@ -2167,6 +2171,63 @@ sap.ui.define([
 
 		
 		},
+
+		ongetSOdetails: function () {
+            // var so = this.getView().getModel("oGlobalModel").getData().SR;
+            // var vAuthcode = this.getView().getModel("oGlobalModel").getData().Authcode;
+            this.getView().getModel("CarwashService").read("/Payment", {
+                filters: [
+                    new Filter("ORDERNUM_ID", FilterOperator.EQ, "2000000580")
+                ],
+                urlParameters: {
+                    $expand: "ITEMS"
+                },
+                success: function (oData, oResponse) {
+
+                    var itemsarr = oData.results[0].ITEMS.results;
+                    for (var i = 0; i < itemsarr.length; i++) {
+                        if (itemsarr[i].MOP_TYPE === "CARD") {
+                            itemsarr[i].AUTH_CODE === vAuthcode;
+                        }
+                        var payload = itemsarr[i];
+                        this.saveDetails(payload);
+                    }
+                   
+                }.bind(this),
+                error: function (oError) {
+                    // BusyIndicator.hide();
+                    MessageBox.error(oError.message);
+                }.bind(this)
+            });
+        },
+        saveDetails: function (payload) {
+            var obj = {
+                "ID": payload.ID,
+                "PARENT_KEY": payload.PARENT_KEY,
+                "MOP_COUNTER": payload.MOP_COUNTER,
+                "AMOUNT": payload.AMOUNT,
+                "CURRENCY": payload.CURRENCY,
+                "MOP_TYPE": payload.MOP_TYPE,
+                "AUTH_CODE": payload.AUTH_CODE
+            };
+            var oModel = this.getView().getModel("CarwashService");
+            oModel.sDefaultUpdateMethod = sap.ui.model.odata.UpdateMethod.PUT;
+            var oModel = this.getView().getModel("CarwashService");
+            oModelupdate("/PaymentItem", obj, {
+
+                success: function (oData, oResponse) {
+                    if (oData.ID) {
+                        sap.m.MessageToast.show("Payment Details Updated successfully");
+                    }
+                }.bind(this),
+                error: function (oError) {
+                    // BusyIndicator.hide();
+                    MessageBox.error(oError.message);
+                }.bind(this)
+            });
+
+
+        }
 		// onPressscan: function (oEvent) {
 		// 	this.codeScanned = false;
 		// 	var container = new sap.m.VBox({

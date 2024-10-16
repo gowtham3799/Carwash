@@ -16,8 +16,8 @@
 		</customHeader>
 		<content>
 			<OverflowToolbar >
-				<Title level="H3" text="My Cart {ServicesViewModel>/MyCartItemCount}"
-					class="cl_WelcomeText sapUiSmallMarginBeginEnd sapUiTinyMarginTopBottom" visible="true"/>
+				<!-- <Title level="H3" text="My Cart {ServicesViewModel>/MyCartItemCount}"
+					class="cl_WelcomeText sapUiSmallMarginBeginEnd sapUiTinyMarginTopBottom" visible="true"/> -->
 				<ToolbarSpacer/>
 				<ToolbarSpacer/>
 				<Title level="H3" text="Order: {ServicesViewModel>/SO_Number}" class="cl_WelcomeText sapUiTinyMarginTopBottom" visible="true"/>
@@ -48,8 +48,8 @@
 							<!--	class="sapUiSmallMarginTop sapUiTinyMarginBegin sapUiTinyMarginEnd"/>-->
 							<Title text="{ServicesViewModel>Material}" wrapping="true" class="sapUiSmallMarginTop sapUiTinyMarginBegin sapUiTinyMarginEnd "/>
 						</HBox>
-						<ObjectNumber number="{ServicesViewModel>Total}" numberUnit="AED" state="Information"
-							class="Cl_AmountText sapUiSmallMarginTop sapUiSmallMarginEnd"/>
+						<!-- <ObjectNumber number="{ServicesViewModel>Total}" numberUnit="AED" state="Information"
+							class="Cl_AmountText sapUiSmallMarginTop sapUiSmallMarginEnd"/> -->
 						<!--<Button icon="sap-icon://delete" type="Emphasized" tooltip="Close" press="onCloseCart" class="sapUiTinyMarginTop sapUiSmallMarginBegin sapUiTinyMarginEnd"/>-->
 					</HBox>
 					<HBox alignItems="Start" justifyContent="SpaceBetween">
@@ -57,9 +57,9 @@
 							<Title text="{ServicesViewModel>MaterialName}" wrapping="true" class="sapUiTinyMarginTop sapUiSmallMarginBegin sapUiTinyMarginEnd"/>
 						</HBox>
 						<VBox>
-							<ObjectStatus title="Net" text="{ServicesViewModel>Price}" state="Error"
-								class="sapUiTinyMarginBegin sapUiTinyMarginTopBottom sapUiSmallMarginEnd"/>
-							<ObjectStatus title="Tax" text="{ServicesViewModel>Tax}" state="Error" class="sapUiTinyMarginBegin sapUiSmallMarginEnd"/>
+							<!-- <ObjectStatus title="Net" text="{ServicesViewModel>Price}" state="Error"
+								class="sapUiTinyMarginBegin sapUiTinyMarginTopBottom sapUiSmallMarginEnd"/> -->
+							<!-- <ObjectStatus title="Tax" text="{ServicesViewModel>Tax}" state="Error" class="sapUiTinyMarginBegin sapUiSmallMarginEnd"/> -->
 						</VBox>
 					</HBox>
 					<HBox alignItems="Start" justifyContent="SpaceBetween">
@@ -236,6 +236,8 @@
 			<!--	iconDensityAware="false" press="onPressIdentify" class="sapUiTinyMarginEnd" icon='sap-icon://employee-lookup'/>-->
 			<Button text="Payment" type="Emphasized" iconFirst="true" width="auto" visible="{ServicesViewModel>/PaymentButtomVisible}"
 				iconDensityAware="false" press="onPresspayment" class="sapUiTinyMarginEnd" icon='sap-icon://money-bills'/>
+			<Button text="Read" press="ongetSOdetails"/>
+			
 			<!--<Button text="Cancel" type="Default" iconFirst="true" width="auto" visible="true" iconDensityAware="false" press="onPressCancelCustomer"-->
 			<!--	class="sapUiTinyMarginEnd" icon='sap-icon://sys-cancel'/>-->
 		</buttons>

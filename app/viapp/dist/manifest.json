@@ -100,6 +100,59 @@
                 {
                     "uri": "css/style.css"
                 }
+            ],
+            "js": [
+                {
+                    "uri": "Js/grid.js"
+                },
+                {
+                    "uri": "Js/version.js"
+                },
+                {
+                    "uri": "Js/detector.js"
+                },
+                {
+                    "uri": "Js/formatinf.js"
+                },
+                {
+                    "uri": "Js/errorlevel.js"
+                },
+                {
+                    "uri": "Js/bitmat.js"
+                },
+                {
+                    "uri": "Js/datablock.js"
+                },
+                {
+                    "uri": "Js/bmparser.js"
+                },
+                {
+                    "uri": "Js/datamask.js"
+                },
+                {
+                    "uri": "Js/rsdecoder.js"
+                },
+                {
+                    "uri": "Js/gf256poly.js"
+                },
+                {
+                    "uri": "Js/gf256.js"
+                },
+                {
+                    "uri": "Js/decoder.js"
+                },
+                {
+                    "uri": "Js/qrcode.js"
+                },
+                {
+                    "uri": "Js/alignpat.js"
+                },
+                {
+                    "uri": "Js/databr.js"
+                },
+                {
+                    "uri": "Js/crypto.js"
+                }
             ]
         },
         "routing": {
@@ -155,6 +208,15 @@
                     "target": [
                         "Report"
                     ]
+                },
+                {
+                    "name": "PaymentDetails",
+                    "pattern": "PaymentDetails",
+                    "titleTarget": "",
+                    "greedy": false,
+                    "target": [
+                        "PaymentDetails"
+                    ]
                 }
             ],
             "targets": {
@@ -186,6 +248,13 @@
                     "transition": "slide",
                     "clearAggregation": true,
                     "viewName": "Report"
+                },
+                "PaymentDetails": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearAggregation": true,
+                    "viewName": "PaymentDetails",
+                    "controlAggregation": "pages"
                 }
             }
         },

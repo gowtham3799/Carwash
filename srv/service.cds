@@ -8,9 +8,9 @@ service CarwashService @(path:'CarwashService', requires: 'authenticated-user') 
     entity Material_V as projection on db.master.MATERIAL_V;
     //entity Plant as projection on cds.cdsviews.Plant;
     entity Plant 
-    // @(restrict: [
-    //     { grant : ['READ'], to: 'Viewer', where: 'WERKS = $user.Plant' },
-    //     { grant : ['WRITE'], to: 'Admin'} ]) 
+    @(restrict: [
+        { grant : ['READ'], to: 'Viewer', where: 'WERKS = $user.Plant' },
+        { grant : ['WRITE'], to: 'Admin'} ]) 
         as projection on db.master.PLANT_DB;
     //entity ZANPR as projection on db.master.ZANPR;
     // entity MaterialPlant as projection on cds.cdsviews.MaterialPlant;

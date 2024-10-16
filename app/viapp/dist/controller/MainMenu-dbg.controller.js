@@ -21,8 +21,19 @@ sap.ui.define([
 		},
 
 		handleRouteMatched: function (oEvent) {
-			// var username = sap.ushell.Container.getService("UserInfo").getId();
-			// this.getView().byId("iduser").setText(username);
+			if (oEvent.getParameter("name") === "MainMenu") {
+				var oStartupParameters = this.getOwnerComponent().getComponentData().startupParameters;
+				if (oStartupParameters && oStartupParameters.message && oStartupParameters.orderid) {
+					var globalModel = this.getView().getModel("oGlobalModel").getData();
+					globalModel.SR = oStartupParameters.orderid[0];
+					globalModel.Authcode = oStartupParameters.authcode[0];
+					globalModel.Status = oStartupParameters.status[0];
+					globalModel.TransactionMessage = oStartupParameters.message[0];
+					this.getView().getModel("oGlobalModel").refresh();
+					var oRouter = UIComponent.getRouterFor(this);
+					oRouter.navTo("PaymentDetails", false);
+				}
+			}
 		},
 		onAfterRendering: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();

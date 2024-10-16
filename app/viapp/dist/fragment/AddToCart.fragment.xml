@@ -16,8 +16,8 @@
 		</customHeader>
 		<content>
 			<OverflowToolbar >
-				<Title level="H3" text="My Cart {ServicesViewModel>/MyCartItemCount}"
-					class="cl_WelcomeText sapUiSmallMarginBeginEnd sapUiTinyMarginTopBottom" visible="true"/>
+				<!-- <Title level="H3" text="My Cart {ServicesViewModel>/MyCartItemCount}"
+					class="cl_WelcomeText sapUiSmallMarginBeginEnd sapUiTinyMarginTopBottom" visible="true"/> -->
 				<ToolbarSpacer/>
 				<ToolbarSpacer/>
 				<Title level="H3" text="Order: {ServicesViewModel>/SO_Number}" class="cl_WelcomeText sapUiTinyMarginTopBottom" visible="true"/>
@@ -48,8 +48,8 @@
 							<!--	class="sapUiSmallMarginTop sapUiTinyMarginBegin sapUiTinyMarginEnd"/>-->
 							<Title text="{ServicesViewModel>Material}" wrapping="true" class="sapUiSmallMarginTop sapUiTinyMarginBegin sapUiTinyMarginEnd "/>
 						</HBox>
-						<ObjectNumber number="{ServicesViewModel>Total}" numberUnit="AED" state="Information"
-							class="Cl_AmountText sapUiSmallMarginTop sapUiSmallMarginEnd"/>
+						<!-- <ObjectNumber number="{ServicesViewModel>Total}" numberUnit="AED" state="Information"
+							class="Cl_AmountText sapUiSmallMarginTop sapUiSmallMarginEnd"/> -->
 						<!--<Button icon="sap-icon://delete" type="Emphasized" tooltip="Close" press="onCloseCart" class="sapUiTinyMarginTop sapUiSmallMarginBegin sapUiTinyMarginEnd"/>-->
 					</HBox>
 					<HBox alignItems="Start" justifyContent="SpaceBetween">
@@ -57,9 +57,9 @@
 							<Title text="{ServicesViewModel>MaterialName}" wrapping="true" class="sapUiTinyMarginTop sapUiSmallMarginBegin sapUiTinyMarginEnd"/>
 						</HBox>
 						<VBox>
-							<ObjectStatus title="Net" text="{ServicesViewModel>Price}" state="Error"
-								class="sapUiTinyMarginBegin sapUiTinyMarginTopBottom sapUiSmallMarginEnd"/>
-							<ObjectStatus title="Tax" text="{ServicesViewModel>Tax}" state="Error" class="sapUiTinyMarginBegin sapUiSmallMarginEnd"/>
+							<!-- <ObjectStatus title="Net" text="{ServicesViewModel>Price}" state="Error"
+								class="sapUiTinyMarginBegin sapUiTinyMarginTopBottom sapUiSmallMarginEnd"/> -->
+							<!-- <ObjectStatus title="Tax" text="{ServicesViewModel>Tax}" state="Error" class="sapUiTinyMarginBegin sapUiSmallMarginEnd"/> -->
 						</VBox>
 					</HBox>
 					<HBox alignItems="Start" justifyContent="SpaceBetween">
@@ -164,66 +164,7 @@
 					</f:Form>
 				</content>
 			</Panel>
-			<!--Card MOP-->
-			<Panel visible="{ServicesViewModel>/MOPVisible}" tickyHeader="true" expandable="true" expand="onExpandCard"
-				expanded="{ServicesViewModel>/CardMOPPanelExpand}" width="auto" class="sapUiTinyMarginBeginEnd" expandAnimation="true">
-				<headerToolbar>
-					<OverflowToolbar height="3rem" style="Clear">
-						<Image height="1.5rem" src="{imageModel>/path}/image/CardLogo.png"/>
-						<Title text="Card"/>
-						<ToolbarSpacer/>
-						<CheckBox text="Card MOP" valueState="Information" enabled="true" selected="{ServicesViewModel>/Card_CheckBoxSeleted}"
-							select="onPressCardSelect"/>
-					</OverflowToolbar>
-				</headerToolbar>
-				<content>
-					<f:Form editable="true" visible="{PaymentServicesViewModel>/Card_MOPForm}">
-						<f:layout>
-							<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4"
-								emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
-						</f:layout>
-						<f:formContainers>
-							<f:FormContainer>
-								<f:formElements>
-									<f:FormElement label="Debit Card">
-										<f:fields>
-											<Input value="{ServicesViewModel>/Cardamount}" placeholder="Amount" valueState="Information">
-												<layoutData>
-													<l:GridData span="XL1 L2 M2 S4"/>
-												</layoutData>
-											</Input>
-											<Input value="{ServicesViewModel>/authcode}" placeholder="Reference" valueState="Information">
-												<layoutData>
-													<l:GridData span="XL1 L2 M2 S4"/>
-												</layoutData>
-											</Input>
-											<Button text="Pay" type="Emphasized" press="onPressPayCard">
-												<layoutData>
-													<l:GridData span="XL1 L2 M2 S4"/>
-												</layoutData>
-											</Button>
-										</f:fields>
-									</f:FormElement>
-									<f:FormElement label="ADNOC Fleet Card">
-										<f:fields>
-											<Input value="" placeholder="Amount" valueState="Information">
-												<layoutData>
-													<l:GridData span="XL1 L3 M4 S4"/>
-												</layoutData>
-											</Input>
-											<Input value="" placeholder="Reference" valueState="Information">
-												<layoutData>
-													<l:GridData span="XL1 L3 M4 S4"/>
-												</layoutData>
-											</Input>
-										</f:fields>
-									</f:FormElement>
-								</f:formElements>
-							</f:FormContainer>
-						</f:formContainers>
-					</f:Form>
-				</content>
-			</Panel>
+
 			<!--Loyalty MOP-->
 			<Panel visible="{ServicesViewModel>/MOPVisible}" tickyHeader="true" expandable="true" expand="onExpandLoyalty"
 				expanded="{ServicesViewModel>/LoyaltyMOPPanelExpand}" width="auto" class="sapUiTinyMarginBeginEnd" expandAnimation="true">
@@ -295,6 +236,8 @@
 			<!--	iconDensityAware="false" press="onPressIdentify" class="sapUiTinyMarginEnd" icon='sap-icon://employee-lookup'/>-->
 			<Button text="Payment" type="Emphasized" iconFirst="true" width="auto" visible="{ServicesViewModel>/PaymentButtomVisible}"
 				iconDensityAware="false" press="onPresspayment" class="sapUiTinyMarginEnd" icon='sap-icon://money-bills'/>
+			<Button text="Read" press="ongetSOdetails"/>
+			
 			<!--<Button text="Cancel" type="Default" iconFirst="true" width="auto" visible="true" iconDensityAware="false" press="onPressCancelCustomer"-->
 			<!--	class="sapUiTinyMarginEnd" icon='sap-icon://sys-cancel'/>-->
 		</buttons>

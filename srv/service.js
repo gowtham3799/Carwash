@@ -49,10 +49,10 @@ module.exports = cds.service.impl(async function () {
 
     this.on("READ", Plant, async (req) => {
         
-        //var plant = req.user.attr.Plant;
+        var plant = req.user.attr.Plant;
         //var plant = 'TATA'
 //        const res = await cds.run(`select WERKS, NAME1 from SDI_DM_HDI_DB_1.ZT001W where WERKS = ${plant}`)
-        const res = await cds.run(`select WERKS, NAME1 from SDI_DM_HDI_DB_1.ZT001W`)
+        const res = await cds.run(`select WERKS, NAME1 from SDI_DM_HDI_DB_1.ZT001W where WERKS = '${plant}'`)
 
         return res;
     })

@@ -1,0 +1,18 @@
+/*
+*
+* Copyright 2007 ZXing authors
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+function GF256Poly(e,i){if(i==null||i.length==0){throw"System.ArgumentException"}this.field=e;var t=i.length;if(t>1&&i[0]==0){var r=1;while(r<t&&i[r]==0){r++}if(r==t){this.coefficients=e.Zero.coefficients}else{this.coefficients=new Array(t-r);for(var f=0;f<this.coefficients.length;f++)this.coefficients[f]=0;for(var n=0;n<this.coefficients.length;n++)this.coefficients[n]=i[r+n]}}else{this.coefficients=i}this.__defineGetter__("Zero",function(){return this.coefficients[0]==0});this.__defineGetter__("Degree",function(){return this.coefficients.length-1});this.__defineGetter__("Coefficients",function(){return this.coefficients});this.getCoefficient=function(e){return this.coefficients[this.coefficients.length-1-e]};this.evaluateAt=function(e){if(e==0){return this.getCoefficient(0)}var i=this.coefficients.length;if(e==1){var t=0;for(var r=0;r<i;r++){t=GF256.addOrSubtract(t,this.coefficients[r])}return t}var f=this.coefficients[0];for(var r=1;r<i;r++){f=GF256.addOrSubtract(this.field.multiply(e,f),this.coefficients[r])}return f};this.addOrSubtract=function(i){if(this.field!=i.field){throw"GF256Polys do not have same GF256 field"}if(this.Zero){return i}if(i.Zero){return this}var t=this.coefficients;var r=i.coefficients;if(t.length>r.length){var f=t;t=r;r=f}var n=new Array(r.length);var s=r.length-t.length;for(var o=0;o<s;o++)n[o]=r[o];for(var h=s;h<r.length;h++){n[h]=GF256.addOrSubtract(t[h-s],r[h])}return new GF256Poly(e,n)};this.multiply1=function(e){if(this.field!=e.field){throw"GF256Polys do not have same GF256 field"}if(this.Zero||e.Zero){return this.field.Zero}var i=this.coefficients;var t=i.length;var r=e.coefficients;var f=r.length;var n=new Array(t+f-1);for(var s=0;s<t;s++){var o=i[s];for(var h=0;h<f;h++){n[s+h]=GF256.addOrSubtract(n[s+h],this.field.multiply(o,r[h]))}}return new GF256Poly(this.field,n)};this.multiply2=function(e){if(e==0){return this.field.Zero}if(e==1){return this}var i=this.coefficients.length;var t=new Array(i);for(var r=0;r<i;r++){t[r]=this.field.multiply(this.coefficients[r],e)}return new GF256Poly(this.field,t)};this.multiplyByMonomial=function(e,i){if(e<0){throw"System.ArgumentException"}if(i==0){return this.field.Zero}var t=this.coefficients.length;var r=new Array(t+e);for(var f=0;f<r.length;f++)r[f]=0;for(var f=0;f<t;f++){r[f]=this.field.multiply(this.coefficients[f],i)}return new GF256Poly(this.field,r)};this.divide=function(e){if(this.field!=e.field){throw"GF256Polys do not have same GF256 field"}if(e.Zero){throw"Divide by 0"}var i=this.field.Zero;var t=this;var r=e.getCoefficient(e.Degree);var f=this.field.inverse(r);while(t.Degree>=e.Degree&&!t.Zero){var n=t.Degree-e.Degree;var s=this.field.multiply(t.getCoefficient(t.Degree),f);var o=e.multiplyByMonomial(n,s);var h=this.field.buildMonomial(n,s);i=i.addOrSubtract(h);t=t.addOrSubtract(o)}return new Array(i,t)}}
+//# sourceMappingURL=gf256poly.js.map
