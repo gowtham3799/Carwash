@@ -21,7 +21,8 @@ sap.ui.define([
 		},
 
 		handleRouteMatched: function (oEvent) {
-			if (oEvent.getParameter("name") === "MainMenu") {
+			alert(oEvent.getParameter("MainMenu"))
+			// if (oEvent.getParameter("name") === "MainMenu") {
 				var oStartupParameters = this.getOwnerComponent().getComponentData().startupParameters;
 				if (oStartupParameters && oStartupParameters.message && oStartupParameters.orderid) {
 					var globalModel = this.getView().getModel("oGlobalModel").getData();
@@ -30,11 +31,17 @@ sap.ui.define([
 					globalModel.Status = oStartupParameters.status[0];
 					globalModel.TransactionMessage = oStartupParameters.message[0];
 					this.getView().getModel("oGlobalModel").refresh();
+
+					alert("Nav to PaymentDetails")
 					var oRouter = UIComponent.getRouterFor(this);
 					oRouter.navTo("PaymentDetails", false);
+					
+
 				}
-			}
+			// }
 		},
+
+		
 		onAfterRendering: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this._ModelInitialLoad();

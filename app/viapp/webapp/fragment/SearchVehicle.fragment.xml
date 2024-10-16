@@ -18,7 +18,7 @@
 											<form:fields>
 												<HBox>
 													<Input value="{oGlobalModel>/Chassisno}" placeholder="Plate No" width="95%" class="" valueState="Information"
-														valueStateText="Enter Plate Number" maxLength="6"/>
+														valueStateText="Enter Plate Number" maxLength="5"/>
 													<Input value="{oGlobalModel>/Platecode}" placeholder="Plate Code" width="91%" class="" valueState="Information"
 														valueStateText="Enter Plate Code"/>
 												</HBox>

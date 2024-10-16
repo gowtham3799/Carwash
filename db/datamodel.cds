@@ -59,7 +59,7 @@ entity OrderItem : cuid {
 entity Payment : cuid {
     key ID          : UUID;
         ORDER_KEY   : Association to Order;
-        ORDERNUM    : Association to Order;
+        ORDERNUM    : Integer;
         AMOUNT      : Decimal(11, 2);
         CURRENCY    : String(5);
         ITEMS       : Composition of many PaymentItem

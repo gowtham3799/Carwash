@@ -82,7 +82,7 @@
 					</f:GridListItem>
 					</f:GridList>
 					
-				
+				<Button text="Nav Payment" press="navtopayment"/>
 				</content>
 			</Page>
 		</pages>

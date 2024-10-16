@@ -140,3 +140,5 @@ Content-Type: application/json
         
 }
 
+###Get Top orders
+GET http://localhost:4004/odata/v4/CarwashService/Payment?$expand=ITEMS&$filter=ORDERNUM eq '2000000580'

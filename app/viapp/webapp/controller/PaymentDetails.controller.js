@@ -1,13 +1,14 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator"
-], function (Controller, Filter, FilterOperator) {
+    "sap/ui/model/FilterOperator",
+    "sap/ui/core/UIComponent",
+], function (Controller, Filter, FilterOperator, UIComponent) {
     "use strict";
 
     return Controller.extend("viapp.controller.PaymentDetails", {
         onInit: function () {
-            // this.removeKeyParameter();
+            this.removeKeyParameter();
         },
         onPressNavtoPaymentapp: function () {
 
@@ -67,7 +68,7 @@ sap.ui.define([
             var vAuthcode = this.getView().getModel("oGlobalModel").getData().Authcode;
             this.getView().getModel("CarwashService").read("/Payment", {
                 filters: [
-                    new Filter("ORDERNUM_ID", FilterOperator.EQ, so)
+                    new Filter("ORDERNUM", FilterOperator.EQ, so)
                 ],
                 urlParameters: {
                     $expand: "ITEMS"
@@ -122,12 +123,17 @@ sap.ui.define([
             // Get the current URL
             var currentUrl = new URL(window.location.href);
 
-            // Remove the "key" parameter
-            currentUrl.searchParams.delete("key");
+            	// Define the parameters to be removed
+				var parametersToRemove = ["authcode", "message", "orderid", "status"];
+
+							// Loop through and delete each parameter
+							parametersToRemove.forEach(function(param) {
+								currentUrl.searchParams.delete(param);
+							});
 
             // Update the URL in the address bar without reloading the page
             window.history.pushState({}, document.title, currentUrl.toString());
-
+            alert("Back to Home");
             var oRouter = UIComponent.getRouterFor(this);
             oRouter.navTo("Home", {}, true); // true: replace history, false: create new history entry
 
