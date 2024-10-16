@@ -4,11 +4,15 @@ sap.ui.define([
 	"sap/m/MessageBox",
 	'sap/ui/core/Fragment',
 	"sap/ui/core/BusyIndicator",
-], function (Controller, MessageToast, MessageBox, Fragment, BusyIndicator) {
+	"sap/ui/core/Element",
+	"viapp/Js/qrcode",
+	"viapp/Js/findpat",
+	"Barcode/Js/crypto"
+], function (Controller, MessageToast, MessageBox, Fragment, BusyIndicator, Element, QR, FinderPatternFinder, crypto) {
 	"use strict";
 
 	return Controller.extend("viapp.controller.Services", {
-
+		qrcode: qrcode,
 		onInit: function () {
 			// this.oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			// this._oRouter.attachRouteMatched(this.handleRouteMatched, this);
@@ -2125,7 +2129,7 @@ sap.ui.define([
 				}];
 				moparr = obj;
 			} else if (cashselected === true && cardselected === false && loyaltyselected === true) {
-				var 	count = 2;
+				var count = 2;
 				var obj = [{
 					"MOP_COUNTER": "1",
 					"MOP_TYPE": cashamount,
@@ -2141,7 +2145,7 @@ sap.ui.define([
 				}];
 				moparr = obj;
 			} else if (cashselected === false && cardselected === true && loyaltyselected === false) {
-				var	count = 1;
+				var count = 1;
 				var obj = [{
 					"MOP_COUNTER": "1",
 					"MOP_TYPE": "CARD",
@@ -2165,7 +2169,7 @@ sap.ui.define([
 			BusyIndicator.show();
 			this.getView().getModel("CarwashService").create("/Payment", payload, {
 				success: function (oData, oResponse) {
-					
+
 					BusyIndicator.hide();
 					debugger;
 					// if (oData.ORDERNUM !== "") {
@@ -2184,7 +2188,80 @@ sap.ui.define([
 					MessageBox.error(oError.message);
 				}.bind(this)
 			});
-		}
+		},
+		onPressscan: function(oEvent) {
+			this.codeScanned = false;
+			var container = new sap.m.VBox({
+				"width": "512px",
+				"height": "384px"
+			});
+			var button = new sap.m.Button("", {
+				text: "Cancel",
+				type: "Reject",
+				styleClass: "sapUiSmallMarginBegin",
+				press: function() {
+					dialog.close();
+				}
+			});
+			var dialog = new sap.m.Dialog({
+				title: "Scanner",
+				content: [
+					container,
+					button
+				]
+			});
+			dialog.open();
+			var video = document.createElement("video");
+			video.autoplay = true;
+			var that = this;
+			qrcode.callback = function(data) {
+				if (data !== "error decoding QR Code") {
+					this.codeScanned = true;
+					that._oScannedInspLot = data;
+					// sap.m.MessageBox.alert(data); //Message Pops up for scanned Value
+					sap.m.MessageToast.show(data);
+					dialog.close();
+					this.decrypt();
+
+				}
+			}.bind(this);
+
+			var canvas = document.createElement("canvas");
+			canvas.width = 512;
+			canvas.height = 384;
+			navigator.mediaDevices.getUserMedia({
+					audio: false,
+					video: {
+						facingMode: "environment",
+						width: {
+							ideal: 512
+						},
+						height: {
+							ideal: 384
+						}
+					}
+				})
+				.then(function(stream) {
+					video.srcObject = stream;
+					var ctx = canvas.getContext('2d');
+					var loop = (function() {
+						if (this.codeScanned) {
+							//video.stop();
+							return;
+						} else {
+							ctx.drawImage(video, 0, 0);
+							setTimeout(loop, 1000 / 30); // drawing at 30fps
+							qrcode.decode(canvas.toDataURL());
+						}
+					}.bind(this));
+					loop();
+				}.bind(this))
+				.catch(function(error) {
+					sap.m.MessageBox.error("Unable to get Video Stream");
+				});
+
+			container.getDomRef().appendChild(canvas);
+		},
 
 	});
 
