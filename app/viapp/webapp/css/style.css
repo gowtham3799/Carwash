@@ -180,8 +180,16 @@
     /*box-shadow: 3px 3px 3px lightblue !important;*/
 }
 
-
-
+.cl_wgridlist .sapMLIBHighlight {
+    position: absolute;
+    width: 0.500rem;
+    bottom: 0;
+    left: 0;
+    top: 0;
+    border-right: .0625rem solid #0a6ed1;
+    box-sizing: border-box;
+    border-radius: 25px;
+}
 
 .cl_wgridlist.sapFGLI .sapFGLIWrapper {
     /*height: 5rem !important; 0047BA*/
@@ -506,11 +514,127 @@
 .Cl_InfoLabel.backgroundColor6 {
     border: .0625rem solid #286eb4;
     background-color: #ebf3fa;
-    height: 1rem;
+    height: 1.3rem;
 }
 
 .Cl_InfoLabel.backgroundColor6 .sapTntInfoLabelInner {
     color: #1859a9;
     font-weight: bolder;
-    font-size: smaller;
+    font-size: 14px;
+}
+.Cl_ProfileCardBanner {
+    /*flex-direction: column;*/
+    /*background-color: #ffffff;*/
+    /*background-image: url("../image/BGDesign.JPG");*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: 100% 100%;*/
+    flex-direction: column;
+    background-color: white;
+    /*background-image: url(../image/RewardBanner.PNG);*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: 100% 100%;*/
+    border: 1px solid #1859a9 !important;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px 3px 3px #999aae !important;
+}
+.Cl_ServicesCountLabel .sapMObjectIdentifierTitle .sapMLnk, .sapMOITitleActive .sapMLnk {
+    color: #0a6ed1;
+    font-size: x-large;
+}
+.Cl_QuickStatusBG .sapMVBox {
+    flex-direction: column;
+    /*background-color: #023759;*/
+    height: "100%";
+     background-image: url("../image/StatusCountBG.PNG");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.cl_SOListFooter.sapMTB-Solid-CTX.sapMTB {
+    /*background: #1859a9cf;*/
+    /*background-image: linear-gradient(to top, #0c3483 0%, #a2b6df 100%, #6b8cce 100%, #a2b6df 100%);*/
+    /*background-image: linear-gradient(-225deg, #22E1FF 0%, #1D8FE1 48%, #625EB1 100%);*/
+    /*background-image: linear-gradient(to top, #1e3c72 0%, #1e3c72 1%, #2a5298 100%);*/
+    background-image: linear-gradient(to top, #0d5d92 0%, #0d5d92 1%, #0d5d92 100%);
+    
+}
+.Cl_SOItems {
+    /*flex-direction: column;*/
+    /*background-color: #ffffff;*/
+    /*background-image: url("../image/BGDesign.JPG");*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: 100% 100%;*/
+    flex-direction: column;
+    background-color: white;
+    /*background-image: url(../image/BGDesign.JPG);*/
+    /*background-repeat: no-repeat;*/
+    /*background-size: 100% 100%;*/
+    border: 1px solid #4a7cce !important;
+    border-radius: 3px;
+    /*box-shadow: 5px 5px 5px lightblue !important;*/
+}
+
+.Cl_ProcessSaleOrder .sapMVBox {
+    flex-direction: column;
+    /*background-color: #2274a5;*/
+    /*background-color: #1859A9;*/
+    /*   background: rgb(9,9,121);*/
+    /*background: linear-gradient(90deg, rgba(9,9,121,1) 16%, rgba(24,89,169,1) 98%);*/
+    background-image: url(../image/QuickProcessBG.JPG);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    /*background-image: linear-gradient(to bottom right,  #5c0067, #00d4ff);*/
+}
+
+.Cl_DashboardTitle .sapMTitle {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+    -webkit-margin-before: 0;
+    -webkit-margin-after: 0;
+    -webkit-margin-start: 0;
+    -webkit-margin-end: 0;
+    font-weight: normal;
+    color: var(--sapBaseColor);
+    font-family: "72", "72full", Arial, Helvetica, sans-serif;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: text;
+    text-shadow: none;
+}
+
+.Cl_ServicesCountLabel {
+    font-size: 19px !important;
+    font-weight: bold;
+    color: #2c55a3 !important;
+    font-family: segoe ui !important;
+    text-shadow: none !important;
+}
+
+.Cl_ServicesCountLabel .sapMNCLargeFontSize {
+    height: 2.875rem;
+    padding-top: 0.125rem;
+    font-weight: bolder;
+    color: #0c6fd1;
+}
+
+.Cl_DashboardLabel.sapMText {
+    display: inline-block;
+    box-sizing: border-box;
+    white-space: pre-line;
+    word-wrap: break-word;
+    cursor: text;
+    font-size: .995rem;
+    font-family: "72", "72full", Arial, Helvetica, sans-serif;
+    line-height: normal;
+    color: #ffffff;
+    font-weight: bold;
+}
+.Cl_CWMobileBarBG.sapMTB-Solid-CTX.sapMTB {
+    /*background: var(--sapContent_Selected_MeasureIndicatorColor);*/
+     background-image: url(../image/CWNBG.PNG);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border-radius: 4px;
+    /*box-shadow: 3px 3px 3px lightblue !important;*/
 }

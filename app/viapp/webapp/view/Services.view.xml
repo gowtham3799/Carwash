@@ -115,7 +115,7 @@
 								<f:customLayout>
 									<grid:GridBasicLayout gridTemplateColumns="repeat(auto-fit, minmax(16rem, 1fr))" gridGap="0.5rem"/>
 								</f:customLayout>
-								<f:GridListItem press="onPress1" type="{ServicesViewModel>Type}"
+								<f:GridListItem press="onPress1" type="{ServicesViewModel>Type}" highlight="{ServicesViewModel>Highlight}"
 									class="cl_CWgridlistBG cl_wgridlist sapUiTinyMarginBegin sapUiSmallMarginEnd">
 									<!--New Alignment Carwash-->
 									<VBox height="auto" justifyContent="SpaceBetween">
@@ -125,9 +125,9 @@
 											<HBox alignContent="Start" justifyContent="SpaceBetween">
 												<HBox>
 													<Image src="{imageModel>/path}/image/CWWhiteIcon.png" height="5rem" width="5rem"
-														visible="{= ${ServicesViewModel>Highlight} ==='None' ? true : false }"></Image>
-													<Image src="{imageModel>/path}/image/CWColorIcon1.png" height="5rem" width="5rem"
-														visible="{= ${ServicesViewModel>Highlight} ==='Information' ? true : false }"></Image>
+														visible="true"  class="sapUiTinyMarginBegin"></Image>
+													<!-- <Image src="{imageModel>/path}/image/CWColorIcon1.png" height="5rem" width="5rem"
+														visible="{= ${ServicesViewModel>Highlight} ==='Information' ? true : false }"></Image> -->
 													<Title level="H3" text="{ServicesViewModel>MaterialName}" wrapping="true" class="sapUiSmallMarginTop sapUiTinyMarginBeginEnd"/>
 												</HBox>
 												<t:InfoLabel text="{ServicesViewModel>Price}" colorScheme="6" class="Cl_InfoLabel sapUiSmallMarginTop sapUiTinyMarginBeginEnd"/>

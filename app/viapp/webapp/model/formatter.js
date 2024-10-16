@@ -78,4 +78,23 @@ viapp.model.formatter = {
 		}
 	},
 
+	CWDesktopTabletBanner: function(v1, v2) {
+
+		if ((v2.desktop || v2.tablet) && v1 === true) {
+			return true;
+		} else {
+			return false;
+		}
+
+	},
+
+	CWPhoneBanner: function(v1, v2) {
+
+		if (v2.phone == true && v1 === true) {
+			return true;
+		} else {
+			return false;
+		}
+	},
+
 };

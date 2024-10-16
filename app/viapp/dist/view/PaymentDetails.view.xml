@@ -41,8 +41,8 @@
 					</f:Form>
 					<FlexBox alignItems="End" justifyContent="End">
 						<Button text="Retry Payment" press="onPressNavtoPaymentapp" type="Default" class="sapUiSmallMarginEnd" icon="sap-icon://money-bills"/>
-						<Button text="Save" press="onPressSaveDetails" type="Emphasized" class="sapUiSmallMarginEnd" icon="sap-icon://save"/>
-					<!--<Button text="Remove Key Parameter" press="onRemoveKeyParameter" />-->
+						<Button text="Save" press="ongetSOdetails" type="Emphasized" class="sapUiSmallMarginEnd" icon="sap-icon://save"/>
+					<Button text="Remove Key Parameter" press="onRemoveKeyParameter" visible="false"/>
 					</FlexBox>
 				</content>
 			</Page>

@@ -21,23 +21,23 @@ sap.ui.define([
 		},
 
 		handleRouteMatched: function (oEvent) {
-			alert(oEvent.getParameter("MainMenu"))
+			// alert("MainMenu")
 			// if (oEvent.getParameter("name") === "MainMenu") {
-				var oStartupParameters = this.getOwnerComponent().getComponentData().startupParameters;
-				if (oStartupParameters && oStartupParameters.message && oStartupParameters.orderid) {
-					var globalModel = this.getView().getModel("oGlobalModel").getData();
-					globalModel.SR = oStartupParameters.orderid[0];
-					globalModel.Authcode = oStartupParameters.authcode[0];
-					globalModel.Status = oStartupParameters.status[0];
-					globalModel.TransactionMessage = oStartupParameters.message[0];
-					this.getView().getModel("oGlobalModel").refresh();
+				// var oStartupParameters = this.getOwnerComponent().getComponentData().startupParameters;
+				// if (oStartupParameters && oStartupParameters.message && oStartupParameters.orderid) {
+				// 	var globalModel = this.getView().getModel("oGlobalModel").getData();
+				// 	globalModel.SR = oStartupParameters.orderid[0];
+				// 	globalModel.Authcode = oStartupParameters.authcode[0];
+				// 	globalModel.Status = oStartupParameters.status[0];
+				// 	globalModel.TransactionMessage = oStartupParameters.message[0];
+				// 	this.getView().getModel("oGlobalModel").refresh();
 
-					alert("Nav to PaymentDetails")
-					var oRouter = UIComponent.getRouterFor(this);
-					oRouter.navTo("PaymentDetails", false);
+				// 	alert("Nav to Payment")
+				// 	var oRouter = UIComponent.getRouterFor(this);
+				// 	oRouter.navTo("PaymentDetails", false);
 					
 
-				}
+				// }
 			// }
 		},
 

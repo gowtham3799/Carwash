@@ -5,18 +5,75 @@
 			<Page showHeader="false">
 				<content>
 					<!--Carwash-->
-					<!--{oGlobalModel>/CW_ProcessVisible}-->
-					<!--{imageModel>/path}/image/Carwashbanner.png-->
-					<!--{imageModel>/path}/image/CW_MBG.PNG-->
-					<!--<Image height="23rem" width="97.5%" class="sapUiTinyMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTopBottom"-->
-					<!--	src="{path:'device>/system',formatter:'.formatter.CWBGForDesktopTabletImage'}" visible="{path:'device>/system',formatter:'.formatter.CWBGForDesktopTablet'}"/>-->
-					<Image height="{path:'device>/system',formatter:'.formatter.CWBGForDesktopTabletImage'}" width="97.5%" class="sapUiTinyMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTopBottom"
-						src="{imageModel>/path}/image/ZBG5.PNG" visible="{oGlobalModel>/CW_ProcessVisible}"/>
+						<Image height="17rem" width="97.5%" class="sapUiTinyMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTopBottom"
+						src="{imageModel>/path}/image/CWNBG.PNG"
+						visible="{parts:['oGlobalModel>/CW_ProcessVisible','device>/system'],formatter:'.formatter.CWDesktopTabletBanner'}"/>
+
+					<!-- <Image height="{path:'device>/system',formatter:'.formatter.CWBGForDesktopTabletImage'}" width="97.5%" class="sapUiTinyMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTopBottom"
+						src="{imageModel>/path}/image/ZBG5.PNG" visible="{oGlobalModel>/CW_ProcessVisible}"/> -->
+
+					<!--Carwash Phone Banner-->
+					<f:GridListItem class="sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom"
+						visible="{parts:['oGlobalModel>/CW_ProcessVisible','device>/system'],formatter:'.formatter.CWPhoneBanner'}">
+						<OverflowToolbar height="9rem" design="Solid" class="Cl_CWMobileBarBG"></OverflowToolbar>
+					</f:GridListItem>
+
 					<!--LPG-->
 					<Image height="{path:'device>/system',formatter:'.formatter.LPGBGForDesktopTabletImage'}" width="97.5%" class="sapUiTinyMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTopBottom"
 						src="{imageModel>/path}/image/LPG.png" visible="{oGlobalModel>/LPG_ProcessVisible}"/>
-					<!--	<Image height="40%" width="100%" class=""-->
-					<!--src="{imageModel>/path}/image/MobileBanner.PNG" visible="{device>/system/phone}"/>-->
+
+
+					
+					
+					<f:GridList visible="true">
+						<f:headerToolbar>
+							<Toolbar>
+								<Title text="Dashboard"/>
+								<ToolbarSpacer/>
+							</Toolbar>
+						</f:headerToolbar>
+						<f:GridListItem class="Cl_ProfileCardBanner sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom" height="auto" visible="true">
+							
+							<VBox height="auto" justifyContent="SpaceBetween">
+								<layoutData>
+									<FlexItemData growFactor="1" shrinkFactor="0"/><!-- Don't shrink below minimum size. Fill space if available. --></layoutData>
+								<VBox>
+									<!--<HBox justifyContent="SpaceBetween" alignContent="Start">-->
+									<!--<HBox>-->
+									<!--<ObjectStatus title="Total" text="{SaleOrderModel>SalesOrderItem}" state="None"/>-->
+									<!--<Image height="2.2rem" width="auto" src="{imageModel>/path}/image/check-out.png" class="sapUiSmallMarginTop"/>-->
+									<NumericContent value="5" withMargin="true" valueColor="Neutral" icon="{imageModel>/path}/image/wash.png" class="Cl_ServicesCountLabel"/>
+									<!--</HBox>-->
+									<!--</HBox>-->
+								</VBox>
+								<OverflowToolbar design="Solid" class="cl_SOListFooter" height="2.5rem">
+									<Text text="Services by Car" wrapping="true" class="Cl_DashboardLabel sapUiTinyMarginBeginEnd"/>
+								</OverflowToolbar>
+							</VBox>
+						</f:GridListItem>
+						<!--<f:GridListItem class="Cl_ProfileCardBanner sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom" height="auto" visible="true">-->
+						<!--	<VBox alignItems="Center" justifyContent="Center" class="sapUiTinyMarginBottom">-->
+						<!--		<NumericContent value="12" withMargin="true" valueColor="Neutral" class="Cl_ServicesCountLabel"/>-->
+						<!--<ObjectIdentifier title="12" titleActive="true" class="Cl_ServicesCountLabel sapUiTinyMarginBegin sapUiTinyMarginTop"/>-->
+						<!--		<Text text="Total Services by Site" wrapping="true" class="Cl_DashboardLabel sapUiTinyMarginBeginEnd sapUiTinyMarginTop"/>-->
+						<!--	</VBox>-->
+						<!--</f:GridListItem>-->
+						<f:GridListItem class="Cl_ProfileCardBanner sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom" height="auto" visible="true">
+							<VBox height="auto" justifyContent="SpaceBetween">
+								<layoutData>
+									<FlexItemData growFactor="1" shrinkFactor="0"/><!-- Don't shrink below minimum size. Fill space if available. --></layoutData>
+								<VBox>
+									<NumericContent value="25" withMargin="true" valueColor="Neutral" icon="{imageModel>/path}/image/CarwashIcon.png" class="Cl_ServicesCountLabel"/>
+								</VBox>
+								<OverflowToolbar design="Solid" class="cl_SOListFooter" height="2.5rem">
+									<Text text="Services by Site" wrapping="true" class="Cl_DashboardLabel sapUiTinyMarginBeginEnd"/>
+								</OverflowToolbar>
+							</VBox>
+						</f:GridListItem>
+						
+					</f:GridList>
+					<!--Dashboard for Desktop/Tablet-->
+					
 					<f:GridList id="gridList" headerText="Quick Actions">
 						<f:headerToolbar>
 							<Toolbar>
@@ -82,7 +139,7 @@
 					</f:GridListItem>
 					</f:GridList>
 					
-				<Button text="Nav Payment" press="navtopayment"/>
+				<Button text="Nav Payment" press="navtopayment" visible="false"/>
 				</content>
 			</Page>
 		</pages>
