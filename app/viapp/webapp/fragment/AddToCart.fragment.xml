@@ -164,66 +164,7 @@
 					</f:Form>
 				</content>
 			</Panel>
-			<!--Card MOP-->
-			<Panel visible="{ServicesViewModel>/MOPVisible}" tickyHeader="true" expandable="true" expand="onExpandCard"
-				expanded="{ServicesViewModel>/CardMOPPanelExpand}" width="auto" class="sapUiTinyMarginBeginEnd" expandAnimation="true">
-				<headerToolbar>
-					<OverflowToolbar height="3rem" style="Clear">
-						<Image height="1.5rem" src="{imageModel>/path}/image/CardLogo.png"/>
-						<Title text="Card"/>
-						<ToolbarSpacer/>
-						<CheckBox text="Card MOP" valueState="Information" enabled="true" selected="{ServicesViewModel>/Card_CheckBoxSeleted}"
-							select="onPressCardSelect"/>
-					</OverflowToolbar>
-				</headerToolbar>
-				<content>
-					<f:Form editable="true" visible="{PaymentServicesViewModel>/Card_MOPForm}">
-						<f:layout>
-							<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4"
-								emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
-						</f:layout>
-						<f:formContainers>
-							<f:FormContainer>
-								<f:formElements>
-									<f:FormElement label="Debit Card">
-										<f:fields>
-											<Input value="{ServicesViewModel>/Cardamount}" placeholder="Amount" valueState="Information">
-												<layoutData>
-													<l:GridData span="XL1 L2 M2 S4"/>
-												</layoutData>
-											</Input>
-											<Input value="{ServicesViewModel>/authcode}" placeholder="Reference" valueState="Information">
-												<layoutData>
-													<l:GridData span="XL1 L2 M2 S4"/>
-												</layoutData>
-											</Input>
-											<Button text="Pay" type="Emphasized" press="onPressPayCard">
-												<layoutData>
-													<l:GridData span="XL1 L2 M2 S4"/>
-												</layoutData>
-											</Button>
-										</f:fields>
-									</f:FormElement>
-									<f:FormElement label="ADNOC Fleet Card">
-										<f:fields>
-											<Input value="" placeholder="Amount" valueState="Information">
-												<layoutData>
-													<l:GridData span="XL1 L3 M4 S4"/>
-												</layoutData>
-											</Input>
-											<Input value="" placeholder="Reference" valueState="Information">
-												<layoutData>
-													<l:GridData span="XL1 L3 M4 S4"/>
-												</layoutData>
-											</Input>
-										</f:fields>
-									</f:FormElement>
-								</f:formElements>
-							</f:FormContainer>
-						</f:formContainers>
-					</f:Form>
-				</content>
-			</Panel>
+
 			<!--Loyalty MOP-->
 			<Panel visible="{ServicesViewModel>/MOPVisible}" tickyHeader="true" expandable="true" expand="onExpandLoyalty"
 				expanded="{ServicesViewModel>/LoyaltyMOPPanelExpand}" width="auto" class="sapUiTinyMarginBeginEnd" expandAnimation="true">

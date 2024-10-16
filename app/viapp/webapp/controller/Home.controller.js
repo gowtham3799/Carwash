@@ -26,6 +26,18 @@ sap.ui.define([
 					MessageToast.show("Please select Plant");
 				}
 
+				var oStartupParameters = this.getOwnerComponent().getComponentData().startupParameters;
+				if (oStartupParameters && oStartupParameters.message && oStartupParameters.orderid) {
+					var globalModel = this.getView().getModel("oGlobalModel").getData();
+					globalModel.SR = oStartupParameters.orderid[0];
+					globalModel.Authcode = oStartupParameters.authcode[0];
+					globalModel.Status = oStartupParameters.status[0];
+					globalModel.TransactionMessage = oStartupParameters.message[0];
+					this.getView().getModel("oGlobalModel").refresh();
+					var oRouter = UIComponent.getRouterFor(this);
+					oRouter.navTo("PaymentDetails", false);
+				}
+
 			}
 		},
 

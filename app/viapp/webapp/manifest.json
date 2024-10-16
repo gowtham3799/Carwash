@@ -208,7 +208,16 @@
           "target": [
             "Report"
           ]
-        }
+        },
+        {
+					"name": "PaymentDetails",
+					"pattern": "PaymentDetails",
+					"titleTarget": "",
+					"greedy": false,
+					"target": [
+						"PaymentDetails"
+					]
+				}
       ],
       "targets": {
         "Home": {
@@ -239,7 +248,14 @@
           "transition": "slide",
           "clearAggregation": true,
           "viewName": "Report"
-        }
+        },
+        "PaymentDetails": {
+					"viewType": "XML",
+					"transition": "slide",
+					"clearAggregation": true,
+					"viewName": "PaymentDetails",
+					"controlAggregation": "pages"
+				}
       }
     },
     "rootView": {
