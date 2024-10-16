@@ -2040,10 +2040,10 @@ sap.ui.define([
 			var soid = this.getView().getModel("ServicesViewModel").getProperty("/SO_id");
 			var soamount = this.getView().getModel("ServicesViewModel").getProperty("/MyCartTotal");
 			var cashselected = this.getView().getModel("ServicesViewModel").getProperty("/Cash_CheckBoxSeleted");
-			var cardselected = this.getView().getModel("ServicesViewModel").getProperty("/Card_CheckBoxSeleted");
+			// var cardselected = this.getView().getModel("ServicesViewModel").getProperty("/Card_CheckBoxSeleted");
 			var loyaltyselected = this.getView().getModel("ServicesViewModel").getProperty("/Loyalty_CheckBoxSeleted");
 			var cashamount = this.getView().getModel("ServicesViewModel").getProperty("/Cashamount");
-			var cardamount = this.getView().getModel("ServicesViewModel").getProperty("/Cardamount");
+			// var cardamount = this.getView().getModel("ServicesViewModel").getProperty("/Cardamount");
 			var loyaltyamount = this.getView().getModel("ServicesViewModel").getProperty("/Loyaltyamount");
 			var cardauthcode = this.getView().getModel("ServicesViewModel").getProperty("/authcode");
 			var loyaltyref = this.getView().getModel("ServicesViewModel").getProperty("/LoyaltyRef");
