@@ -296,6 +296,7 @@ sap.ui.define([
 				"Card_CheckBoxSeleted": false,
 				"LoyaltyMOPPanelExpand": false,
 				"Loyalty_CheckBoxSeleted": false,
+				"Coupon_CheckBoxSeleted": false,
 				"Loyalty_ScanedID": "",
 				"Loyalty_ScanedPoint": "",
 				"Loyalty_ScanedAmount": "",
@@ -552,7 +553,10 @@ sap.ui.define([
 				"MyCartTotal": '0',
 				"MyCartCount": '0',
 				"Loyaltyamount": "0",
-				"Cashamount": "0"
+				"Cashamount": "0",
+				"CouponAmount": "0",
+				"CouponNumber": "",
+				"LoyaltyRef":""
 
 			};
 			var ServicesViewModel = new sap.ui.model.json.JSONModel(oData);
@@ -940,6 +944,13 @@ sap.ui.define([
 				this.getView().getModel("ServicesViewModel").setProperty("/Loyalty_CheckBoxSeleted", true);
 			} else {
 				this.getView().getModel("ServicesViewModel").setProperty("/Loyalty_CheckBoxSeleted", false);
+			}
+		}, onExpandCoupon: function (oEvent) {
+			var expan = oEvent.getSource().getExpanded();
+			if (expan) {
+				this.getView().getModel("ServicesViewModel").setProperty("/Coupon_CheckBoxSeleted", true);
+			} else {
+				this.getView().getModel("ServicesViewModel").setProperty("/Coupon_CheckBoxSeleted", false);
 			}
 		},
 
@@ -1996,57 +2007,71 @@ sap.ui.define([
 			var soid = this.getView().getModel("ServicesViewModel").getProperty("/SO_id");
 			var soamount = this.getView().getModel("ServicesViewModel").getProperty("/MyCartTotal");
 			var cashselected = this.getView().getModel("ServicesViewModel").getProperty("/Cash_CheckBoxSeleted");
-			// var cardselected = this.getView().getModel("ServicesViewModel").getProperty("/Card_CheckBoxSeleted");
+			var couponselected = this.getView().getModel("ServicesViewModel").getProperty("/Coupon_CheckBoxSeleted");
 			var loyaltyselected = this.getView().getModel("ServicesViewModel").getProperty("/Loyalty_CheckBoxSeleted");
 			var cashamount = this.getView().getModel("ServicesViewModel").getProperty("/Cashamount");
-			// var cardamount = this.getView().getModel("ServicesViewModel").getProperty("/Cardamount");
+			var couponamount = this.getView().getModel("ServicesViewModel").getProperty("/CouponAmount");
 			var loyaltyamount = this.getView().getModel("ServicesViewModel").getProperty("/Loyaltyamount");
-			var cardauthcode = this.getView().getModel("ServicesViewModel").getProperty("/authcode");
+			var Couponref = this.getView().getModel("ServicesViewModel").getProperty("/CouponNumber");
 			var loyaltyref = this.getView().getModel("ServicesViewModel").getProperty("/LoyaltyRef");
 			var moparr = [];
 			var count = 0;
-			if (cashselected === true && loyaltyselected === false) {
-				var count = 1;
+			if (cashselected === true && parseFloat(cashamount) > 0) {
+				var count = count + 1;
 				var obj = {
-					"MOP_COUNTER": "1",
+					"MOP_COUNTER": count.toString(),
 					"MOP_TYPE": "CASH",
 					"AMOUNT": cashamount,
 					"CURRENCY": "AED"
 				};
 				moparr.push(obj);
 			}
-			else if (cashselected === true && loyaltyselected === true) {
-				var count = 2;
-				var obj = [{
-					"MOP_COUNTER": "1",
-					"MOP_TYPE": "CASH",
-					"AMOUNT": cashamount,
-					"CURRENCY": "AED"
-				}, {
-					"MOP_COUNTER": "2",
+
+			// else if (cashselected === true && loyaltyselected === true) {
+			// 	var count = 2;
+			// 	var obj = [{
+			// 		"MOP_COUNTER": "1",
+			// 		"MOP_TYPE": "CASH",
+			// 		"AMOUNT": cashamount,
+			// 		"CURRENCY": "AED"
+			// 	}, {
+			// 		"MOP_COUNTER": "2",
+			// 		"MOP_TYPE": "LOYALTY",
+			// 		"AMOUNT": loyaltyamount,
+			// 		"CURRENCY": "AED",
+			// 		"AUTH_CODE": loyaltyref
+
+			// 	}];
+			// 	moparr = obj;
+
+			// }
+			if (loyaltyselected === true && parseFloat(loyaltyamount) > 0) {
+				var count = count + 1;
+				var obj = {
+					"MOP_COUNTER": count.toString(),
 					"MOP_TYPE": "LOYALTY",
 					"AMOUNT": loyaltyamount,
 					"CURRENCY": "AED",
 					"AUTH_CODE": loyaltyref
 
-				}];
-				moparr = obj;
-
+				};
+				moparr.push(obj);
 			}
-			else if (cashselected === false && loyaltyselected === true) {
-				var count = 1;
-				var obj = [{
-					"MOP_COUNTER": "1",
-					"MOP_TYPE": "LOYALTY",
-					"AMOUNT": loyaltyamount,
+
+			if (couponselected === true && parseFloat(couponamount) > 0) {
+				var count = count + 1;
+				var obj = {
+					"MOP_COUNTER": count.toString(),
+					"MOP_TYPE": "COUPON",
+					"AMOUNT": couponamount,
 					"CURRENCY": "AED",
-					"AUTH_CODE": loyaltyref
+					"AUTH_CODE": Couponref
 
-				}];
-				moparr = obj;
+				};
+				moparr.push(obj);
 			}
 
-			var Total = parseFloat(cashamount) + parseFloat(loyaltyamount);
+			var Total = parseFloat(cashamount) + parseFloat(loyaltyamount) + parseFloat(couponamount);
 			var Balance = parseFloat(soamount) - parseFloat(Total);
 			if (Balance === 0) {
 
@@ -2079,7 +2104,7 @@ sap.ui.define([
 					"MOP_TYPE": "CARD",
 					"AMOUNT": Balance.toString(),
 					"CURRENCY": "AED",
-					"AUTH_CODE": cardauthcode
+					"AUTH_CODE": ""
 
 				});
 				var payload = {

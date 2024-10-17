@@ -51,8 +51,8 @@ sap.ui.define([
                         "PlantName": "Market Jetty",
                         "Operation": "LPG"
                     }],
-                    "Chassisno":"",
-                    "Platecode":"",
+                    "Chassisno": "",
+                    "Platecode": "",
 
                     /*Search Details*/
                     "Profile_BPNo": "",
@@ -68,6 +68,8 @@ sap.ui.define([
                     "Profile_VINNo": "",
 
                 }), "oGlobalModel");
+                var oRenderer = sap.ushell.Container.getRenderer("fiori2");
+                oRenderer.setHeaderVisibility(false, false, ["home", "app"]);
             }
         });
     }

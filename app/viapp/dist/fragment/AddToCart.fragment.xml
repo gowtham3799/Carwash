@@ -224,6 +224,53 @@
 					</f:Form>
 				</content>
 			</Panel>
+
+			<!-- Coupon MOP -->
+
+				<Panel visible="{ServicesViewModel>/MOPVisible}" expandable="true" expand="onExpandCoupon" expanded="false" width="auto" class="sapUiTinyMarginBeginEnd" expandAnimation="true">
+				<headerToolbar>
+					<OverflowToolbar height="3rem">
+						<Image height="1.5rem" src="{imageModel>/path}/image/ticket.png"/>
+						<Title text="Coupon"/>
+						<ToolbarSpacer/>
+						<CheckBox text="Coupon MOP" valueState="Information" enabled="true" selected="{ServicesViewModel>/Coupon_CheckBoxSeleted}"
+							select="onPressLoyaltySelect"/>
+					</OverflowToolbar>
+				</headerToolbar>
+				<content>
+					<f:Form editable="true">
+						<f:layout>
+							<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4"
+								emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
+						</f:layout>
+						<f:formContainers>
+							<f:FormContainer>
+								<f:formElements>
+									<f:FormElement label="Coupon">
+										<f:fields>
+											<Input value="{ServicesViewModel>/CouponAmount}" placeholder="Amount" valueState="Information">
+												<layoutData>
+													<l:GridData span="XL1 L2 M2 S4"/>
+												</layoutData>
+											</Input>
+											<Input value="{ServicesViewModel>/CouponNumber}" placeholder="Coupon No" valueState="Information">
+												<layoutData>
+													<l:GridData span="XL1 L2 M2 S4"/>
+												</layoutData>
+											</Input>
+											<Button text="Check" type="Emphasized" press="onPressPayCard">
+												<layoutData>
+													<l:GridData span="XL1 L2 M2 S4"/>
+												</layoutData>
+											</Button>
+										</f:fields>
+									</f:FormElement>
+								</f:formElements>
+							</f:FormContainer>
+						</f:formContainers>
+					</f:Form>
+				</content>
+			</Panel>
 		</content>
 		<buttons>
 			<!--<Button text="Nav 1" type="Emphasized" iconFirst="true" width="auto" visible="{ServicesViewModel>/ProceedSOButtomVisible}"-->
