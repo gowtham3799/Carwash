@@ -36,7 +36,7 @@ sap.ui.define([
 					var currenturl = window.location.href;
 					var removeurl = new URL(currenturl);
 					var params = new URLSearchParams(removeurl.hash);
-					console.log(`Query string (before):\t ${params}`);
+					// console.log(`Query string (before):\t ${params}`);
 					params.delete("message");
 					// MessageBox.success("Salesorder: " + parsedstring.txnID + "\n" + "Authcode: " + parsedstring.responseData.APPROVAL_CODE + "\n" + "Status: " + "\n" + parsedstring.responseMsg);
 
