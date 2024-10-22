@@ -9,7 +9,8 @@ sap.ui.define([
 	"viapp/Js/findpat",
 	"viapp/Js/crypto",
 	"sap/ui/model/Filter",
-	"sap/ui/model/FilterOperator"
+	"sap/ui/model/FilterOperator",
+	
 ], function (Controller, MessageToast, MessageBox, Fragment, BusyIndicator, Element, QR, FinderPatternFinder, crypto, Filter, FilterOperator) {
 	"use strict";
 
@@ -555,7 +556,10 @@ sap.ui.define([
 				"Loyaltyamount": "0",
 				"Cashamount": "0",
 				"CouponAmount": "0",
-				"CouponNumber": ""
+				"CardAmount": "0",
+				"CouponNumber": "",
+				"LoyaltyRef": "",
+				"Authcode": ""
 
 			};
 			var ServicesViewModel = new sap.ui.model.json.JSONModel(oData);
@@ -896,17 +900,27 @@ sap.ui.define([
 			} else {
 				this.getView().getModel("ServicesViewModel").setProperty("/CashMOPPanelExpand", false);
 			}
-			this.getView().getModel("ServicesViewModel").refersh();
+			this.getView().getModel("ServicesViewModel").refresh();
 		},
 
 		onPressCardSelect: function (oEvent) {
 			var Seleted = oEvent.getSource().getSelected();
 			if (Seleted) {
 				this.getView().getModel("ServicesViewModel").setProperty("/CardMOPPanelExpand", true);
+			// Set amount in card as default
+			var Total = this.getView().getModel("ServicesViewModel").getProperty("/MyCartTotal");
+			this.getView().getModel("ServicesViewModel").setProperty("/CardAmount", Total);
+			
 			} else {
 				this.getView().getModel("ServicesViewModel").setProperty("/CardMOPPanelExpand", false);
+				// reset amount 
+			this.getView().getModel("ServicesViewModel").setProperty("/CardAmount", "");
 			}
-			this.getView().getModel("ServicesViewModel").refersh();
+			this.getView().getModel("ServicesViewModel").refresh();
+
+			
+
+
 		},
 
 		onPressLoyaltySelect: function (oEvent) {
@@ -916,7 +930,7 @@ sap.ui.define([
 			} else {
 				this.getView().getModel("ServicesViewModel").setProperty("/LoyaltyMOPPanelExpand", false);
 			}
-			this.getView().getModel("ServicesViewModel").refersh();
+			this.getView().getModel("ServicesViewModel").refresh();
 		},
 
 		onExpandCash: function (oEvent) {
@@ -2006,22 +2020,38 @@ sap.ui.define([
 			var soid = this.getView().getModel("ServicesViewModel").getProperty("/SO_id");
 			var soamount = this.getView().getModel("ServicesViewModel").getProperty("/MyCartTotal");
 			var cashselected = this.getView().getModel("ServicesViewModel").getProperty("/Cash_CheckBoxSeleted");
+			var cardselected = this.getView().getModel("ServicesViewModel").getProperty("/Card_CheckBoxSeleted");
 			var couponselected = this.getView().getModel("ServicesViewModel").getProperty("/Coupon_CheckBoxSeleted");
 			var loyaltyselected = this.getView().getModel("ServicesViewModel").getProperty("/Loyalty_CheckBoxSeleted");
 			var cashamount = this.getView().getModel("ServicesViewModel").getProperty("/Cashamount");
+			var cardamount = this.getView().getModel("ServicesViewModel").getProperty("/CardAmount");
 			var couponamount = this.getView().getModel("ServicesViewModel").getProperty("/CouponAmount");
 			var loyaltyamount = this.getView().getModel("ServicesViewModel").getProperty("/Loyaltyamount");
 			var Couponref = this.getView().getModel("ServicesViewModel").getProperty("/CouponNumber");
 			var loyaltyref = this.getView().getModel("ServicesViewModel").getProperty("/LoyaltyRef");
+			var cardAuthcode = this.getView().getModel("ServicesViewModel").getProperty("/Authcode");
 			var moparr = [];
 			var count = 0;
+			var cardflag = "";
 			if (cashselected === true && parseFloat(cashamount) > 0) {
-				var count = count + 1;
+				count = count + 1;
 				var obj = {
 					"MOP_COUNTER": count.toString(),
 					"MOP_TYPE": "CASH",
 					"AMOUNT": cashamount,
 					"CURRENCY": "AED"
+				};
+				moparr.push(obj);
+			}
+			if (cardselected === true && parseFloat(cardamount) > 0) {
+				cardflag = "X";
+				count = count + 1;
+				var obj = {
+					"MOP_COUNTER": count.toString(),
+					"MOP_TYPE": "CARD",
+					"AMOUNT": cardamount,
+					"CURRENCY": "AED",
+					"AUTH_CODE": cardAuthcode
 				};
 				moparr.push(obj);
 			}
@@ -2045,7 +2075,7 @@ sap.ui.define([
 
 			// }
 			if (loyaltyselected === true && parseFloat(loyaltyamount) > 0) {
-				var count = count + 1;
+				count = count + 1;
 				var obj = {
 					"MOP_COUNTER": count.toString(),
 					"MOP_TYPE": "LOYALTY",
@@ -2058,7 +2088,7 @@ sap.ui.define([
 			}
 
 			if (couponselected === true && parseFloat(couponamount) > 0) {
-				var count = count + 1;
+				count = count + 1;
 				var obj = {
 					"MOP_COUNTER": count.toString(),
 					"MOP_TYPE": "COUPON",
@@ -2070,9 +2100,9 @@ sap.ui.define([
 				moparr.push(obj);
 			}
 
-			var Total = parseFloat(cashamount) + parseFloat(loyaltyamount) + parseFloat(couponamount);
+			var Total = parseFloat(cashamount) + parseFloat(cardamount) + parseFloat(loyaltyamount) + parseFloat(couponamount);
 			var Balance = parseFloat(soamount) - parseFloat(Total);
-			if (Balance === 0) {
+			if (parseFloat(soamount) === parseFloat(Total)) {
 
 				var payload = {
 					"ORDER_KEY_ID": soid,
@@ -2087,7 +2117,22 @@ sap.ui.define([
 					success: function (oData, oResponse) {
 						BusyIndicator.hide();
 						if (oData.ID) {
-							sap.m.MessageToast.show(oData.ORDERNUM + " data Saved Successfully");
+
+							if (cardflag) {
+								sap.m.MessageBox.confirm(
+									oData.ORDERNUM + " data Saved Successfully" + "\n" + "Card Amount " + cardamount + " AED detected" + "\n" + "Are you sure want to pay by card?", {
+									icon: sap.m.MessageBox.Icon.CONFIRM,
+									title: "Confirmation",
+									actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+									onClose: function (oAction) {
+										if (oAction === "YES") {
+											this.onPressNavtoPaymentapp();
+										} else if (oAction === "NO") { }
+									}.bind(this)
+								});
+							} else {
+								sap.m.MessageToast.show(oData.ORDERNUM + " data Saved Successfully");
+							}
 						}
 					}.bind(this),
 					error: function (oError) {
@@ -2096,49 +2141,52 @@ sap.ui.define([
 					}.bind(this)
 				});
 			} else {
-
-				count = count + 1;
-				moparr.push({
-					"MOP_COUNTER": count.toString(),
-					"MOP_TYPE": "CARD",
-					"AMOUNT": Balance.toString(),
-					"CURRENCY": "AED",
-					"AUTH_CODE": ""
-
-				});
-				var payload = {
-					"ORDER_KEY_ID": soid,
-					"ORDERNUM": sono.toString(),
-					"AMOUNT": soamount,
-					"CURRENCY": "AED",
-					"ITEMS": moparr
-				};
-
-				BusyIndicator.show();
-				this.getView().getModel("CarwashService").create("/Payment", payload, {
-					success: function (oData, oResponse) {
-						BusyIndicator.hide();
-						if (oData.ID) {
-							sap.m.MessageBox.confirm(
-								oData.ORDERNUM + " data Saved Successfully" + "\n" + "Balance Amount " + Balance + " AED detected" + "\n" + "Are you sure want to pay by card?", {
-								icon: sap.m.MessageBox.Icon.CONFIRM,
-								title: "Confirmation",
-								actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-								onClose: function (oAction) {
-									if (oAction === "YES") {
-										this.onPressNavtoPaymentapp();
-									} else if (oAction === "NO") { }
-								}.bind(this)
-							});
-						}
-					}.bind(this),
-					error: function (oError) {
-						BusyIndicator.hide();
-						MessageBox.error(oError.message);
-					}.bind(this)
-				});
-
+				sap.m.MessageToast.show("Total amount does not match with Sales order amount.");
 			}
+			//  else {
+
+			// 	count = count + 1;
+			// 	moparr.push({
+			// 		"MOP_COUNTER": count.toString(),
+			// 		"MOP_TYPE": "CARD",
+			// 		"AMOUNT": Balance.toString(),
+			// 		"CURRENCY": "AED",
+			// 		"AUTH_CODE": ""
+
+			// 	});
+			// 	var payload = {
+			// 		"ORDER_KEY_ID": soid,
+			// 		"ORDERNUM": sono.toString(),
+			// 		"AMOUNT": soamount,
+			// 		"CURRENCY": "AED",
+			// 		"ITEMS": moparr
+			// 	};
+
+			// 	BusyIndicator.show();
+			// 	this.getView().getModel("CarwashService").create("/Payment", payload, {
+			// 		success: function (oData, oResponse) {
+			// 			BusyIndicator.hide();
+			// 			if (oData.ID) {
+			// 				sap.m.MessageBox.confirm(
+			// 					oData.ORDERNUM + " data Saved Successfully" + "\n" + "Balance Amount " + Balance + " AED detected" + "\n" + "Are you sure want to pay by card?", {
+			// 					icon: sap.m.MessageBox.Icon.CONFIRM,
+			// 					title: "Confirmation",
+			// 					actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+			// 					onClose: function (oAction) {
+			// 						if (oAction === "YES") {
+			// 							this.onPressNavtoPaymentapp();
+			// 						} else if (oAction === "NO") { }
+			// 					}.bind(this)
+			// 				});
+			// 			}
+			// 		}.bind(this),
+			// 		error: function (oError) {
+			// 			BusyIndicator.hide();
+			// 			MessageBox.error(oError.message);
+			// 		}.bind(this)
+			// 	});
+
+			// }
 		},
 
 		onPressNavtoPaymentapp: function () {
@@ -2166,13 +2214,14 @@ sap.ui.define([
 
 			// URL encode it
 			let encodedReturnUrl = encodeURIComponent(currentUrl);
-
+			sono = sono.toString();
 			// JSON object with data
 			var jsonData = {
-				trxnType: "SALE",
-				amount: soamount,
-				mode: "card",
-				trxnID: sono
+				txnType: "SALE",
+				txnAmount: soamount,
+				txnMode: "card",
+				txnID: sono,
+				txnInvoice: sono.slice(4)
 			};
 
 			// Convert JSON object to string
@@ -2187,7 +2236,7 @@ sap.ui.define([
 
 			console.log(encodedReturnUrl);
 
-			var uri = "adnoc://pay.com/card?data=" + encodedJsonString + "&returnUrl=" + encodedReturnUrl;
+			var uri = "adnoc://sapmetapay.com/card?data=" + encodedJsonString + "&returnUrl=" + encodedReturnUrl;
 			window.location.href = uri;
 
 			/*Setting Flag*/

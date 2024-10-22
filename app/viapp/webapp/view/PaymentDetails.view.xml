@@ -20,11 +20,11 @@
 											<Text text="{oGlobalModel>/Saleorder}"/>
 										</f:fields>
 									</f:FormElement>
-									<f:FormElement label="Status">
+									<!-- <f:FormElement label="Status">
 										<f:fields>
 											<Text text="{oGlobalModel>/Status}"/>
 										</f:fields>
-									</f:FormElement>
+									</f:FormElement> -->
 									<f:FormElement label="Authcode">
 										<f:fields>
 											<Text text="{oGlobalModel>/Authcode}"/>

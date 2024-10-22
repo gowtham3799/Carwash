@@ -9,12 +9,17 @@ sap.ui.define([
     return Controller.extend("viapp.controller.PaymentDetails", {
         onInit: function () {
             this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
-			this._oRouter.attachRouteMatched(this.handleRouteMatched, this);
-            
+            this._oRouter.attachRouteMatched(this.handleRouteMatched, this);
+
         },
+        // onAfterRendering: function () {
+        //     var parsedstring = this.getView().getModel("oGlobalModel").getData().Object;
+        //     sap.m.MessageBox.success(parsedstring);
+        // },
 
         handleRouteMatched: function (oEvent) {
             // this.removeKeyParameter();
+            // var aData = oEvent.getParameter("arguments").message;
         },
 
 
@@ -64,87 +69,87 @@ sap.ui.define([
 
             console.log(encodedReturnUrl);
 
-            var uri = "adnoc://pay.com/card?data=" + encodedJsonString + "&returnUrl=" + encodedReturnUrl;
+            var uri = "adnoc://sapmetapay.com/card?data=" + encodedJsonString + "&returnUrl=" + encodedReturnUrl;
             window.location.href = uri;
 
             /*Setting Flag*/
             // this.getView().getModel("oGlobalModel").setProperty("/PaymentDetailFlag", "X");
 
         },
-		ongetSOdetails: function () {
-			var so = this.getView().getModel("oGlobalModel").getProperty("/Saleorder");
-			var vAuthcode = this.getView().getModel("oGlobalModel").getProperty("/Authcode");
-			this.getView().getModel("CarwashService").read("/Payment", {
-				filters: [
-					new Filter("ORDERNUM", FilterOperator.EQ, so)
-				],
-				urlParameters: {
-					$expand: "ITEMS"
-				},
-				success: function (oData, oResponse) {
-					var obj = "";
-					var itemsarr = oData.results[0].ITEMS.results;
-					for (var i = 0; i < itemsarr.length; i++) {
-						if (itemsarr[i].MOP_TYPE === "CARD") {
-							itemsarr[i].AUTH_CODE = vAuthcode;
-							obj = itemsarr[i];
-						}
-					}
-					if (obj) {
-						this.saveDetails(obj);
-					}
+        ongetSOdetails: function () {
+            var so = this.getView().getModel("oGlobalModel").getProperty("/Saleorder");
+            var vAuthcode = this.getView().getModel("oGlobalModel").getProperty("/Authcode");
+            this.getView().getModel("CarwashService").read("/Payment", {
+                filters: [
+                    new Filter("ORDERNUM", FilterOperator.EQ, so)
+                ],
+                urlParameters: {
+                    $expand: "ITEMS"
+                },
+                success: function (oData, oResponse) {
+                    var obj = "";
+                    var itemsarr = oData.results[0].ITEMS.results;
+                    for (var i = 0; i < itemsarr.length; i++) {
+                        if (itemsarr[i].MOP_TYPE === "CARD") {
+                            itemsarr[i].AUTH_CODE = vAuthcode;
+                            obj = itemsarr[i];
+                        }
+                    }
+                    if (obj) {
+                        this.saveDetails(obj);
+                    }
 
-				}.bind(this),
-				error: function (oError) {
-					// BusyIndicator.hide();
-					MessageBox.error(oError.message);
-				}.bind(this)
-			});
-		},
-		saveDetails: function (payload) {
-			var obj = {
-				"ID": payload.ID,
-				"PARENT_KEY_ID": payload.PARENT_KEY_ID,
-				"MOP_COUNTER": payload.MOP_COUNTER,
-				"AMOUNT": payload.AMOUNT,
-				"CURRENCY": payload.CURRENCY,
-				"MOP_TYPE": payload.MOP_TYPE,
-				"AUTH_CODE": payload.AUTH_CODE
-			};
-			var oModel = this.getView().getModel("CarwashService");
-			var path = "";
-			path = oModel.createKey("/PaymentItem", {
-				ID: payload.ID
-			});
+                }.bind(this),
+                error: function (oError) {
+                    // BusyIndicator.hide();
+                    MessageBox.error(oError.message);
+                }.bind(this)
+            });
+        },
+        saveDetails: function (payload) {
+            var obj = {
+                "ID": payload.ID,
+                "PARENT_KEY_ID": payload.PARENT_KEY_ID,
+                "MOP_COUNTER": payload.MOP_COUNTER,
+                "AMOUNT": payload.AMOUNT,
+                "CURRENCY": payload.CURRENCY,
+                "MOP_TYPE": payload.MOP_TYPE,
+                "AUTH_CODE": payload.AUTH_CODE
+            };
+            var oModel = this.getView().getModel("CarwashService");
+            var path = "";
+            path = oModel.createKey("/PaymentItem", {
+                ID: payload.ID
+            });
 
-			oModel.sDefaultUpdateMethod = sap.ui.model.odata.UpdateMethod.Put;
-			oModel.update(path, obj, {
+            oModel.sDefaultUpdateMethod = sap.ui.model.odata.UpdateMethod.Put;
+            oModel.update(path, obj, {
 
-				success: function (oData, oResponse) {
-					if (oData.ID) {
-						sap.m.MessageToast.show("Payment Details Updated successfully");
+                success: function (oData, oResponse) {
+                    if (oData.ID) {
+                        sap.m.MessageToast.show("Payment Details Updated successfully");
                         this.onRemoveKeyParameter();
-					}
-				}.bind(this),
-				error: function (oError) {
-					// BusyIndicator.hide();
-					MessageBox.error(oError.message);
-				}.bind(this)
-			});
+                    }
+                }.bind(this),
+                error: function (oError) {
+                    // BusyIndicator.hide();
+                    MessageBox.error(oError.message);
+                }.bind(this)
+            });
 
 
-		},
+        },
         removeKeyParameter: function () {
             // Get the current URL
             var currentUrl = 'com.sap.mobile.start://navigation?resolve-type=ibn#viapp-display?sap-ui-app-id-hint=saas_approuter_viapp';
 
-            	// Define the parameters to be removed
-				// var parametersToRemove = ["authcode", "message", "orderid", "status"];
+            // Define the parameters to be removed
+            // var parametersToRemove = ["authcode", "message", "orderid", "status"];
 
-				// 			// Loop through and delete each parameter
-				// 			parametersToRemove.forEach(function(param) {
-				// 				currentUrl.searchParams.delete(param);
-				// 			});
+            // 			// Loop through and delete each parameter
+            // 			parametersToRemove.forEach(function(param) {
+            // 				currentUrl.searchParams.delete(param);
+            // 			});
 
             // Update the URL in the address bar without reloading the page
             // Replace the current URL in the browser without adding a new history entry
@@ -158,18 +163,18 @@ sap.ui.define([
 
 
 
-        onRemoveKeyParameter:function(){
+        onRemoveKeyParameter: function () {
             // alert("Change url")
             // Define the new URL
-var newUrl = "https://f52aef11trial.launchpad.cfapps.us10.hana.ondemand.com/site?appState=lean&shell-mode=cflp&sap-language=en&siteId=c9f0487d-e547-4e95-aac9-0fcdf52eeef3&sap-ushell-config=headerless#vehicleapp-manage&/Home";
+            // var newUrl = "com.sap.mobile.start://navigation?resolve-type=ibn#viapp-display?sap-ui-app-id-hint=saas_approuter_viapp";
 
-// Replace the current URL without adding a new history entry
-// window.history.replaceState({}, document.title, newUrl);
+            // // Replace the current URL without adding a new history entry
+            // // window.history.replaceState({}, document.title, newUrl);
 
-window.location.replace(newUrl);
+            // window.location.replace(newUrl);
 
-var oRouter = UIComponent.getRouterFor(this);
-oRouter.navTo("Home", true); // true: replace history, false: create new history entry
+            var oRouter = UIComponent.getRouterFor(this);
+            oRouter.navTo("home", true); // true: replace history, false: create new history entry
 
 
 

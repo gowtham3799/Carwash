@@ -4,59 +4,83 @@ sap.ui.define([
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
 	"viapp/model/formatter"
-], function(Controller, UIComponent, MessageToast, MessageBox, formatter) {
+], function (Controller, UIComponent, MessageToast, MessageBox, formatter) {
 	"use strict";
 
 	return Controller.extend("viapp.controller.Home", {
 
 		formatter: formatter,
 
-		onInit: function() {
+		onInit: function () {
 			this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this._oRouter.attachRouteMatched(this.handleRouteMatched, this);
 
 		},
 
-		handleRouteMatched: function(oEvent) {
+		handleRouteMatched: function (oEvent) {
 			// alert("Home")
-			// if (oEvent.getParameter("name") === "Home") {
+			if (oEvent.getParameter("name") === "Home") {
 
 				var oStartupParameters = this.getOwnerComponent().getComponentData().startupParameters;
-				if (oStartupParameters && oStartupParameters.message && oStartupParameters.orderid) {
+				if (oStartupParameters && oStartupParameters.message) {
+					var base64string = oStartupParameters.message;
+					// MessageToast.show(base64string);
+					var decodedstring = atob(base64string);
+					var parsedstring = JSON.parse(decodedstring);
 					var globalModel = this.getView().getModel("oGlobalModel").getData();
-					globalModel.SR = oStartupParameters.orderid[0];
-					globalModel.Authcode = oStartupParameters.authcode[0];
-					globalModel.Status = oStartupParameters.status[0];
-					globalModel.TransactionMessage = oStartupParameters.message[0];
-					this.getView().getModel("oGlobalModel").refresh();
+					globalModel.Object = parsedstring;
+					globalModel.Saleorder = parsedstring.txnID;
+					globalModel.Authcode = parsedstring.responseData.APPROVAL_CODE;
+					globalModel.TransactionMessage = parsedstring.responseMsg;
 
-					var oRouter = UIComponent.getRouterFor(this);
-					oRouter.navTo("PaymentDetails", false);
-				} else{
+					var currenturl = window.location.href;
+					var removeurl = new URL(currenturl);
+					var params = new URLSearchParams(removeurl.hash);
+					console.log(`Query string (before):\t ${params}`);
+					params.delete("message");
+					// MessageBox.success("Salesorder: " + parsedstring.txnID + "\n" + "Authcode: " + parsedstring.responseData.APPROVAL_CODE + "\n" + "Status: " + "\n" + parsedstring.responseMsg);
+
+					sap.m.MessageBox.success(
+						"Salesorder: " + parsedstring.txnID + "\n" + "Authcode: " + parsedstring.responseData.APPROVAL_CODE + "\n" + "Card No: " + parsedstring.responseData.CARD_NUMBER + "\n" + "Card Name: " + parsedstring.responseData.CARD_NAME + "\n" + "Status: " + parsedstring.responseMsg, {
+						icon: sap.m.MessageBox.Icon.SUCCESS,
+						title: "Success",
+						actions: [sap.m.MessageBox.Action.OK],
+						onClose: function (oAction) {
+							if (oAction === "OK") {
+								var oRouter = UIComponent.getRouterFor(this);
+								oRouter.navTo("PaymentDetails",false);
+							}
+						}.bind(this)
+					});
+					this.getView().getModel("oGlobalModel").refresh();
+					// MessageBox.success(parsedstring);
+
+				} else {
 					var MainPlant = this.getView().getModel("oGlobalModel").getData().MainPlant;
 					if (MainPlant === "") {
 						MessageToast.show("Please select Plant");
 					}
 				}
 
-				
 
-			// }
+
+			}
 		},
 
-		navtopayment : function(){
+		navtopayment: function () {
 			alert("Nav to PaymentDetails")
-					var oRouter = UIComponent.getRouterFor(this);
-					oRouter.navTo("PaymentDetails", false);
+			var oRouter = UIComponent.getRouterFor(this);
+			oRouter.navTo("PaymentDetails", false);
 		},
 
 
-		onAfterRendering: function() {
+		onAfterRendering: function () {
 			this._ModelInitialLoad();
 		},
 
-		onPressServices: function(oEvent) {
+		onPressServices: function (oEvent) {
 			var MainPlant = this.getView().getModel("oGlobalModel").getProperty("/MainPlant");
+
 			if (MainPlant === "") {
 				MessageToast.show("Please select the plant");
 			} else {
@@ -66,7 +90,7 @@ sap.ui.define([
 
 		},
 
-		onPressReport: function() {
+		onPressReport: function () {
 			var MainPlant = this.getView().getModel("oGlobalModel").getProperty("/MainPlant");
 			if (MainPlant === "") {
 				MessageToast.show("Please select the plant");
@@ -76,7 +100,7 @@ sap.ui.define([
 			}
 		},
 
-		onClosePlant: function() {
+		onClosePlant: function () {
 
 			var MainPlant = this.getView().getModel("oGlobalModel").getProperty("/MainPlant");
 			if (MainPlant === "") {
@@ -84,7 +108,7 @@ sap.ui.define([
 			}
 		},
 
-		onPressCreateCustomer: function() {
+		onPressCreateCustomer: function () {
 			// var oRouter = UIComponent.getRouterFor(this);
 			// oRouter.navTo("CreateCustomer", false);
 			var MainPlant = this.getView().getModel("oGlobalModel").getProperty("/MainPlant");
@@ -112,11 +136,11 @@ sap.ui.define([
 
 		},
 
-		onCancelCreateCustomer: function() {
+		onCancelCreateCustomer: function () {
 			this.Create.close();
 		},
 
-		onCNCSwitchOn: function(oEvent) {
+		onCNCSwitchOn: function (oEvent) {
 			var oModel = this.getView().getModel("HomeViewModel");
 			var State = oEvent.getSource().getState();
 			if (State) {
@@ -130,7 +154,7 @@ sap.ui.define([
 			}
 		},
 
-		_ModelInitialLoad: function() {
+		_ModelInitialLoad: function () {
 
 			var oData = {
 				"CNC_NewCustomer": false,
@@ -344,7 +368,7 @@ sap.ui.define([
 
 		},
 
-		onPressAddVehicle: function() {
+		onPressAddVehicle: function () {
 			var VehicleArr = this.getView().getModel("oViewModel").getProperty("/AddVehicleData");
 			VehicleArr.push({
 				"Customer": "",
@@ -356,24 +380,24 @@ sap.ui.define([
 			});
 			this.getView().getModel("oViewModel").setProperty("/AddVehicleData", VehicleArr);
 		},
-		onPressDelete: function(oEvent) {
+		onPressDelete: function (oEvent) {
 			var Model = this.getView().getModel("oViewModel");
 			var Path = oEvent.getSource().getBindingContext("oViewModel").getPath();
 			var vIndex = parseInt(Path.substring(Path.lastIndexOf('/') + 1), 10);
 			sap.m.MessageBox.confirm(
 				"Are you sure want to Delete?", {
-					icon: sap.m.MessageBox.Icon.CONFIRM,
-					title: "Confirmation",
-					actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-					onClose: function(oAction) {
-						if (oAction === "YES") {
-							var Data = Model.getProperty("/AddVehicleList");
-							Data.splice(vIndex, 1);
-							Model.setProperty("/AddVehicleList", Data);
-							Model.refresh();
-						} else if (oAction === "NO") {}
-					}
-				});
+				icon: sap.m.MessageBox.Icon.CONFIRM,
+				title: "Confirmation",
+				actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+				onClose: function (oAction) {
+					if (oAction === "YES") {
+						var Data = Model.getProperty("/AddVehicleList");
+						Data.splice(vIndex, 1);
+						Model.setProperty("/AddVehicleList", Data);
+						Model.refresh();
+					} else if (oAction === "NO") { }
+				}
+			});
 		},
 
 		/**
@@ -383,7 +407,7 @@ sap.ui.define([
 		 * @since 20.07.2023
 		 * @author MH
 		 */
-		onPressSaveCustomer: function() {
+		onPressSaveCustomer: function () {
 
 			var sOnlyCust = this.getView().getModel("HomeViewModel").getData().CNC_NewCustomer;
 			var oModel = this.getView().getModel("oViewModel").getData();
@@ -557,7 +581,7 @@ sap.ui.define([
 		 * @author MH
 		 * @fires -
 		 */
-		onMobileNoLiveChange: function(oEvent) {
+		onMobileNoLiveChange: function (oEvent) {
 			var oValue = oEvent.getSource().getValue();
 			if (oValue.charAt(0) === '0') {
 				MessageToast.show("Mobile number does not start with zero");
@@ -583,7 +607,7 @@ sap.ui.define([
 		 * @author MH
 		 * @fires -
 		 */
-		onFirstNameLiveChange: function(oEvent) {
+		onFirstNameLiveChange: function (oEvent) {
 			var oValue = oEvent.getSource().getValue();
 			oValue = oValue.replace(/[^a-zA-Z0-9_ ]/g, "");
 			oEvent.getSource().setValue(oValue);
@@ -602,7 +626,7 @@ sap.ui.define([
 		 * @author MH
 		 * @fires -
 		 */
-		onOpenManufactureF4: function(oEvent) {
+		onOpenManufactureF4: function (oEvent) {
 			this.source = oEvent.getSource();
 
 			if (!this.Manfacturer) {
@@ -620,7 +644,7 @@ sap.ui.define([
 		 * @author MH
 		 * @fires onSearchF4
 		 */
-		onSearchManufacture: function(oEvent) {
+		onSearchManufacture: function (oEvent) {
 			var sValue = oEvent.getParameters().value;
 			var aFilter = ["Manufacture"];
 			var oBinding = oEvent.getSource().getBinding("items");
@@ -635,7 +659,7 @@ sap.ui.define([
 		 * @author MH
 		 * @fires onSearchF4
 		 */
-		onSearchModel: function(oEvent) {
+		onSearchModel: function (oEvent) {
 			var sValue = oEvent.getParameters().value;
 			var aFilter = ["Model"];
 			var oBinding = oEvent.getSource().getBinding("items");
@@ -649,7 +673,7 @@ sap.ui.define([
 		 * @since 30.04.2024
 		 * @author MH
 		 */
-		onSearchF4: function(sValue, aFilters, oBinding) {
+		onSearchF4: function (sValue, aFilters, oBinding) {
 			var aFilterArray = [];
 			for (var i = 0; i < aFilters.length; i++) {
 				aFilterArray.push(new Filter(aFilters[i], FilterOperator.Contains, sValue));
@@ -666,7 +690,7 @@ sap.ui.define([
 		 * @author MH
 		 * @fires -
 		 */
-		onManfacturerConfirm: function(oEvent) {
+		onManfacturerConfirm: function (oEvent) {
 
 			var oModel = this.getView().getModel("oViewModel");
 			oModel.setProperty("/CC_Model", "");
@@ -677,7 +701,7 @@ sap.ui.define([
 			var ModelF4Set = oModel.getProperty("/ModelF4Set");
 			var aManufactureModel = [];
 
-			aManufactureModel = ModelF4Set.filter(function(e) {
+			aManufactureModel = ModelF4Set.filter(function (e) {
 				return e.Manufacture === oModel.getData().CC_Manfacturer;
 			});
 			//oModel.ModelF4 = aManufactureModel;
@@ -693,7 +717,7 @@ sap.ui.define([
 		 * @author MH
 		 * @fires -
 		 */
-		onOpenModelF4: function(oEvent) {
+		onOpenModelF4: function (oEvent) {
 			this.source = oEvent.getSource();
 
 			if (!this.ModelF4) {
@@ -711,7 +735,7 @@ sap.ui.define([
 		 * @author MH
 		 * @fires -
 		 */
-		onModelConfirm: function(oEvent) {
+		onModelConfirm: function (oEvent) {
 			var oModel = this.getView().getModel("oViewModel");
 			//	oModel.setProperty("/CC_Model", "");
 			oModel.getData().CC_Model = oEvent.getParameter("selectedItem").getBindingContext("oViewModel").getObject().Model;
@@ -720,7 +744,7 @@ sap.ui.define([
 			oEvent.getSource().getBinding("items").filter([]);
 		},
 
-		onResetForm: function() {
+		onResetForm: function () {
 			var oModel = this.getView().getModel("oViewModel");
 			oModel.getData().CC_FirstName = "";
 			oModel.getData().CC_FirstName_ValueState = "None";
@@ -741,7 +765,7 @@ sap.ui.define([
 		},
 
 		/*TagunTag code start*/
-		onPressTagunTag: function() {
+		onPressTagunTag: function () {
 
 			if (!this.TagVehicleToCustomer) {
 				this.TagVehicleToCustomer = sap.ui.xmlfragment("viapp.fragment.TagVehicleToCustomer", this); // Fragments for Process select
@@ -751,12 +775,12 @@ sap.ui.define([
 
 		},
 
-		onCancelTagVehicleToCustomer: function() {
+		onCancelTagVehicleToCustomer: function () {
 			this.TagVehicleToCustomer.close();
 
 		},
 
-		onPressNav1: function() {
+		onPressNav1: function () {
 			// var url = "intent://open?Intent;scheme=https;package=com.marsdata.fabpos.Mars.Splash_Screen;end;";
 			// window.location.href = url;
 
@@ -782,12 +806,12 @@ sap.ui.define([
 
 		},
 
-		onPressNav2: function() {
+		onPressNav2: function () {
 			var url = "intent://Mars.Splash_Screen?AMOUNT=10#Intent;scheme=https;package=Mars.Splash_Screen;end;";
 			window.location.href = url;
 		},
 
-		onPressNav3: function() {
+		onPressNav3: function () {
 			var deepLinkUrl = "intent://open?#Intent;scheme=https;package=com.marsdata.fabpos.Mars.Splash_Screen;end;";
 
 			// Trigger the deep link
@@ -795,27 +819,27 @@ sap.ui.define([
 
 		},
 
-		onLPGSwitchOn: function(oEvent) {
+		onLPGSwitchOn: function (oEvent) {
 			var oModel = this.getView().getModel("HomeViewModel");
 			// var MainPlant = this.getView().getModel("oGlobalModel").getData().MainPlant;
 			// if (MainPlant === "") {
 			// 	MessageToast.show("Please select Plant");
 			// } else {
-				var State = oEvent.getSource().getState();
-				if (State) {
-					oModel.setProperty("/LPG_Switch", true);
-					this.getView().getModel("oGlobalModel").setProperty("/LPG_ProcessVisible", true);
-					this.getView().getModel("oGlobalModel").setProperty("/CW_ProcessVisible", false);
+			var State = oEvent.getSource().getState();
+			if (State) {
+				oModel.setProperty("/LPG_Switch", true);
+				this.getView().getModel("oGlobalModel").setProperty("/LPG_ProcessVisible", true);
+				this.getView().getModel("oGlobalModel").setProperty("/CW_ProcessVisible", false);
 
-				} else if (!State) {
-					oModel.setProperty("/LPG_Switch", false);
-					this.getView().getModel("oGlobalModel").setProperty("/LPG_ProcessVisible", false);
-					this.getView().getModel("oGlobalModel").setProperty("/CW_ProcessVisible", true);
-				}
+			} else if (!State) {
+				oModel.setProperty("/LPG_Switch", false);
+				this.getView().getModel("oGlobalModel").setProperty("/LPG_ProcessVisible", false);
+				this.getView().getModel("oGlobalModel").setProperty("/CW_ProcessVisible", true);
+			}
 			// }
 		},
 
-		onPressSearchCustomer: function(oEvent) {
+		onPressSearchCustomer: function (oEvent) {
 
 			var oGlobalModel = this.getView().getModel("oGlobalModel");
 
@@ -851,11 +875,11 @@ sap.ui.define([
 		// 	this.Create.open();
 		// },
 
-		onCancelCreateCustomer: function() {
+		onCancelCreateCustomer: function () {
 			this.Create.close();
 		},
 
-		onPressCloseSearch: function() {
+		onPressCloseSearch: function () {
 			this.SearchVehicle.close();
 		},
 

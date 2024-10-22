@@ -4,10 +4,18 @@ specVersion: "3.1"
 metadata:
   name: viapp
 type: application
+builder:
+  customTasks:
+    - name: ui5-tooling-modules-task
+      afterTask: replaceVersion
 server:
   customMiddleware:
-    - name: fiori-tools-proxy
+    - name: ui5-tooling-modules-middleware
       afterMiddleware: compression
+      # server
+      # customMiddleware
+    - name: fiori-tools-proxy
+      afterMiddleware: ui5-tooling-modules-middleware
       configuration:
         ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
         ui5:

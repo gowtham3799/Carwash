@@ -14,39 +14,45 @@ sap.ui.define([
 		 * @memberOf Carwash.view.MainMenu
 		 */
 		onInit: function () {
+
+			this.onPressBanner();
 			this._oRouter = sap.ui.core.UIComponent.getRouterFor(this);
 			this._oRouter.attachRouteMatched(this.handleRouteMatched, this);
-			this.onPressBanner();
 
 		},
 
 		handleRouteMatched: function (oEvent) {
-			// alert("MainMenu")
-			// if (oEvent.getParameter("name") === "MainMenu") {
-				// var oStartupParameters = this.getOwnerComponent().getComponentData().startupParameters;
-				// if (oStartupParameters && oStartupParameters.message && oStartupParameters.orderid) {
-				// 	var globalModel = this.getView().getModel("oGlobalModel").getData();
-				// 	globalModel.SR = oStartupParameters.orderid[0];
-				// 	globalModel.Authcode = oStartupParameters.authcode[0];
-				// 	globalModel.Status = oStartupParameters.status[0];
-				// 	globalModel.TransactionMessage = oStartupParameters.message[0];
-				// 	this.getView().getModel("oGlobalModel").refresh();
+			var oStartupParameters = this.getOwnerComponent().getComponentData().startupParameters;
+				if (oStartupParameters && oStartupParameters.message) {
+			// 		var base64string = oStartupParameters.message;
+			// 		MessageToast.show(base64string);
+			// 		var decodedstring = atob(base64string);
+			// 		var parsedstring = JSON.parse(decodedstring);
+			// 		var globalModel = this.getView().getModel("oGlobalModel").getData();
+			// 		globalModel.Object = parsedstring;
+			// 		globalModel.Saleorder = parsedstring.txnID;
+			// 		globalModel.Authcode = parsedstring.responseData.APPROVAL_CODE;
+			// 		globalModel.TransactionMessage = parsedstring.responseMsg;
+			// 		this.getView().getModel("oGlobalModel").refresh();
+			//         // MessageBox.success(parsedstring);
+			// 		var oRouter = UIComponent.getRouterFor(this);
+			// 		oRouter.navTo("PaymentDetails", false);
+				} else{
+			var MainPlant = this.getView().getModel("oGlobalModel").getData().MainPlant;
+			if (MainPlant === "") {
+				this.onPressPlant();
+				this.getPlantf4();
+			}
 
-				// 	alert("Nav to Payment")
-				// 	var oRouter = UIComponent.getRouterFor(this);
-				// 	oRouter.navTo("PaymentDetails", false);
-					
-
-				// }
-			// }
+			}
 		},
 
-		
+
 		onAfterRendering: function () {
 			this.oBundle = this.getView().getModel("i18n").getResourceBundle();
 			this._ModelInitialLoad();
-			this.onPressPlant();
-			this.getPlantf4();
+			// this.onPressPlant();
+			// this.getPlantf4();
 		},
 
 		_ModelInitialLoad: function () {

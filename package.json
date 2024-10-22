@@ -9,6 +9,7 @@
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
+    "@azure/keyvault-secrets": "^4.9.0",
     "@cap-js-community/odata-v2-adapter": "^1.13.3",
     "@cap-js/hana": "^1",
     "@sap/cds": "^8",
