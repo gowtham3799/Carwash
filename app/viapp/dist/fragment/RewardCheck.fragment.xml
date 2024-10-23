@@ -17,7 +17,7 @@
 				<f:formContainers>
 					<f:FormContainer>
 						<f:formElements>
-							<f:FormElement label="ADNOC Reward Card Number">
+							<f:FormElement label="ADNOC Reward Card Number" class="Cl_SearchCusFormLabel">
 								<f:fields>
 									<HBox>
 										<Input placeholder="Card No" value="{ServicesViewModel>/Loyalty_ScanedID}" valueState="Information"></Input>
@@ -26,7 +26,7 @@
 									</HBox>
 								</f:fields>
 							</f:FormElement>
-							<f:FormElement label="Registered Mobile Number">
+							<f:FormElement label="Registered Mobile Number" class="Cl_SearchCusFormLabel">
 								<f:fields>
 									<HBox>
 										<Input placeholder="Enter Mobile Number" value="" valueState="Information"></Input>
@@ -39,8 +39,8 @@
 			</f:Form>
 		</content>
 		<buttons>
-			<Button text="Check" type="Emphasized" press="onPressCheckReward"></Button>
-			<Button text="Close" type="Default" press="onPressCloseCheckCard"/>
+			<Button text="Check" type="Emphasized" press="onPressCheckReward" class="cl_Emphasizebtn"></Button>
+			<Button text="Close" type="Reject" press="onPressCloseCheckCard" class="cl_Rejectbtn"/>
 		</buttons>
 	</Dialog>
 </core:FragmentDefinition>

@@ -1,8 +1,8 @@
 <mvc:View xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" controllerName="viapp.controller.Report"
 	xmlns:html="http://www.w3.org/1999/xhtml" xmlns:form="sap.ui.layout.form" xmlns:f="sap.f" xmlns:grid="sap.ui.layout.cssgrid">
-	<App>
+		<App>
 		<pages>
-			<Page title="Display Price" showHeader="false">
+			<Page title="Display Price" showHeader="false" class="Cl_PlantFragmentTitleText">
 				<content>
 					<Title text="Report" level="H1" class="cl_WelcomeText sapUiTinyMarginBegin sapUiTinyMarginTop"/>
 					<!--Grid-->
@@ -11,7 +11,7 @@
 							<Toolbar>
 								<content>
 									<FlexBox alignItems="Start" justifyContent="Start">
-										<Label text="Date" class="sapUiTinyMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTop"/>
+										<Label text="Date" class="Cl_HeaderField sapUiTinyMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTop"/>
 										<DateRangeSelection valueState="{valueState}" valueStateText="{valueStateText}"/>
 										<!--<HBox>-->
 										<!--	<RadioButtonGroup id="rbg1" columns="2" width="100%" class="sapUiMediumMarginBottom" valueState="information">-->
@@ -19,8 +19,10 @@
 										<!--		<RadioButton id="RB1-2" text="Open"/>-->
 										<!--	</RadioButtonGroup>-->
 										<!--</HBox>-->
-										<Button text="Go" type="Emphasized" class="sapUiTinyMarginBegin" press="onPressGoPriceDetails"></Button>
-										<Button text="" type="Default" icon="sap-icon://reset" class="sapUiSmallMarginEnd sapUiTinyMarginBegin" press="onPressResetPriceDetails"></Button>
+										<Button text="Go" type="Emphasized" press="" class="cl_Emphasizebtn sapUiTinyMarginBegin sapUiTinyMarginEnd"/>
+										<Button text="Clear" type="Reject" class="cl_Rejectbtn sapUiTinyMarginEnd"/>
+									<!--	<Button text="Go" type="Emphasized" class="sapUiTinyMarginBegin" press="onPressGoPriceDetails"></Button>
+										<Button text="" type="Default" icon="sap-icon://reset" class="sapUiSmallMarginEnd sapUiTinyMarginBegin" press="onPressResetPriceDetails"></Button>-->
 									</FlexBox>
 									<!--<Title text="" level="H2"/>-->
 									<!--<ToolbarSpacer/>-->
@@ -39,18 +41,20 @@
 									<HBox justifyContent="SpaceBetween">
 										<HBox>
 											<Image height="1.5rem" width="auto" src="{imageModel>/path}/image/ReportIcon.png" class="sapUiTinyMarginBeginEnd"/>
-											<ObjectAttribute text="{ReportModel>SaleOrder}" active="true"/>
+											<ObjectAttribute text="{ReportModel>SaleOrder}" active="true" class="Cl_FormLabel"/>
 										</HBox>
-										<ObjectStatus class="sapUiSmallMarginBottom" text="{ReportModel>Status}" inverted="true" icon="sap-icon://sys-enter-2" state="Success"/>
+										<ObjectStatus class="Cl_ReportText sapUiSmallMarginBottom" text="{ReportModel>Status}" inverted="true" icon="sap-icon://sys-enter-2" state="Success"/>
 										<!--<ObjectStatus title="Price" text="{ReportModel>TotalPrice}" state="Success"/>-->
 									</HBox>
 									<HBox class="sapUiTinyMarginBeginEnd">
-										<Label text="Invoice : {ReportModel>Invoice}" wrapping="true" class="sapUiSmallMarginEnd"/>
-										<Label text="Date : {ReportModel>Date}" wrapping="true" class="sapUiSmallMarginEnd"/>
+										<Label text="Invoice : {ReportModel>Invoice}" wrapping="true" class="sapUiSmallMarginEnd Cl_ReportText"/>
+										<Label text="Date : {ReportModel>Date}" wrapping="true" class="sapUiSmallMarginEnd Cl_ReportText"/>
 									</HBox>
 								</VBox>
 								<OverflowToolbar design="Solid">
-									<ObjectStatus title="Amount" text="{ReportModel>Amount}" state="Information" class="sapUiTinyMarginBegin sapUiSmallMarginEnd"/>
+										<ObjectStatus title="Amount" text="{ReportModel>Amount}" state="Information" active="true" press="onPressCheckCard"
+									class="Cl_HeaderField sapUiSmallMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTopBottom"/>
+									<!--<ObjectStatus title="Amount" text="{ReportModel>Amount}" state="Information" class="Cl_HeaderField Cl_ReportText sapUiTinyMarginBegin sapUiSmallMarginEnd"/>-->
 									<ToolbarSpacer/>
 									<ToolbarSpacer/>
 									<!--<Button icon="sap-icon://edit" type="Transparent"/>-->

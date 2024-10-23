@@ -11,34 +11,34 @@
 						<grid:GridBasicLayout gridTemplateColumns="repeat(auto-fit, minmax(16rem, 1fr))" gridGap="0.5rem"/>
 					</f:customLayout>
 					<f:GridListItem class="sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom">
-						<OverflowToolbar height="5.5rem" design="Solid" class="Cl_ToolBarHeaderBG">
-							<Avatar displaySize="S" displayShape="Circle" showBorder="true" press="onPressSearchCustomer"
-								src="{imageModel>/path}/image/businessman2.png" badgeIcon="sap-icon://employee-lookup" badgeTooltip="Customer Profile"/>
+						<OverflowToolbar height="auto" design="Solid" class="Cl_ToolBarHeaderBG">
+							<!--<Avatar displaySize="S" displayShape="Circle" showBorder="true" press="onPressSearchCustomer"-->
+							<!--	src="{imageModel>/path}/image/businessman2.png" badgeIcon="sap-icon://employee-lookup" badgeTooltip="Customer Profile"/>-->
 							<!--<Image height="3rem" src="{imageModel>/path}/image/CVHeader1.PNG" class="sapUiTinyMarginTop sapUiTinyMarginBegin"-->
 							<!--	press="onPressSearchCustomer"/>-->
-							<VBox>
+							<VBox class="sapUiTinyMarginBegin">
 								<Title text="{oGlobalModel>/Profile_BPNo} - {oGlobalModel>/Profile_Name}" wrapping="true" class="Cl_HeaderMobile sapUiTinyMarginTop"/>
-								<Text text="Mobile: {oGlobalModel>/Profile_Mobile}" wrapping="true" class="Cl_HeaderMobile"/>
+								<Text text="Mobile: {oGlobalModel>/Profile_Mobile}" wrapping="true" class="Cl_HeaderMobile sapUiTinyMarginBottom"/>
 							</VBox>
 						</OverflowToolbar>
 						<VBox justifyContent="SpaceBetween">
 							<layoutData>
 								<FlexItemData growFactor="1" shrinkFactor="0"/><!-- Don't shrink below minimum size. Fill space if available. --></layoutData>
-							<HBox alignItems="Start" justifyContent="SpaceBetween" visible="{oGlobalModel>/CW_ProcessVisible}">
-								<ObjectStatus title="Plate Detail" text="{oGlobalModel>/Profile_PlateNo} / {oGlobalModel>/Profile_PlateCode}" state="Information"
-									class="sapUiSmallMarginBegin sapUiTinyMarginTop sapUiTinyMarginBottom"/>
-								<ObjectStatus title="Emirates" text="{oGlobalModel>/Profile_Emirates}" state="Information"
-									class="sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom"/>
-								<ObjectStatus title="Model" text="{oGlobalModel>/Profile_Model}" state="Information"
-									class="sapUiSmallMarginEnd sapUiTinyMarginTopBottom"/>
-							</HBox>
-							<HBox alignItems="Start" justifyContent="SpaceBetween" visible="true">
+							<!--<HBox alignItems="Start" justifyContent="SpaceBetween" visible="{oGlobalModel>/CW_ProcessVisible}">-->
+							<!--	<ObjectStatus title="Plate Detail" text="{oGlobalModel>/Profile_PlateNo} / {oGlobalModel>/Profile_PlateCode}" state="Information"-->
+							<!--		class="Cl_HeaderField sapUiSmallMarginBegin sapUiTinyMarginTop sapUiTinyMarginBottom"/>-->
+							<!--	<ObjectStatus title="Emirates" text="{oGlobalModel>/Profile_Emirates}" state="Information"-->
+							<!--		class="Cl_HeaderField sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom"/>-->
+							<!--	<ObjectStatus title="Model" text="{oGlobalModel>/Profile_Model}" state="Information"-->
+							<!--		class="Cl_HeaderField sapUiSmallMarginEnd sapUiTinyMarginTopBottom"/>-->
+							<!--</HBox>-->
+							<HBox alignItems="Start" visible="true">
 								<ObjectStatus title="Loyalty" text="500000017" state="Information" active="true" press="onPressCheckCard"
-									class="sapUiSmallMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTopBottom" icon="sap-icon://bar-code"/>
+									class="Cl_HeaderField sapUiSmallMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTopBottom" icon="sap-icon://bar-code"/>
 								<!--<ObjectStatus title="Loyalty Id" text="500000017" state="Information" class="sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom"/>-->
-								<ObjectStatus title="SaleOrder" text="{ServicesViewModel>/SO_Number}" state="Information"
-									class="sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom"/>
-								<ObjectStatus title="Invoice" text="Not Created" state="Information" class="sapUiSmallMarginEnd sapUiTinyMarginTopBottom"/>
+								<ObjectStatus title="Order" text="{ServicesViewModel>/SO_Number}" state="Information"
+									class="Cl_HeaderField sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom"/>
+								<!--<ObjectStatus title="Invoice" text="Not Created" state="Information" class="Cl_HeaderField sapUiSmallMarginEnd sapUiTinyMarginTopBottom"/>-->
 							</HBox>
 						</VBox>
 					</f:GridListItem>
@@ -83,11 +83,11 @@
 						<ObjectStatus title="Invoice" text="Not Created" state="Information" class="Cl_HeaderField sapUiSmallMarginEnd sapUiTinyMarginTopBottom"/>
 					</HBox>
 				</f:GridListItem>
-				<IconTabBar headerBackgroundDesign="Translucent" backgroundDesign="Translucent" id="idIconTabBarInlineMode" headerMode="Inline"
+		<IconTabBar headerBackgroundDesign="Translucent" backgroundDesign="Translucent" id="idIconTabBarInlineMode" headerMode="Inline"
 					expanded="true" expand="true" expandable="true" selectedKey="" class="Cl_TabbarTextBold">
 					<items>
 						<!--Carwash-->
-						<IconTabFilter text="Carwash" key="Carwash" visible="{oGlobalModel>/CW_ProcessVisible}">
+						<IconTabFilter text="Services" key="Services" visible="{oGlobalModel>/CW_ProcessVisible}">
 							<f:GridList id="idgridlist" items="{ServicesViewModel>/CWMaterial}"
 								class="cl_CWgridlistBG sapUiTinyMarginTop cl_Materialgridlist cl_wgridlist" mode="None">
 								<!--<f:GridList id="idgridlist" items="{ServicesViewModel>/CWMaterial}"-->
@@ -106,9 +106,9 @@
 									<Toolbar>
 										<content>
 											<!--<Title text="Services" level="H2"/>-->
-											<!--<ToolbarSpacer/>-->
-											<SearchField liveChange="onSearchNewMaterialF4" class="sapUiTinyMarginEnd" valueState="Information"/>
-											<Button icon="{imageModel>/path}/image/undo.png" type="Default" press="onResetCarwash"/>
+											<ToolbarSpacer/>
+											<!--<SearchField liveChange="onSearchNewMaterialF4" class="sapUiTinyMarginEnd" valueState="Information"/>-->
+											<Button icon="sap-icon://refresh" type="Default" press="onResetCarwash" class="Cl_IconColor"/>
 										</content>
 									</Toolbar>
 								</f:headerToolbar>
@@ -116,51 +116,20 @@
 									<grid:GridBasicLayout gridTemplateColumns="repeat(auto-fit, minmax(16rem, 1fr))" gridGap="0.5rem"/>
 								</f:customLayout>
 								<f:GridListItem press="onPress1" type="{ServicesViewModel>Type}" highlight="{ServicesViewModel>Highlight}"
-									class="cl_CWgridlistBG cl_wgridlist sapUiTinyMarginBegin sapUiSmallMarginEnd">
-									<!--New Alignment Carwash-->
-									<VBox height="auto" justifyContent="SpaceBetween">
+									class="Cl_SOItems cl_CWgridlistBG cl_wgridlist sapUiTinyMarginBegin sapUiSmallMarginEnd">
+									<!--old Alignment Carwash-->
+									<!--New alignment-->
+									<VBox justifyContent="SpaceBetween">
 										<layoutData>
 											<FlexItemData growFactor="1" shrinkFactor="0"/><!-- Don't shrink below minimum size. Fill space if available. --></layoutData>
-										<VBox class="Cl_CWListHeight">
-											<HBox alignContent="Start" justifyContent="SpaceBetween">
-												<HBox>
-													<Image src="{imageModel>/path}/image/CWWhiteIcon.png" height="5rem" width="5rem"
-														visible="true"  class="sapUiTinyMarginBegin"></Image>
-													<!-- <Image src="{imageModel>/path}/image/CWColorIcon1.png" height="5rem" width="5rem"
-														visible="{= ${ServicesViewModel>Highlight} ==='Information' ? true : false }"></Image> -->
-													<Title level="H3" text="{ServicesViewModel>MaterialName}" wrapping="true" class="sapUiSmallMarginTop sapUiTinyMarginBeginEnd"/>
-												</HBox>
-												<t:InfoLabel text="{ServicesViewModel>Price}" colorScheme="6" class="Cl_InfoLabel sapUiSmallMarginTop sapUiTinyMarginBeginEnd"/>
+										<VBox class="sapUiTinyMargin">
+											<HBox justifyContent="SpaceBetween">
+												<Title level="H3" text="{ServicesViewModel>MaterialName}" wrapping="true"
+													class="Cl_MaterialTitleColor sapUiTinyMarginBegin sapUiTinyMarginTopBottom"/>
+												<ObjectNumber class="Cl_MaterialTitleColor sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom" number="{ServicesViewModel>Price}"/>
 											</HBox>
-											<!--<Label text="Subtitle" wrapping="true" class="sapUiTinyMarginBottom"/>-->
-											<!--<Text text="A great description with useful information about this project." wrapping="true"/>-->
 										</VBox>
-										<!--<OverflowToolbar design="Solid">-->
-										<!--	<ToolbarSpacer/>-->
-										<!--	<Button icon="sap-icon://edit" type="Transparent"/>-->
-										<!--	<Button icon="sap-icon://delete" type="Transparent"/>-->
-										<!--	<Button icon="sap-icon://message-information" type="Transparent"/>-->
-										<!--</OverflowToolbar>-->
 									</VBox>
-									<!--<VBox>-->
-									<!--<OverflowToolbar height="5.5rem" design="Solid">-->
-									<!--	<Image src="{imageModel>/path}/image/CWWhiteIcon.PNG" height="4.5rem" width="4.5rem"-->
-									<!--		visible="{= ${ServicesViewModel>Highlight} ==='None' ? true : false }"></Image>-->
-									<!--	<Image src="{imageModel>/path}/image/CWColorIcon1.PNG" height="4.5rem" width="4.5rem"-->
-									<!--		visible="{= ${ServicesViewModel>Highlight} ==='Information' ? true : false }"></Image>-->
-									<!--	<VBox>-->
-									<!--		<HBox alignItems="Start" justifyContent="SpaceBetween">-->
-									<!--			<Title text="Longer Title" wrapping="true" width="70%"/>-->
-									<!--			<t:InfoLabel text="100.00" colorScheme="6" />-->
-									<!--		</HBox>-->
-									<!--<Text text="A great description with useful information about this project." wrapping="true" width="70%"/>-->
-									<!--<HBox alignItems="Start" justifyContent="SpaceBetween" visible="true">-->
-									<!--	<ObjectStatus title="Loyalty" text="500000017" state="Information" active="true" press="onPressCheckCard"-->
-									<!--		class="Cl_HeaderField sapUiTinyMarginEnd sapUiTinyMarginTopBottom" icon="sap-icon://bar-code"/>-->
-									<!--</HBox>-->
-									<!--	</VBox>-->
-									<!--</OverflowToolbar>-->
-									<!--</VBox>-->
 								</f:GridListItem>
 							</f:GridList>
 						</IconTabFilter>
@@ -199,7 +168,8 @@
 														<Text text="{ServicesViewModel>MaterialName}" wrapping="true" class=" sapUiTinyMarginBeginEnd"/>
 													</VBox>
 												</HBox>
-												<t:InfoLabel text="{ServicesViewModel>Price}" colorScheme="6" class="Cl_InfoLabel sapUiSmallMarginTop sapUiTinyMarginBeginEnd"/>
+												<ObjectNumber class="sapUiSmallMarginTop sapUiTinyMarginBeginEnd" number="{ServicesViewModel>Price}"/>
+												<!--<t:InfoLabel text="{ServicesViewModel>Price}" colorScheme="6" class="Cl_InfoLabel sapUiSmallMarginTop sapUiTinyMarginBeginEnd"/>-->
 											</HBox>
 											<!--<Label text="Subtitle" wrapping="true" class="sapUiTinyMarginBottom"/>-->
 											<!--<Text text="A great description with useful information about this project." wrapping="true"/>-->
@@ -211,35 +181,21 @@
 										<!--	<Button icon="sap-icon://message-information" type="Transparent"/>-->
 										<!--</OverflowToolbar>-->
 									</VBox>
-									<!--<VBox class="CL_VboxHeight">-->
-									<!--	<HBox height="100%">-->
-									<!--		<Image src="{imageModel>/path}/image/GassWhiteIcon.png" height="5rem" width="5rem"-->
-									<!--			visible="{= ${ServicesViewModel>Highlight} ==='None' ? true : false }"/>-->
-									<!--		<Image src="{imageModel>/path}/image/LPGColorIcon.png" height="5rem" width="5rem"-->
-									<!--			visible="{= ${ServicesViewModel>Highlight} ==='Information' ? true : false }"/>-->
-									<!--		<VBox>-->
-									<!--			<HBox>-->
-									<!--				<Title text="{ServicesViewModel>Material}" class="cl_blueTXT sapUiTinyMarginBegin sapUiMediumMarginEnd sapUiTinyMarginTopBottom"/>-->
-									<!--				<Title text="{ServicesViewModel>Price}" class="cl_blueTXT sapUiSmallMarginEnd sapUiTinyMarginTopBottom"/>-->
-									<!--			</HBox>-->
-									<!--			<Label text="{ServicesViewModel>MaterialName}" wrapping="true" class="cl_blueTXT sapUiTinyMarginBegin"/>-->
-									<!--		</VBox>-->
-									<!--	</HBox>-->
-									<!--</VBox>-->
+									<!--New Item alignment-->
 								</f:GridListItem>
 							</f:GridList>
 						</IconTabFilter>
 						<!--Product-->
-						<IconTabFilter text="Product" key="Product">
+						<IconTabFilter text="Accessories" key="Accessories" visible="true">
 							<f:GridList id="idLProductlist" items="{ServicesViewModel>/MaterialList}" class="sapUiTinyMarginTop cl_Materialgridlist cl_wgridlist"
-								mode="None" growing="true" growingThreshold="20">
+								mode="None">
 								<f:headerToolbar>
 									<Toolbar>
 										<content>
 											<!--<Title text="Services" level="H2"/>-->
-											<!--<ToolbarSpacer/>-->
-											<SearchField liveChange="onSearchNewMaterialF4" class="sapUiTinyMarginEnd" valueState="Information"/>
-											<Button icon="{imageModel>/path}/image/undo.png" type="Default" press="onResetProduct"/>
+											<ToolbarSpacer/>
+											<!--<SearchField liveChange="onSearchNewMaterialF4" class="sapUiTinyMarginEnd" valueState="Information"/>-->
+											<Button icon="sap-icon://refresh" type="Default" press="onResetProduct" class="Cl_IconColor"/>
 										</content>
 									</Toolbar>
 								</f:headerToolbar>
@@ -249,25 +205,23 @@
 								</f:customLayout>
 								<SearchField width="auto"/>
 								<f:GridListItem press="onSelectMaterial" type="Active" highlight="{ServicesViewModel>Highlight}"
-									class="cl_MaterialgridlistBG cl_Materialgridlist cl_wgridlist sapUiSmallMarginBegin sapUiSmallMarginEnd">
+									class="Cl_SOItems cl_MaterialgridlistBG cl_Materialgridlist cl_wgridlist sapUiSmallMarginBegin sapUiSmallMarginEnd">
 									<!--New Alignment Carwash-->
-									<VBox height="100%" justifyContent="SpaceBetween">
+									<VBox justifyContent="SpaceBetween">
+										<layoutData>
+											<FlexItemData growFactor="1" shrinkFactor="0"/><!-- Don't shrink below minimum size. Fill space if available. --></layoutData>
 										<VBox class="sapUiTinyMargin">
 											<HBox justifyContent="SpaceBetween">
-												<HBox>
-													<Image src="{imageModel>/path}/image/maintenace1.png" height="3rem" width="3rem" visible="true" class="sapUiTinyMarginBegin"/>
-													<Title text="{ServicesViewModel>MATERIAL}" wrapping="true" class="sapUiSmallMarginTop sapUiTinyMarginBegin"/>
-												</HBox>
-												<!--<ObjectStatus text="Positive Status" state="Success" />-->
-												<t:InfoLabel text="{ServicesViewModel>NETPRICE}" colorScheme="6" class="Cl_InfoLabel sapUiSmallMarginTop sapUiTinyMarginBeginEnd"/>
+												<Title level="H3" text="{ServicesViewModel>MATERIAL}" wrapping="true"
+													class="Cl_MaterialTitleColor sapUiTinyMarginBegin sapUiTinyMarginTopBottom"/>
+												<ObjectNumber class="Cl_MaterialTitleColor sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom" number="{ServicesViewModel>NETPRICE}"/>
 											</HBox>
-											<Text text="{ServicesViewModel>MATDESC}" wrapping="true" class="sapUiTinyMarginBegin"/>
-											<!--<Label text="Subtitle" wrapping="true" class="sapUiTinyMarginBottom"/>-->
-											<!--<Text text="A great description with useful" wrapping="true"/>-->
-											<!--<HBox class="sapUiTinyMarginBegin">-->
-											<!--	<ObjectStatus title="Net" text="123.00" state="Error"/>-->
-											<!--	<ObjectStatus title="Tax" text="2.00" state="Error" class="sapUiTinyMarginBeginEnd"/>-->
-											<!--</HBox>-->
+											<HBox justifyContent="SpaceBetween">
+												<Title level="H5" text="{ServicesViewModel>MATDESC}" wrapping="true"
+													class="Cl_MaterialTitleColor sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom"/>
+												<StepInput  value="{ServicesViewModel>Quantity}" min="1" max="99"  width="6rem"
+													enabled="true" editable="true" change="onChangeQuantity"/>
+											</HBox>
 										</VBox>
 									</VBox>
 								</f:GridListItem>
@@ -275,24 +229,23 @@
 						</IconTabFilter>
 					</items>
 				</IconTabBar>
-				<footer>
+	<footer>
 					<OverflowToolbar enabled="true" visible="true">
 						<ToolbarSpacer/>
 						<content>
-							<Button class="sapUiSmallMarginEnd" icon="sap-icon://cart-3" text="My Cart" type="Emphasized" visible="{oGlobalModel>/CW_ProcessVisible}"
-								press="onPressCart">
+							<Button class="sapUiSmallMarginEnd" text="My Cart" type="Emphasized" visible="{oGlobalModel>/CW_ProcessVisible}" press="onPressCart">
 								<customData>
 									<BadgeCustomData key="badge" value="{ServicesViewModel>/MyCartCount}" visible="true"/>
 								</customData>
 							</Button>
 							<!--<Button text="My Cart" type="Emphasized" iconFirst="true" width="auto" visible="{oGlobalModel>/CW_ProcessVisible}" iconDensityAware="false"-->
-							<!--	press="onPressCart" class="sapUiSmallMarginEnd" icon="sap-icon://cart-3"/>-->
+							<!--	press="onPressCart" class="cl_Emphasizebtn sapUiSmallMarginEnd" icon="sap-icon://cart-3"/>-->
 							<Button text="My Cart" type="Emphasized" iconFirst="true" width="auto" visible="{oGlobalModel>/LPG_ProcessVisible}" iconDensityAware="false"
-								press="onPressCart" class="sapUiSmallMarginEnd" icon="sap-icon://cart-approval"/>
+								press="onPressCart" class="cl_Emphasizebtn sapUiSmallMarginEnd"/>
 							<Button text="Cancel" type="Reject" iconFirst="true" width="auto" visible="{oGlobalModel>/CW_ProcessVisible}" iconDensityAware="false"
-								press="onPressCancelCW" class="sapUiSmallMarginEnd" icon="sap-icon://decline"/>
+								press="onPressCancelCW" class="cl_Rejectbtn sapUiSmallMarginEnd" icon="sap-icon://decline"/>
 							<Button text="Cancel" type="Reject" iconFirst="true" width="auto" visible="{oGlobalModel>/LPG_ProcessVisible}" iconDensityAware="false"
-								press="onPressCancelGas" class="sapUiSmallMarginEnd" icon="sap-icon://decline"/>
+								press="onPressCancelGas" class="cl_Rejectbtn sapUiSmallMarginEnd" icon="sap-icon://decline"/>
 							<!--<Button text="Cancel LPG" type="Reject" iconFirst="true" width="auto" visible="{oGlobalModel>/LPG_ProcessVisible}" iconDensityAware="false"-->
 							<!--	press="onPressCancelGas" class="sapUiSmallMarginEnd" icon="sap-icon://decline"/>-->
 						</content>

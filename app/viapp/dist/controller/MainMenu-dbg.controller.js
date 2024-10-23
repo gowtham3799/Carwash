@@ -23,26 +23,26 @@ sap.ui.define([
 
 		handleRouteMatched: function (oEvent) {
 			var oStartupParameters = this.getOwnerComponent().getComponentData().startupParameters;
-				if (oStartupParameters && oStartupParameters.message) {
-			// 		var base64string = oStartupParameters.message;
-			// 		MessageToast.show(base64string);
-			// 		var decodedstring = atob(base64string);
-			// 		var parsedstring = JSON.parse(decodedstring);
-			// 		var globalModel = this.getView().getModel("oGlobalModel").getData();
-			// 		globalModel.Object = parsedstring;
-			// 		globalModel.Saleorder = parsedstring.txnID;
-			// 		globalModel.Authcode = parsedstring.responseData.APPROVAL_CODE;
-			// 		globalModel.TransactionMessage = parsedstring.responseMsg;
-			// 		this.getView().getModel("oGlobalModel").refresh();
-			//         // MessageBox.success(parsedstring);
-			// 		var oRouter = UIComponent.getRouterFor(this);
-			// 		oRouter.navTo("PaymentDetails", false);
-				} else{
-			var MainPlant = this.getView().getModel("oGlobalModel").getData().MainPlant;
-			if (MainPlant === "") {
-				this.onPressPlant();
-				this.getPlantf4();
-			}
+			if (oStartupParameters && oStartupParameters.message) {
+				// 		var base64string = oStartupParameters.message;
+				// 		MessageToast.show(base64string);
+				// 		var decodedstring = atob(base64string);
+				// 		var parsedstring = JSON.parse(decodedstring);
+				// 		var globalModel = this.getView().getModel("oGlobalModel").getData();
+				// 		globalModel.Object = parsedstring;
+				// 		globalModel.Saleorder = parsedstring.txnID;
+				// 		globalModel.Authcode = parsedstring.responseData.APPROVAL_CODE;
+				// 		globalModel.TransactionMessage = parsedstring.responseMsg;
+				// 		this.getView().getModel("oGlobalModel").refresh();
+				//         // MessageBox.success(parsedstring);
+				// 		var oRouter = UIComponent.getRouterFor(this);
+				// 		oRouter.navTo("PaymentDetails", false);
+			} else {
+				var MainPlant = this.getView().getModel("oGlobalModel").getData().MainPlant;
+				if (MainPlant === "") {
+					this.onPressPlant();
+					this.getPlantf4();
+				}
 
 			}
 		},

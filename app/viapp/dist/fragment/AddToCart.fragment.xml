@@ -1,7 +1,7 @@
 <core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:mvc="sap.ui.core.mvc" xmlns:l="sap.ui.layout"
 	xmlns:grid="sap.ui.layout.cssgrid" xmlns:layout="sap.ui.layout" xmlns:table="sap.ui.table" xmlns:m="sap.m" xmlns:fGrid="sap.f"
 	xmlns:f="sap.ui.layout.form" xmlns:ndc="sap.ndc">
-	<Dialog stretchOnPhone="true" contentHeight="100%" contentWidth="37%" class="sapUiSizeCompact" afterClose="dialogAfterclose"
+	<Dialog  contentHeight="100%" contentWidth="37%" class="sapUiSizeCompact" afterClose="dialogAfterclose"
 		title="Invoice Details">
 		<customHeader>
 			<Bar>
@@ -24,7 +24,7 @@
 			</OverflowToolbar>
 			<!--<Title level="H3" text="My Cart {ServicesViewModel>/MyCartItemCount}" class="sapUiTinyMarginBeginEnd sapUiTinyMarginTopBottom"-->
 			<!--	visible="true"/>-->
-			<List mode="None" delete="onDeleteCartItem" items="{ServicesViewModel>/MyCartItems}">
+			<List mode="Delete" delete="onDeleteCartItem" items="{ServicesViewModel>/MyCartItems}" noDataText="Your Cart Is Empty">
 				<CustomListItem>
 					<!--<HBox>-->
 					<!--	<core:Icon size="2rem" src="{imageModel>/path}/image/check-out.png" class="sapUiSmallMarginBegin sapUiSmallMarginTopBottom" />-->
@@ -43,31 +43,35 @@
 						<!--		<Label text="{ServicesViewModel>MaterialName}"/>-->
 						<!--	</VBox>-->
 						<HBox>
-							<Image height="1.5rem" src="{imageModel>/path}/image/check-out.png" class="sapUiSmallMarginTop sapUiSmallMarginBegin"/>
+							<!--<Image height="3.5rem" src="{imageModel>/path}/image/New_CartIcon.svg" class="sapUiSmallMarginTop sapUiSmallMarginBegin"/>-->
 							<!--<ObjectIdentifier title="{ServicesViewModel>Material}" titleActive="false"-->
 							<!--	class="sapUiSmallMarginTop sapUiTinyMarginBegin sapUiTinyMarginEnd"/>-->
-							<Title text="{ServicesViewModel>Material}" wrapping="true" class="sapUiSmallMarginTop sapUiTinyMarginBegin sapUiTinyMarginEnd "/>
+							<Title text="{ServicesViewModel>Material}" wrapping="true"
+								class="Cl_MaterialTitleColor sapUiSmallMarginTop sapUiSmallMarginBegin sapUiTinyMarginEnd"/>
 						</HBox>
-						<!-- <ObjectNumber number="{ServicesViewModel>Total}" numberUnit="AED" state="Information"
-							class="Cl_AmountText sapUiSmallMarginTop sapUiSmallMarginEnd"/> -->
+						<ObjectNumber number="{ServicesViewModel>Total}" numberUnit="AED" state="Information"
+							class="Cl_AmountText sapUiSmallMarginTop sapUiSmallMarginEnd"/>
 						<!--<Button icon="sap-icon://delete" type="Emphasized" tooltip="Close" press="onCloseCart" class="sapUiTinyMarginTop sapUiSmallMarginBegin sapUiTinyMarginEnd"/>-->
 					</HBox>
 					<HBox alignItems="Start" justifyContent="SpaceBetween">
 						<HBox>
-							<Title text="{ServicesViewModel>MaterialName}" wrapping="true" class="sapUiTinyMarginTop sapUiSmallMarginBegin sapUiTinyMarginEnd"/>
+							<Title text="{ServicesViewModel>MaterialName}" wrapping="true"
+								class="Cl_MaterialTitleColor sapUiTinyMarginTop sapUiSmallMarginBegin sapUiTinyMarginEnd"/>
 						</HBox>
 						<VBox>
-							<!-- <ObjectStatus title="Net" text="{ServicesViewModel>Price}" state="Error"
-								class="sapUiTinyMarginBegin sapUiTinyMarginTopBottom sapUiSmallMarginEnd"/> -->
-							<!-- <ObjectStatus title="Tax" text="{ServicesViewModel>Tax}" state="Error" class="sapUiTinyMarginBegin sapUiSmallMarginEnd"/> -->
+							<ObjectStatus title="Qty" text="{ServicesViewModel>Quantity}" state="Error"
+								class="Cl_HeaderField sapUiTinyMarginBegin  sapUiSmallMarginEnd"/>
+							<ObjectStatus title="Net" text="{ServicesViewModel>Price}" state="Error"
+								class="Cl_HeaderField sapUiTinyMarginBegin sapUiTinyMarginTopBottom sapUiSmallMarginEnd"/>
+							<ObjectStatus title="Tax" text="{ServicesViewModel>Tax}" state="Error" class="Cl_HeaderField sapUiTinyMarginBegin sapUiSmallMarginEnd"/>
 						</VBox>
 					</HBox>
-					<HBox alignItems="Start" justifyContent="SpaceBetween">
+					<HBox alignItems="Start" justifyContent="SpaceBetween" visible="false">
 						<VBox>
 							<!--<Title text="{ServicesViewModel>MaterialName}" wrapping="true" class="sapUiTinyMarginTopBottom sapUiSmallMarginBegin sapUiTinyMarginEnd"/>-->
 							<StepInput class="sapUiSmallMarginBegin sapUiTinyMarginEnd sapUiTinyMarginBottom" value="1" displayValuePrecision="{displayValuePrecision}"
-								min="1" max="999" width="60px" step="{step}" largerStep="{largerStep}" stepMode="{stepMode}" valueState="{valueState}" enabled="{enabled}"
-								editable="{= ${ServicesViewModel>/SO_Number} === 'Not Started' ? true : false}" description="{description}" fieldWidth="{fieldWidth}" textAlign="{textAlign}" validationMode="{validationMode}"
+								min="1" max="999" width="60px" step="{step}" largerStep="{largerStep}" stepMode="{stepMode}" valueState="{valueState}" enabled="false"
+								editable="{editable}" description="{description}" fieldWidth="{fieldWidth}" textAlign="{textAlign}" validationMode="{validationMode}"
 								change="onChange"/>
 						</VBox>
 						<!--<VBox>-->
@@ -137,7 +141,7 @@
 				expanded="{ServicesViewModel>/CashMOPPanelExpand}" width="auto" class="sapUiTinyMarginBeginEnd" expandAnimation="true">
 				<headerToolbar>
 					<OverflowToolbar height="3rem" style="Clear">
-						<Image height="1.5rem" src="{imageModel>/path}/image/MoneyLogo.png"/>
+						<Image height="1.5rem"/>
 						<Title text="Cash"/>
 						<ToolbarSpacer/>
 						<CheckBox text="" valueState="Information" enabled="true" selected="{ServicesViewModel>/Cash_CheckBoxSeleted}"
@@ -170,7 +174,7 @@
 <Panel visible="{ServicesViewModel>/MOPVisible}" expandable="true" expand="onExpandCard" expanded="{ServicesViewModel>/CardMOPPanelExpand}" width="auto" class="sapUiTinyMarginBeginEnd" expandAnimation="true">
 				<headerToolbar>
 					<OverflowToolbar height="3rem">
-						<Image height="1.5rem" src="{imageModel>/path}/image/CardLogo.png"/>
+						<Image height="1.5rem"/>
 						<Title text="Card"/>
 						<ToolbarSpacer/>
 						<CheckBox text="" valueState="Information" enabled="true" selected="{ServicesViewModel>/Card_CheckBoxSeleted}"
@@ -211,7 +215,7 @@
 				expanded="{ServicesViewModel>/LoyaltyMOPPanelExpand}" width="auto" class="sapUiTinyMarginBeginEnd" expandAnimation="true">
 				<headerToolbar>
 					<OverflowToolbar height="3rem" style="Clear">
-						<Image height="1.5rem" src="{imageModel>/path}/image/card.png"/>
+						<Image height="1.5rem" />
 						<Title text="Loyalty"/>
 						<ToolbarSpacer/>
 						<CheckBox text="" valueState="Information" enabled="true" selected="{ServicesViewModel>/Loyalty_CheckBoxSeleted}"
@@ -270,7 +274,7 @@
 				<Panel visible="{ServicesViewModel>/MOPVisible}" expandable="true" expand="onExpandCoupon" expanded="false" width="auto" class="sapUiTinyMarginBeginEnd" expandAnimation="true">
 				<headerToolbar>
 					<OverflowToolbar height="3rem">
-						<Image height="1.5rem" src="{imageModel>/path}/image/ticket.png"/>
+						<Image height="1.5rem" />
 						<Title text="Coupon"/>
 						<ToolbarSpacer/>
 						<CheckBox text="" valueState="Information" enabled="true" selected="{ServicesViewModel>/Coupon_CheckBoxSeleted}"

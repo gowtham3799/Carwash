@@ -3,8 +3,10 @@ sap.ui.define([
 	"sap/ui/core/UIComponent",
 	"sap/m/MessageToast",
 	"sap/m/MessageBox",
-	"viapp/model/formatter"
-], function (Controller, UIComponent, MessageToast, MessageBox, formatter) {
+	"viapp/model/formatter",
+	"sap/ui/model/Filter",
+	"sap/ui/model/FilterOperator",
+], function (Controller, UIComponent, MessageToast, MessageBox, formatter, Filter, FilterOperator) {
 	"use strict";
 
 	return Controller.extend("viapp.controller.Home", {
@@ -32,23 +34,28 @@ sap.ui.define([
 					globalModel.Saleorder = parsedstring.txnID;
 					globalModel.Authcode = parsedstring.responseData.APPROVAL_CODE;
 					globalModel.TransactionMessage = parsedstring.responseMsg;
-
+					if (globalModel.Saleorder) {
+						this.ongetSOdetails(globalModel.Saleorder);
+					}
 					var currenturl = window.location.href;
 					var removeurl = new URL(currenturl);
-					var params = new URLSearchParams(removeurl.hash);
-					console.log(`Query string (before):\t ${params}`);
+					var params = new URLSearchParams(removeurl.search);
+					var hrefparams = new URLSearchParams(removeurl.href);
+					var before = ` ${params}`;
+					var before1 = ` ${hrefparams}`;
+					// console.log(`Query string (before):\t ${params}`);
 					params.delete("message");
 					// MessageBox.success("Salesorder: " + parsedstring.txnID + "\n" + "Authcode: " + parsedstring.responseData.APPROVAL_CODE + "\n" + "Status: " + "\n" + parsedstring.responseMsg);
 
 					sap.m.MessageBox.success(
-						"Salesorder: " + parsedstring.txnID + "\n" + "Authcode: " + parsedstring.responseData.APPROVAL_CODE + "\n" + "Card No: " + parsedstring.responseData.CARD_NUMBER + "\n" + "Card Name: " + parsedstring.responseData.CARD_NAME + "\n" + "Status: " + parsedstring.responseMsg, {
+						 "Salesorder: " + parsedstring.txnID + "\n" + "Authcode: " + parsedstring.responseData.APPROVAL_CODE + "\n" + "Card No: " + parsedstring.responseData.CARD_NUMBER + "\n" + "Card Name: " + parsedstring.responseData.CARD_NAME + "\n" + "Status: " + parsedstring.responseMsg, {
 						icon: sap.m.MessageBox.Icon.SUCCESS,
 						title: "Success",
 						actions: [sap.m.MessageBox.Action.OK],
 						onClose: function (oAction) {
 							if (oAction === "OK") {
 								var oRouter = UIComponent.getRouterFor(this);
-								oRouter.navTo("PaymentDetails",false);
+								oRouter.navTo("PaymentDetails", false);
 							}
 						}.bind(this)
 					});
@@ -66,7 +73,30 @@ sap.ui.define([
 
 			}
 		},
-
+		ongetSOdetails: function (SO) {
+			// var so = this.getView().getModel("oGlobalModel").getProperty("/Saleorder");
+			// var vAuthcode = this.getView().getModel("oGlobalModel").getProperty("/Authcode");
+			this.getView().getModel("CarwashService").read("/Order", {
+				filters: [
+					new Filter("ORDERNUM", FilterOperator.EQ, SO)
+				],
+				urlParameters: {
+					$expand: "ITEMS"
+				},
+				success: function (oData, oResponse) {
+					// var obj = "";
+					var itemsarr = oData.results[0].ITEMS.results;
+					if (itemsarr.length !== 0) {
+						var plant = itemsarr[0].PLANT;
+						this.getView().getModel("oGlobalModel").setProperty("/MainPlant", plant);
+					}
+				}.bind(this),
+				error: function (oError) {
+					// BusyIndicator.hide();
+					MessageBox.error(oError.message);
+				}.bind(this)
+			});
+		},
 		navtopayment: function () {
 			alert("Nav to PaymentDetails")
 			var oRouter = UIComponent.getRouterFor(this);

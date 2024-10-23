@@ -13,7 +13,7 @@
 								<Title text="LPG" level="H1" class="cl_WelcomeText" visible="{oGlobalModel>/LPG_ProcessVisible}"/>
 								<ToolbarSpacer/>
 								<!--<ToolbarSpacer/>-->
-								
+								<Image height="5.5rem" src="{imageModel>/path}/image/New_SearchIcon.svg" press="onPressSearchCustomer"/>
 								<Image height="1.3rem" src="{imageModel>/path}/image/location.png" press="onPressPlant"/>
 								<Link text="{oGlobalModel>/MainPlant}" press="onPressPlant" class="cl_WelcomeText sapUiTinyMarginEnd"/>
 								<!--<Image height="1.3rem" class="sapUiTinyMarginEnd" src="{imageModel>/path}/image/refresh-button.png" press=".onRefresh"/>-->

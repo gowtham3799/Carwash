@@ -15,7 +15,7 @@
 			</Bar>
 		</customHeader>
 		<content class="sapUiSizeCompact">
-			<form:Form editable="true">
+			<form:Form editable="true" class="Cl_CCFormLabelColor">
 				<!--<f:title>-->
 				<!--	<core:Title text="Customer No: {EditCustomerModel>/HeaderCustomerNo}"/>-->
 				<!--</f:title>-->
@@ -24,15 +24,13 @@
 						emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
 				</form:layout>
 				<form:formContainers>
-					<form:FormContainer >
-						<form:formElements >
-							<form:FormElement label="Create only Customer" visible="{HomeViewModel>/CNC_CustomerForm}">
+					<form:FormContainer>
+						<form:formElements>
+							<form:FormElement label="Create Customer" wrapping="true" visible="{HomeViewModel>/CNC_CustomerForm}">
 								<form:fields>
 									<Switch type="AcceptReject" state="{HomeViewModel>/CNC_NewCustomer}" customTextOn="Yes" customTextOff="No" enabled="true"
-										change="onCNCSwitchOn" class="sapUiTinyMarginTop">
-										<layoutData>
-											<FlexItemData growFactor="1"/>
-										</layoutData>
+										change="onCNCSwitchOn">
+										
 									</Switch>
 								</form:fields>
 							</form:FormElement>
@@ -44,7 +42,7 @@
 									</ComboBox>
 								</form:fields>
 							</form:FormElement>
-							<form:FormElement label="Plate Category" visible="{HomeViewModel>/CNC_VehicleForm}">
+							<form:FormElement label="Plate Category" visible="{HomeViewModel>/CNC_VehicleForm}" >
 								<form:fields>
 									<ComboBox value="{oViewModel>/CC_Category}" required="true" placeholder="Plate Category"
 										items="{ path: 'oViewModel>/PlateCategoryF4', sorter: { path: 'text' } }">
@@ -52,7 +50,7 @@
 									</ComboBox>
 								</form:fields>
 							</form:FormElement>
-							<form:FormElement label="Plate Code" visible="{HomeViewModel>/CNC_VehicleForm}">
+							<form:FormElement label="Plate Code" visible="{HomeViewModel>/CNC_VehicleForm}" >
 								<form:fields>
 									<ComboBox value="{oViewModel>/CC_PlateCode}" required="true" placeholder="Plate Code"
 										items="{ path: 'oViewModel>/PlateCodeF4', sorter: { path: 'text' } }">
@@ -61,7 +59,7 @@
 									<!--<Input value="{EditCustomerModel>/EC_PlateCode}" required="true"></Input>-->
 								</form:fields>
 							</form:FormElement>
-							<form:FormElement label="Plate No" visible="{HomeViewModel>/CNC_VehicleForm}">
+							<form:FormElement label="Plate No" visible="{HomeViewModel>/CNC_VehicleForm}" >
 								<form:fields>
 									<Input value="{oViewModel>/CC_PlateNo}" required="true" placeholder="Enter Plate No" liveChange="onPlateNoInputLiveChange" type="Text"
 										maxLength="5"/>
@@ -76,20 +74,20 @@
 					</form:FormContainer>
 					<form:FormContainer>
 						<form:formElements>
-							<form:FormElement label="Manufacturer" visible="{HomeViewModel>/CNC_VehicleForm}">
+							<form:FormElement label="Manufacturer" visible="{HomeViewModel>/CNC_VehicleForm}" class="Cl_CCFormLabelColor">
 								<form:fields>
 									<Input value="{oViewModel>/CC_Manfacturer}" editable="true" valueHelpRequest="onOpenManufactureF4" showSuggestion="true"
 										liveChange="onPoNumberInput" suggestionItemSelected="onPonumberConfirm" showValueHelp="true" class="sapUiSmallMarginEnd"
 										valueHelpOnly="true" placeholder="Select Manfacturer" required="true" valueStateText="Select Manfacturer"></Input>
 								</form:fields>
 							</form:FormElement>
-							<form:FormElement label="Model" visible="{HomeViewModel>/CNC_VehicleForm}">
+							<form:FormElement label="Model" visible="{HomeViewModel>/CNC_VehicleForm}" class="Cl_CCFormLabelColor">
 								<form:fields>
 									<Input value="{oViewModel>/CC_Model}" editable="true" valueHelpRequest="onOpenModelF4" showSuggestion="true" showValueHelp="true"
 										class="sapUiSmallMarginEnd" valueHelpOnly="true" placeholder="Select Model" required="true" valueStateText="Select Model"></Input>
 								</form:fields>
 							</form:FormElement>
-							<form:FormElement label="Car Type" visible="{HomeViewModel>/CNC_VehicleForm}">
+							<form:FormElement label="Car Type" visible="{HomeViewModel>/CNC_VehicleForm}" class="Cl_CCFormLabelColor">
 								<form:fields>
 									<ComboBox value="{oViewModel>/CC_CarType}" placeholder="Select Type">
 										<core:Item key="SUV" text="SUV"/>
@@ -97,19 +95,19 @@
 									</ComboBox>
 								</form:fields>
 							</form:FormElement>
-							<form:FormElement label="Customer Name" visible="{HomeViewModel>/CNC_CustomerForm}">
+							<form:FormElement label="Customer Name" visible="{HomeViewModel>/CNC_CustomerForm}" class="Cl_CCFormLabelColor">
 								<form:fields>
-									<Input value="{oViewModel>/CC_FirstName}" required="false"  placeholder="Enter First Name" maxLength="40" type="Text"
+									<Input value="{oViewModel>/CC_FirstName}" required="false" placeholder="Enter First Name" maxLength="40" type="Text"
 										valueState="{oViewModel>/CC_FirstName_ValueState}" valueStateText="Enter First Name" liveChange="onFirstNameLiveChange"/>
 								</form:fields>
 							</form:FormElement>
-							<form:FormElement label="Mobile" visible="{HomeViewModel>/CNC_CustomerForm}">
+							<form:FormElement label="Mobile" visible="{HomeViewModel>/CNC_CustomerForm}" class="Cl_CCFormLabelColor">
 								<form:fields>
 									<Input value="{oViewModel>/CC_MobileNo}" required="false" placeholder="Enter Mobile No" type="Tel" maxLength="10"
 										valueState="{oViewModel>/CC_MobileNo_ValueState}" valueStateText="Enter 10 Digit Mobile No" liveChange="onMobileNoLiveChange"/>
 								</form:fields>
 							</form:FormElement>
-							<form:FormElement label="Email" visible="{HomeViewModel>/CNC_CustomerForm}">
+							<form:FormElement label="Email" visible="{HomeViewModel>/CNC_CustomerForm}" class="Cl_CCFormLabelColor">
 								<form:fields>
 									<Input value="{oViewModel>/CC_Email}" placeholder="Enter Email" maxLength="40"/>
 								</form:fields>
@@ -133,8 +131,8 @@
 			</form:Form>
 		</content>
 		<buttons>
-			<Button text="Create" type="Emphasized" press="onPressSaveCustomer" icon="sap-icon://create"></Button>
-			<Button text="Close" type="Reject" press="onCancelCreateCustomer" icon="sap-icon://decline"/>
+			<Button text="Create" type="Emphasized" press="onPressSaveCustomer" class="cl_Emphasizebtn"></Button>
+			<Button text="Close" type="Reject" press="onCancelCreateCustomer" class="cl_Rejectbtn"/>
 		</buttons>
 	</Dialog>
 </core:FragmentDefinition>

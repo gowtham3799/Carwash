@@ -10,7 +10,7 @@ sap.ui.define([
 	"viapp/Js/crypto",
 	"sap/ui/model/Filter",
 	"sap/ui/model/FilterOperator",
-	
+
 ], function (Controller, MessageToast, MessageBox, Fragment, BusyIndicator, Element, QR, FinderPatternFinder, crypto, Filter, FilterOperator) {
 	"use strict";
 
@@ -132,6 +132,7 @@ sap.ui.define([
 				"CWMaterial": [{
 					"Material": "2822957303",
 					"MaterialName": "Rainbow Foam Full Wash",
+					"Quantity": "1",
 					"Price": "150.00",
 					"Tax": "2.5",
 					"Highlight": "None",
@@ -140,6 +141,7 @@ sap.ui.define([
 					"Material": "2861928504",
 					"MaterialName": "Interior Cleaning",
 					"Price": "40.00",
+					"Quantity": "1",
 					"Tax": "1",
 					"Highlight": "None",
 					"Type": "Active"
@@ -147,6 +149,7 @@ sap.ui.define([
 					"Material": "2911859358",
 					"MaterialName": "Underbody Flush",
 					"Price": "60.00",
+					"Quantity": "1",
 					"Tax": "1",
 					"Highlight": "None",
 					"Type": "Active"
@@ -154,6 +157,7 @@ sap.ui.define([
 					"Material": "2709919403",
 					"MaterialName": "Wheel Washing",
 					"Price": "140.00",
+					"Quantity": "1",
 					"Tax": "1",
 					"Highlight": "None",
 					"Type": "Active"
@@ -161,6 +165,7 @@ sap.ui.define([
 					"Material": "2756492720",
 					"MaterialName": "Waxing",
 					"Price": "170.00",
+					"Quantity": "1",
 					"Tax": "1",
 					"Highlight": "None",
 					"Type": "Active"
@@ -168,6 +173,7 @@ sap.ui.define([
 					"Material": "2822957303",
 					"MaterialName": "Car sanitization",
 					"Price": "50.00",
+					"Quantity": "1",
 					"Tax": "1",
 					"Highlight": "None",
 					"Type": "Active"
@@ -175,6 +181,7 @@ sap.ui.define([
 					"Material": "2700494918",
 					"MaterialName": "Automatic Car wash",
 					"Price": "40.00",
+					"Quantity": "1",
 					"Tax": "1",
 					"Highlight": "None",
 					"Type": "Active"
@@ -182,6 +189,7 @@ sap.ui.define([
 					"Material": "2811746280",
 					"MaterialName": "Manual Car wash",
 					"Price": "100.00",
+					"Quantity": "1",
 					"Tax": "1",
 					"Highlight": "None",
 					"Type": "Active"
@@ -189,6 +197,7 @@ sap.ui.define([
 					"Material": "2600954298",
 					"MaterialName": "Full Service Car Wash",
 					"Price": "140.00",
+					"Quantity": "1",
 					"Tax": "1",
 					"Highlight": "None",
 					"Type": "Active"
@@ -196,6 +205,7 @@ sap.ui.define([
 					"Material": "2790947298",
 					"MaterialName": "Bike Wash",
 					"Price": "20.00",
+					"Tax": "1",
 					"Highlight": "None",
 					"Type": "Active"
 				}],
@@ -786,7 +796,7 @@ sap.ui.define([
 			var MyCartItems = this.getView().getModel("ServicesViewModel").getProperty("/MyCartItems");
 			this.getView().getModel("ServicesViewModel").setProperty("/MyCartItemCount", MyCartItems.length);
 
-			var Total = MyCartItems.reduce((acc, obj) => parseFloat(acc) + parseFloat(obj.Price), 0);
+			var Total = MyCartItems.reduce((acc, obj) => parseFloat(acc) + parseFloat(obj.Total), 0);
 			this.getView().getModel("ServicesViewModel").setProperty("/MyCartTotal", Total.toFixed(2));
 
 			this.getView().getModel("ServicesViewModel").setProperty("/ProceedSOButtomVisible", true);
@@ -907,18 +917,18 @@ sap.ui.define([
 			var Seleted = oEvent.getSource().getSelected();
 			if (Seleted) {
 				this.getView().getModel("ServicesViewModel").setProperty("/CardMOPPanelExpand", true);
-			// Set amount in card as default
-			var Total = this.getView().getModel("ServicesViewModel").getProperty("/MyCartTotal");
-			this.getView().getModel("ServicesViewModel").setProperty("/CardAmount", Total);
-			
+				// Set amount in card as default
+				var Total = this.getView().getModel("ServicesViewModel").getProperty("/MyCartTotal");
+				this.getView().getModel("ServicesViewModel").setProperty("/CardAmount", Total);
+
 			} else {
 				this.getView().getModel("ServicesViewModel").setProperty("/CardMOPPanelExpand", false);
 				// reset amount 
-			this.getView().getModel("ServicesViewModel").setProperty("/CardAmount", "");
+				this.getView().getModel("ServicesViewModel").setProperty("/CardAmount", "");
 			}
 			this.getView().getModel("ServicesViewModel").refresh();
 
-			
+
 
 
 		},
@@ -990,6 +1000,7 @@ sap.ui.define([
 					var object = {
 						"Material": ListObject.Material,
 						"MaterialName": ListObject.MaterialName,
+						"Quantity": ListObject.Quantity,
 						"Price": ListObject.Price,
 						"Tax": ListObject.Tax,
 						"Total": parseFloat(Total).toFixed(2)
@@ -999,14 +1010,14 @@ sap.ui.define([
 
 					this.getView().getModel("ServicesViewModel").refresh();
 
-					for (var i = 0; i < CW_ServicesMaterialF4.length; i++) {
-						if (CW_ServicesMaterialF4[i].Highlight === "None") {
-							CW_ServicesMaterialF4[i].Type = "Inactive";
+					// for (var i = 0; i < CW_ServicesMaterialF4.length; i++) {
+					// 	if (CW_ServicesMaterialF4[i].Highlight === "None") {
+					// 		CW_ServicesMaterialF4[i].Type = "Inactive";
 
-							// oEvent.getSource().removeStyleClass("Cl_CWMaterialNotSeleted");
-							// oEvent.getSource().addStyleClass("Cl_CWMaterialSeleted");
-						}
-					}
+					// 		// oEvent.getSource().removeStyleClass("Cl_CWMaterialNotSeleted");
+					// 		// oEvent.getSource().addStyleClass("Cl_CWMaterialSeleted");
+					// 	}
+					// }
 
 					var oCount = this.getView().getModel("ServicesViewModel").getProperty("/MyCartItems");
 					this.getView().getModel("ServicesViewModel").setProperty("/MyCartCount", oCount.length);
@@ -1033,11 +1044,11 @@ sap.ui.define([
 
 					this.getView().getModel("ServicesViewModel").refresh();
 
-					for (var i = 0; i < CW_ServicesMaterialF4.length; i++) {
-						if (CW_ServicesMaterialF4[i].Highlight === "None") {
-							CW_ServicesMaterialF4[i].Type = "Active";
-						}
-					}
+					// for (var i = 0; i < CW_ServicesMaterialF4.length; i++) {
+					// 	if (CW_ServicesMaterialF4[i].Highlight === "None") {
+					// 		CW_ServicesMaterialF4[i].Type = "Active";
+					// 	}
+					// }
 				}
 				this.getView().getModel("ServicesViewModel").refresh();
 
@@ -1073,32 +1084,28 @@ sap.ui.define([
 						/*After delter form cart unselect the item from material*/
 						/*Removing the seleted items*/
 						var CWaterialList = this.getView().getModel("ServicesViewModel").getProperty("/CWMaterial");
-
 						for (var a = 0; a < CWaterialList.length; a++) {
-
 							if (sDeletedMaterial === CWaterialList[a].Material) {
 								CWaterialList[a].Highlight = "None";
 								CWaterialList[a].Type = "Active";
-								// CWaterialList[a].removeStyleClass("cl_wgridlistSeleted");
-								// CWaterialList[a].addStyleClass("cl_wgridlist");
-								// CWaterialList[a].removeStyleClass("cl_wgridlistSeleted");
-								// CWaterialList[a].addStyleClass("cl_wgridlist");
-								// CWaterialList[a].getBindingContext("ServicesViewModel").removeStyleClass("cl_wgridlistSeleted");
-								// CWaterialList[a].getBindingContext("ServicesViewModel").addStyleClass("cl_wgridlist");
-								this.getView().getModel("ServicesViewModel").refresh();
-
-								var oList = that.getView().byId("idgridlist");
-								var aItems = oList.getItems();
-								for (var i = 0; i < aItems.length; i++) {
-									if (aItems[i].Material === sDeletedMateriall) {
-										aItems[i].removeStyleClass("cl_wgridlistSeleted");
-										aItems[i].addStyleClass("cl_wgridlist");
-										this.getView().getModel("ServicesViewModel").refresh();
-
-									}
-								}
 							}
 						}
+						/*Removing the seleted items from Accessories*/
+						var aMaterialList = this.getView().getModel("ServicesViewModel").getProperty("/MaterialList");
+						for (var a = 0; a < aMaterialList.length; a++) {
+							if (sDeletedMaterial === aMaterialList[a].Material) {
+								aMaterialList[a].Highlight = "None";
+								aMaterialList[a].Type = "Active";
+							}
+						}
+
+						/*Re-Totaling Cart Items*/
+						var MyCartItems = this.getView().getModel("ServicesViewModel").getProperty("/MyCartItems");
+						var Total = MyCartItems.reduce((acc, obj) => parseFloat(acc) + parseFloat(obj.Total), 0);
+						this.getView().getModel("ServicesViewModel").setProperty("/MyCartTotal", Total.toFixed(2));
+
+						this.getView().getModel("ServicesViewModel").setProperty("/MyCartCount", MyCartItems.length);
+						this.getView().getModel("ServicesViewModel").refresh();
 
 					} else if (oAction === "NO") { }
 				}.bind(this)
@@ -1923,11 +1930,14 @@ sap.ui.define([
 				// this.getView().getModel("ServicesViewModel").setProperty("/Cart_NetAmount", ListObject.NetPrice);
 				// this.getView().getModel("ServicesViewModel").setProperty("/Cart_TaxAmount", ListObject.TaxPrice);
 
-
+				// var Total = parseFloat(ListObject.NETPRICE) + parseFloat(ListObject.TaxPrice);
 				var object = {
 					"Material": ListObject.MATERIAL,
 					"MaterialName": ListObject.MATDESC,
-					"Price": ListObject.NETPRICE
+					"Price": ListObject.NETPRICE,
+					"Tax": ListObject.TaxPrice,
+					"Total": ListObject.Total,
+					"Quantity": ListObject.Quantity
 				}
 				var MyCartItems = this.getView().getModel("ServicesViewModel").getProperty("/MyCartItems");
 				MyCartItems.push(object);
@@ -1992,6 +2002,8 @@ sap.ui.define([
 					for (var i = 0; i < oData.results.length; i++) {
 						var matnr = oData.results[i].MATERIAL;
 						matnr = matnr.replaceAll("0", "");
+						var vat = parseFloat(oData.results[i].NETPRICE) * 0.05;
+						var total = vat + parseFloat(oData.results[i].NETPRICE);
 						var obj = {
 							"MATERIAL": matnr,
 							"MATTYPE": oData.results[i].MATTYPE,
@@ -2001,7 +2013,10 @@ sap.ui.define([
 							"CONDREC": oData.results[i].CONDREC,
 							"NETPRICE": oData.results[i].NETPRICE,
 							"CURRENCY": oData.results[i].CURRENCY,
-							"Highlight": "None"
+							"Highlight": "None",
+							"TaxPrice": parseFloat(vat).toFixed(2),
+							"Quantity": "1",
+							"Total": parseFloat(total).toFixed(2),
 						};
 
 						materialarr.push(obj);
