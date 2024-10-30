@@ -11,7 +11,7 @@
 							<Toolbar>
 								<content>
 									<FlexBox alignItems="Start" justifyContent="Start">
-										<Label text="Date" class="Cl_HeaderField sapUiTinyMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTop"/>
+										<Label text="Date" class="Cl_HeaderLabel sapUiTinyMarginBegin sapUiTinyMarginEnd sapUiTinyMarginTop"/>
 										<DateRangeSelection valueState="{valueState}" valueStateText="{valueStateText}"/>
 										<!--<HBox>-->
 										<!--	<RadioButtonGroup id="rbg1" columns="2" width="100%" class="sapUiMediumMarginBottom" valueState="information">-->
@@ -40,10 +40,10 @@
 								<VBox class="sapUiTinyMargin">
 									<HBox justifyContent="SpaceBetween">
 										<HBox>
-											<Image height="1.5rem" width="auto" src="{imageModel>/path}/image/ReportIcon.png" class="sapUiTinyMarginBeginEnd"/>
-											<ObjectAttribute text="{ReportModel>SaleOrder}" active="true" class="Cl_FormLabel"/>
+											<!-- <Image height="1.5rem" width="auto" src="{imageModel>/path}/image/ReportIcon.png" class="sapUiTinyMarginBeginEnd"/> -->
+											<ObjectAttribute text="{ReportModel>SaleOrder}" active="true" class="Cl_FormLabel sapUiTinyMarginBeginEnd"/>
 										</HBox>
-										<ObjectStatus class="Cl_ReportText sapUiSmallMarginBottom" text="{ReportModel>Status}" inverted="true" icon="sap-icon://sys-enter-2" state="Success"/>
+										<ObjectStatus class="Cl_ReportText sapUiTinyMarginBottom" text="{ReportModel>Status}" inverted="true" icon="sap-icon://sys-enter-2" state="Success"/>
 										<!--<ObjectStatus title="Price" text="{ReportModel>TotalPrice}" state="Success"/>-->
 									</HBox>
 									<HBox class="sapUiTinyMarginBeginEnd">

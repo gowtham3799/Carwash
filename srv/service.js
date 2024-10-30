@@ -9,10 +9,22 @@ module.exports = cds.service.impl(async function () {
 
     this.on("READ", Plant, async (req) => {
         
+        const commaSeparatedString = req.user.attr.Plant;
+        //const arrayFromString = commaSeparatedString.split(',');
+        //const arrayOfStrings = commaSeparatedString.map(String);
+        //return arrayOfStrings;
+
+        const arrayOfStrings = ['TATA', '0001'];
+
+        //const valuesArray = ['TATA', '0001'];
+
+// Convert the array into a string of comma-separated values, properly escaped for SQL
+const valuesString = commaSeparatedString.map(value => `'${value.replace(/'/g, "''")}'`).join(', ');
+
         let plant = req.user.attr.Plant;
         //var plant = 'TATA'
 //        const res = await cds.run(`select WERKS, NAME1 from SDI_DM_HDI_DB_1.ZT001W where WERKS = ${plant}`)
-        const res = await cds.run(`select WERKS, NAME1 from SDI_DM_HDI_DB_1.ZT001W where WERKS = '${plant}'`)
+        const res = await cds.run(`select WERKS, NAME1 from SDI_DM_HDI_DB_1.ZT001W where WERKS IN (${valuesString})`)
 
         return res;
     })
